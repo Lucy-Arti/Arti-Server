@@ -11,9 +11,21 @@
 - use `Spring Web`
 - use `Spring security`
 - use `oauth2` for kakao login
+- infra : EC2, RDS, S3
 
 ### Code Conventions
 Reformat Code 사용?
+- 패키지 전략
+    - 도메인 중심
+    - ex. vote(투표 도메인) 내부에 controller, service, repository 등을 붙인다.
+- 변수 네이밍
+    - 패키지 - 소문자
+    - 클래스 - 파스칼 케이스 (UpperCarmelCase를 사용. 이는 대문자로 시작하고 단어가 바뀔 때마다 다시 대문자로 표시. e.g. HelloWorld.java)
+    - 변수명, 메서드명 - 카멜 케이스 (owerCarmelCase를 사용. 이는 소문자로 시작하고 단어가 바뀔 때마다 다시 대문자로 표시. e.g. printHelloWorld()
+    - 상수, enum - 모두 대문자 (CONTANT_CASE 방식을 사용. 이는 모두 대문자를 사용하며 단어 사이에 밑줄을 표시. 당연히 명사나 명사구여야 한다)
+    - 컨트롤러, 서비스, 엔티티 - ~Controller, ~Service, ~Entity (ex, MemberController, …)
+- 어노테이션
+    - 한 줄에 하나의 어노테이션만 작성한다.
 
 ### Commit Convetions
 - `feat #issue`: 새로운 기능 추가
