@@ -26,6 +26,9 @@ Reformat Code 사용?
     - 컨트롤러, 서비스, 엔티티 - ~Controller, ~Service, ~Entity (ex, MemberController, …)
 - 어노테이션
     - 한 줄에 하나의 어노테이션만 작성한다.
+- 접근제어자
+      - Entity의 모든 필드 - private
+      - Entity 기본생성자 
 
 ### Commit Convetions
 - `feat #issue`: 새로운 기능 추가
