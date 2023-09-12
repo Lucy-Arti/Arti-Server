@@ -1,5 +1,6 @@
 package com.lucy.arti.member.model;
 
+import com.amazonaws.services.s3.AmazonS3;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class Member {
     private String email;
 
     @Builder // 빌더 패턴 생성
-    public Member(Long id, String username, String email) {
+    public Member(Long id, String username, String email, AmazonS3 amazonS3) {
         this.id = id;
         this.username = username;
         this.email = email;
