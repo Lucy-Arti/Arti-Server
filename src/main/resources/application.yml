@@ -1,9 +1,0 @@
-spring:
-  jpa:
-    properties:
-      hibernate:
-        format_sql: 'true'
-    hibernate:
-      ddl-auto: update
-  profiles:
-    include: rds, s3
