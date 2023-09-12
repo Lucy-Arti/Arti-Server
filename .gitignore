@@ -37,4 +37,6 @@ out/
 .vscode/
 
 ### aws secret key
-*.yml
+application.yml
+application-rds.yml
+application-s3.yml
