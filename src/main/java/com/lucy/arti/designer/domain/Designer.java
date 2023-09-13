@@ -1,10 +1,14 @@
 package com.lucy.arti.designer.domain;
 
+import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.config.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -24,4 +28,6 @@ public class Designer extends BaseTimeEntity {
 
     private String introduce;
 
+    @OneToMany(mappedBy = "designer")
+    private List<Clothes> clothes = new ArrayList<>();
 }

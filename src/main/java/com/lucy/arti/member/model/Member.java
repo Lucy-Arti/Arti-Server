@@ -2,9 +2,13 @@ package com.lucy.arti.member.model;
 
 import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.config.Gender;
+import com.lucy.arti.like.model.Like;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -22,4 +26,6 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @OneToMany(mappedBy = "member")
+    private final List<Like> likes = new ArrayList<>();
 }

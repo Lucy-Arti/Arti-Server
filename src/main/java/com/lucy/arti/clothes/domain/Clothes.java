@@ -2,11 +2,14 @@ package com.lucy.arti.clothes.domain;
 
 import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.designer.domain.Designer;
+import com.lucy.arti.like.model.Like;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -31,5 +34,7 @@ public class Clothes extends BaseTimeEntity {
     @JoinColumn(name = "designer_id")
     private Designer designer;
 
+    @OneToMany(mappedBy = "clothes")
+    private final List<Like> likes = new ArrayList<>();
 
 }
