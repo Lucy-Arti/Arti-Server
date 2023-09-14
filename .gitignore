@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### aws secret key
+application.yml
+application-rds.yml
+application-s3.yml
