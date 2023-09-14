@@ -1,27 +1,34 @@
 package com.lucy.arti.member.model;
-
 import com.amazonaws.services.s3.AmazonS3;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import com.lucy.arti.config.BaseTimeEntity;
+import com.lucy.arti.config.Gender;
+import com.lucy.arti.like.model.Like;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@NoArgsConstructor
 @Getter
-@NoArgsConstructor // 기본 생성자를 생성해주는 역할
-public class Member {
+public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
-    @Column(length=15, nullable = false)
-    private String username;
-    @Column(length = 50, nullable = false)
-    private String email;
 
-    @Builder // 빌더 패턴 생성
-    public Member(Long id, String username, String email, AmazonS3 amazonS3) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-    }
+    private String userName;
+
+    private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @OneToMany(mappedBy = "member")
+    private final List<Like> likes = new ArrayList<>();
 }
