@@ -1,5 +1,8 @@
 # Arti-Server Repository
 
+### url
+http://lucy-arti.kro.kr:8080/
+
 ## spec
 - Java 17
 - spring-boot 3.1.3
