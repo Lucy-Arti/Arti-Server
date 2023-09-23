@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class}) // 로그인 페이지 생략
+//@SpringBootApplication(exclude = {SecurityAutoConfiguration.class}) // 로그인 페이지 생략
+@SpringBootApplication
 public class ArtiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ArtiApplication.class, args);

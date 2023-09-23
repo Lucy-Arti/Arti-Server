@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class OauthCodeController {
     @PostMapping("/member/kakao/authcode")
     public ResponseEntity<String> recieveAuthCode(@RequestBody String authCode) {
+        System.out.println(authCode);
         return ResponseEntity.ok("인가코드" + authCode);
     }
 }
