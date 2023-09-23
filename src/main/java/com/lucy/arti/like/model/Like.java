@@ -5,6 +5,7 @@ import com.lucy.arti.member.model.Member;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @NoArgsConstructor
 public class Like {
