@@ -1,15 +1,15 @@
 package com.lucy.arti.member.model;
 import com.amazonaws.services.s3.AmazonS3;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.config.Gender;
 import com.lucy.arti.like.model.Like;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

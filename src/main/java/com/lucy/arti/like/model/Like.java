@@ -2,8 +2,9 @@ package com.lucy.arti.like.model;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.model.Member;
-import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 
 @Entity
