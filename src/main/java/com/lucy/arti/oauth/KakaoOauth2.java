@@ -1,5 +1,7 @@
 package com.lucy.arti.oauth;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -21,20 +23,23 @@ public class KakaoOauth2 {
     }
 
     public String getAccessToken(String authorizedCode) {
-        MyComponent myComponent = new MyComponent();
+
+        KakaoOAuth2Properties kakaoOAuth2Properties = new KakaoOAuth2Properties();
+        String kakaoClientSecret = kakaoOAuth2Properties.getClientSecret();
+        System.out.println("시크릿" + kakaoClientSecret);
 
         // http header 생성
         // kakao developers 문서에 accessToken을 요청할 때 header의 content-type이 정해져있다.
         HttpHeaders headers = new HttpHeaders();
         headers.add("content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        //http body 생성
+        //http Params 설정 : POST인데 param으로 넣어야 한다.
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "209c9251e18aa84300b9f4dc8047c6cd");
         params.add("redirect_uri", "https://lucy-arti.netlify.app/kakaologin");
+        params.add("client_id", "209c9251e18aa84300b9f4dc8047c6cd");
         params.add("code", authorizedCode);
-        params.add("client_secret", myComponent.getKakaoClientSecret());
+        params.add("client_secret", "VEPzc8htzAw0iIhz8sEagWOqg1awox30");
 
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
