@@ -1,8 +1,8 @@
-package com.lucy.arti.member.model;
+package com.lucy.arti.member.domain;
 
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 
 

@@ -1,7 +1,7 @@
 package com.lucy.arti.member.controller;
 
-import com.lucy.arti.member.model.Member;
-import com.lucy.arti.member.model.MemberRepository;
+import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

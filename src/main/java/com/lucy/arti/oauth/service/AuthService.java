@@ -1,16 +1,13 @@
 package com.lucy.arti.oauth.service;
 
-import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
 import com.lucy.arti.exception.MemberException;
 import com.lucy.arti.jwt.CustomKakaoIdAuthToken;
 import com.lucy.arti.jwt.RefreshToken;
 import com.lucy.arti.jwt.RefreshTokenRepository;
 import com.lucy.arti.jwt.TokenProvider;
-import com.lucy.arti.member.model.Member;
-import com.lucy.arti.member.model.MemberRepository;
-import com.lucy.arti.member.model.UserRole;
-import com.lucy.arti.oauth.Authority;
+import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.oauth.KakaoOauth2;
 import com.lucy.arti.oauth.KakaoUserInfo;
 import com.lucy.arti.oauth.dto.TokenDto;
@@ -26,9 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j

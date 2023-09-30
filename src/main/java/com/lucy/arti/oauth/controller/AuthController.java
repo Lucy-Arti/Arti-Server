@@ -1,6 +1,6 @@
 package com.lucy.arti.oauth.controller;
 
-import com.lucy.arti.member.model.MemberRepository;
+import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.oauth.service.AuthService;
 import com.lucy.arti.oauth.dto.TokenDto;
 import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;

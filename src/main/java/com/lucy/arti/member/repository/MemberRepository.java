@@ -1,5 +1,6 @@
-package com.lucy.arti.member.model;
+package com.lucy.arti.member.repository;
 
+import com.lucy.arti.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
