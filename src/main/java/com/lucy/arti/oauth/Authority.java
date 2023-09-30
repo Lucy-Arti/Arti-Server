@@ -1,6 +1,6 @@
 package com.lucy.arti.oauth;
 
-import com.lucy.arti.member.model.UserRole;
+import com.lucy.arti.member.domain.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,14 +1,10 @@
-package com.lucy.arti.member.model;
-import com.amazonaws.services.s3.AmazonS3;
+package com.lucy.arti.member.domain;
 import com.lucy.arti.oauth.Authority;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.lucy.arti.config.BaseTimeEntity;
-import com.lucy.arti.config.Gender;
-import com.lucy.arti.like.model.Like;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.lucy.arti.like.domain.Like;
 
 import javax.persistence.*;
 import java.util.ArrayList;
