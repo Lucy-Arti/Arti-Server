@@ -1,8 +1,9 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.controller;
 
 import com.lucy.arti.member.model.MemberRepository;
+import com.lucy.arti.oauth.service.AuthService;
 import com.lucy.arti.oauth.dto.TokenDto;
-import dto.KakaoLoginRequestDto;
+import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

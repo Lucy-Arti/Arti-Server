@@ -1,5 +1,7 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.controller;
 
+import com.lucy.arti.oauth.AuthCode;
+import com.lucy.arti.oauth.KakaoOauth2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

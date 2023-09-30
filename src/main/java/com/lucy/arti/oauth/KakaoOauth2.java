@@ -1,15 +1,14 @@
 package com.lucy.arti.oauth;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import org.json.*;
 
 @Component
 public class KakaoOauth2 {
@@ -23,11 +22,6 @@ public class KakaoOauth2 {
     }
 
     public String getAccessToken(String authorizedCode) {
-
-        KakaoOAuth2Properties kakaoOAuth2Properties = new KakaoOAuth2Properties();
-        String kakaoClientSecret = kakaoOAuth2Properties.getClientSecret();
-        System.out.println("시크릿" + kakaoClientSecret);
-
         // http header 생성
         // kakao developers 문서에 accessToken을 요청할 때 header의 content-type이 정해져있다.
         HttpHeaders headers = new HttpHeaders();
@@ -82,7 +76,7 @@ public class KakaoOauth2 {
         String email = body.getJSONObject("kakao_account").getString("email");
         String username = body.getJSONObject("properties").getString("nickname");
         String profile = body.getJSONObject("properties").getString("profile_image");
-        System.out.println(body);
+        System.out.println("사용자 정보: " + body);
         return new KakaoUserInfo(id, email, username, profile);
     }
 

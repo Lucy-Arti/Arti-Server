@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 
 @Entity
+@Table(name = "likes") // like가 MySQL의 예약어로 등록이 되어 있어 테이블 이름을 likesfh tjfwjdgkduTek.
 @NoArgsConstructor
 public class Like {
 

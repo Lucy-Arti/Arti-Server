@@ -1,4 +1,4 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.service;
 
 import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
@@ -10,8 +10,12 @@ import com.lucy.arti.jwt.TokenProvider;
 import com.lucy.arti.member.model.Member;
 import com.lucy.arti.member.model.MemberRepository;
 import com.lucy.arti.member.model.UserRole;
+import com.lucy.arti.oauth.Authority;
+import com.lucy.arti.oauth.KakaoOauth2;
+import com.lucy.arti.oauth.KakaoUserInfo;
 import com.lucy.arti.oauth.dto.TokenDto;
-import dto.KakaoLoginRequestDto;
+import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
+import com.lucy.arti.oauth.repository.AuthorityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

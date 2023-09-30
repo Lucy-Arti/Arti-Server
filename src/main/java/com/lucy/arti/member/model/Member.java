@@ -29,8 +29,9 @@ public class Member extends BaseTimeEntity {
 
     private String userName;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+// 성별은 카카오에서 받아올 수 있는지 모르겠음
+//    @Enumerated(EnumType.STRING)
+//    private Gender gender;
 
     @OneToMany(mappedBy = "member")
     private final List<Like> likes = new ArrayList<>();
@@ -47,7 +48,7 @@ public class Member extends BaseTimeEntity {
             name="member_authority",
             joinColumns = {@JoinColumn(name="member_id", referencedColumnName = "member_id")},
             inverseJoinColumns = {@JoinColumn(name="authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities = new HashSet<>(); // 이건 뭔지는 모르겠습니다.
+    private Set<Authority> authorities = new HashSet<>();
 
 
     @Builder

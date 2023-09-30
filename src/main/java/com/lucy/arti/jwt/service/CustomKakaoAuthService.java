@@ -1,4 +1,4 @@
-package com.lucy.arti.jwt;
+package com.lucy.arti.jwt.service;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -7,9 +7,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 
 //@SpringBootApplication(exclude = {SecurityAutoConfiguration.class}) // 로그인 페이지 생략
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+		org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration.class,
+		org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration.class,
+		org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration.class
+})
 public class ArtiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ArtiApplication.class, args);
 	}
+
 }

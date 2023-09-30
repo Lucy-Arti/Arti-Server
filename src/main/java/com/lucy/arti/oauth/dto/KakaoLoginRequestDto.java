@@ -1,4 +1,4 @@
-package dto;
+package com.lucy.arti.oauth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
