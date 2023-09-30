@@ -2,12 +2,11 @@ package com.lucy.arti.clothes.domain;
 
 import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.designer.domain.Designer;
-import com.lucy.arti.like.model.Like;
+import com.lucy.arti.like.domain.Like;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

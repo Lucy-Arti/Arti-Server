@@ -1,7 +1,7 @@
-package com.lucy.arti.like.model;
+package com.lucy.arti.like.domain;
 
 import com.lucy.arti.clothes.domain.Clothes;
-import com.lucy.arti.member.model.Member;
+import com.lucy.arti.member.domain.Member;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
