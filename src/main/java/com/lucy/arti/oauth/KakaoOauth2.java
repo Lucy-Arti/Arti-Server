@@ -1,5 +1,7 @@
 package com.lucy.arti.oauth;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +13,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class KakaoOauth2 {
+    private final KakaoProperties kakaoProperties;
+
 
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         //인가코드 -> 엑세스 토큰
@@ -22,6 +28,11 @@ public class KakaoOauth2 {
     }
 
     public String getAccessToken(String authorizedCode) {
+
+
+        String clientId = kakaoProperties.getClient_id();
+        String clientSecret = kakaoProperties.getClient_secret();
+
         // http header 생성
         // kakao developers 문서에 accessToken을 요청할 때 header의 content-type이 정해져있다.
         HttpHeaders headers = new HttpHeaders();
@@ -31,9 +42,9 @@ public class KakaoOauth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("redirect_uri", "https://lucy-arti.netlify.app/kakaologin");
-        params.add("client_id", "209c9251e18aa84300b9f4dc8047c6cd");
+        params.add("client_id", clientId);
         params.add("code", authorizedCode);
-        params.add("client_secret", "VEPzc8htzAw0iIhz8sEagWOqg1awox30");
+        params.add("client_secret", clientSecret);
 
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
