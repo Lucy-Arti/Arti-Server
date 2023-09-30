@@ -52,12 +52,11 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder
-    public Member(Long kakaoId, String username, String email, String profile, Set<Authority> authorities) {
+    public Member(Long kakaoId, String username, String email, String profile) {
         this.kakaoId = kakaoId;
         this.userName = username;
         this.email = email;
         this.profile = profile;
-        this.authorities = authorities;
     }
 
     public void setAccessToken(String accessToken) {

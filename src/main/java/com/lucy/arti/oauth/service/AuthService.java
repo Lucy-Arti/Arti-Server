@@ -45,9 +45,9 @@ public class AuthService {
 
     public static final String BEARER_PREFIX = "Bearer ";
 
+    @Transactional // member Database에 저장해야 되기 때문
     public KakaoUserInfo kakaoLogin(KakaoLoginRequestDto kakaoLoginRequestDto) {
         String authorizedCode = kakaoLoginRequestDto.getAuthCode();
-        System.out.println(authorizedCode);
 
         KakaoUserInfo kakaoUserInfo = kakaoOauth2.getUserInfo(authorizedCode);
 
@@ -58,15 +58,24 @@ public class AuthService {
 
         Optional<Member> byKakaoIdMember = memberRepository.findByKakaoId(kakaoId);
         if (byKakaoIdMember.isEmpty()) {
-            Optional<Authority> byAuthorityName = authorityReposistory.findByAuthorityName(UserRole.ROLE_KAKAO);
-            if (byAuthorityName.isEmpty()) {
-                throw new BizException(AuthorityException.NOT_FOUND_AUTHORITY);
-            }
-            Set<Authority> authorities = new HashSet<>();
-            authorities.add(byAuthorityName.get());
-            Member newMember = new Member(kakaoId, username, email, profile, authorities);
+            log.info(username);
+            Member newMember = new Member(kakaoId, username, email, profile);
+
             memberRepository.save(newMember);
         }
+
+//        Optional<Member> byKakaoIdMember = memberRepository.findByKakaoId(kakaoId);
+//
+//        if (byKakaoIdMember.isEmpty()) {
+//            Optional<Authority> byAuthorityName = authorityReposistory.findByAuthorityName(UserRole.ROLE_KAKAO);
+//            if (byAuthorityName.isEmpty()) {
+//                throw new BizException(AuthorityException.NOT_FOUND_AUTHORITY);
+//            }
+//            Set<Authority> authorities = new HashSet<>();
+//            authorities.add(byAuthorityName.get());
+//            Member newMember = new Member(kakaoId, username, email, profile, authorities);
+//            memberRepository.save(newMember);
+//        }
         return kakaoUserInfo;
     }
 
