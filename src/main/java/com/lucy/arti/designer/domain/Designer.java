@@ -3,10 +3,10 @@ package com.lucy.arti.designer.domain;
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.config.Gender;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,8 @@ import java.util.List;
 @Getter
 public class Designer extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "designer_id")
     private Long id;
 

@@ -2,10 +2,13 @@ package com.lucy.arti.like.model;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.model.Member;
-import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+
 @Entity
+@Table(name = "likes") // like가 MySQL의 예약어로 등록이 되어 있어 테이블 이름을 likesfh tjfwjdgkduTek.
 @NoArgsConstructor
 public class Like {
 
