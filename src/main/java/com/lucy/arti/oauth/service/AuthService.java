@@ -58,19 +58,19 @@ public class AuthService {
             memberRepository.save(newMember);
         }
 
-//        Optional<Member> byKakaoIdMember = memberRepository.findByKakaoId(kakaoId);
-//
-//        if (byKakaoIdMember.isEmpty()) {
-//            Optional<Authority> byAuthorityName = authorityReposistory.findByAuthorityName(UserRole.ROLE_KAKAO);
-//            if (byAuthorityName.isEmpty()) {
-//                throw new BizException(AuthorityException.NOT_FOUND_AUTHORITY);
-//            }
-//            Set<Authority> authorities = new HashSet<>();
-//            authorities.add(byAuthorityName.get());
-//            Member newMember = new Member(kakaoId, username, email, profile, authorities);
-//            memberRepository.save(newMember);
-//        }
         return kakaoUserInfo;
+    }
+
+    public Member getUserInfoByToken(String accessToken) {
+        Optional<Member> byAccessTokenMember = memberRepository.findByAccessToken(accessToken);
+        if (byAccessTokenMember.isPresent()) {
+            Member findByTokenmember = byAccessTokenMember.get();
+
+            return findByTokenmember;
+        }
+        else {
+            return null;
+        }
     }
 
     @Transactional
