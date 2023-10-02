@@ -2,6 +2,7 @@ package com.lucy.arti.oauth.service;
 
 import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
+import com.lucy.arti.exception.ErrorMessage;
 import com.lucy.arti.exception.MemberException;
 import com.lucy.arti.jwt.CustomKakaoIdAuthToken;
 import com.lucy.arti.jwt.RefreshToken;
@@ -23,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
+import java.util.logging.ErrorManager;
 
 @Service
 @Slf4j
@@ -63,13 +66,13 @@ public class AuthService {
         return kakaoUserInfo;
     }
 
-    public Member getUserInfoByToken(String accessToken) throws Exception {
-        Member targetMember = memberRepository.findByAccessToken(accessToken);
+    public Member getByAccessToken(String accessToken) {
+        Member member =  memberRepository.findByAccessToken(accessToken);
 
-        if (targetMember != null) {
-            return targetMember;
+        if (member != null) {
+            return member;
         } else {
-            throw new Exception("해당 AccessToken에 대한 정보를 찾을 수 없습니다.");
+            throw new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason());
         }
     }
 
