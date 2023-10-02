@@ -38,7 +38,6 @@ public class SecurityConfig {
         http
                 .cors().and().csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
-//                        .anyRequest().authenticated()
                                 .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults());
@@ -62,8 +61,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
-        config.setAllowedOrigins(List.of("http://arti-fashion.site"));
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://arti-fashion.site"));
+//        config.setAllowedOrigins(List.of("http://localhost:3000"));
+//        config.setAllowedOrigins(List.of("http://arti-fashion.site"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
