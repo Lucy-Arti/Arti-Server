@@ -42,8 +42,8 @@ public class AuthService {
     @Transactional // member Database에 저장해야 되기 때문
     public KakaoUserInfo kakaoLogin(KakaoLoginRequestDto kakaoLoginRequestDto) {
         String authorizedCode = kakaoLoginRequestDto.getAuthCode();
-
         KakaoUserInfo kakaoUserInfo = kakaoOauth2.getUserInfo(authorizedCode);
+        log.info(kakaoUserInfo.getUsername());
 
         Long kakaoId = kakaoUserInfo.getId();
         String username = kakaoUserInfo.getUsername();

@@ -23,7 +23,7 @@ public class KakaoOauth2 {
 
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         //인가코드 -> 엑세스 토큰
-        log.info("넘어옴" + authorizedCode);
+        log.info("KakaouOauth2.java/getUserInfo에 넘어옴" + authorizedCode);
         String accessToken = getAccessToken(authorizedCode);
         log.info("엑세스");
         //엑세스 토큰 -> 카카오 사용자 정보
@@ -32,8 +32,10 @@ public class KakaoOauth2 {
     }
 
     public String getAccessToken(String authorizedCode) {
+//        log.info("getAccessToken에서" + authorizedCode);
         String clientId = kakaoProperties.getClient_id();
         String clientSecret = kakaoProperties.getClient_secret();
+        String redirectUri = kakaoProperties.getRedirect_uri();
 
         // http header 생성
         // kakao developers 문서에 accessToken을 요청할 때 header의 content-type이 정해져있다.
@@ -43,10 +45,11 @@ public class KakaoOauth2 {
         //http Params 설정 : POST인데 param으로 넣어야 한다.
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("redirect_uri", "https://lucy-arti.netlify.app/kakaologin");
+        params.add("redirect_uri", redirectUri);
         params.add("client_id", clientId);
         params.add("code", authorizedCode);
         params.add("client_secret", clientSecret);
+        log.info(redirectUri);
 
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
