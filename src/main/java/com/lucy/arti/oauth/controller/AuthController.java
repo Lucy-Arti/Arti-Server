@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("api/v1/auth")
 @Slf4j
 public class AuthController {
 
     private final AuthService authService;
-    private final KakaoOauth2 kakaoOauth2;
 
     @PostMapping("/kakao/login")
     public TokenDto kakaoLogin(@RequestBody KakaoLoginRequestDto kakaoLoginRequestDto) {
@@ -34,7 +33,7 @@ public class AuthController {
 
     @GetMapping("/kakao/info")
     public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String accessToken) {
-        return authService.getUserInfoByToken(accessToken);
+        return authService.getByAccessToken(accessToken);
     }
 }
 
