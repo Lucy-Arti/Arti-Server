@@ -23,15 +23,15 @@ public class KakaoOauth2 {
 
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         //인가코드 -> 엑세스 토큰
+        log.info("넘어옴" + authorizedCode);
         String accessToken = getAccessToken(authorizedCode);
+        log.info("엑세스");
         //엑세스 토큰 -> 카카오 사용자 정보
         KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
         return userInfo;
     }
 
     public String getAccessToken(String authorizedCode) {
-
-
         String clientId = kakaoProperties.getClient_id();
         String clientSecret = kakaoProperties.getClient_secret();
 
@@ -62,6 +62,7 @@ public class KakaoOauth2 {
         String tokenJson = response.getBody();
         org.json.JSONObject rjson = new JSONObject(tokenJson);
         String accessToken = rjson.getString("access_token");
+        log.info("엑세스 넘어옴" + accessToken);
 
         return accessToken;
     }

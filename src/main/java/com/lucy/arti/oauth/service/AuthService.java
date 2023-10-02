@@ -50,6 +50,7 @@ public class AuthService {
         String email = kakaoUserInfo.getEmail();
         String profile = kakaoUserInfo.getProfile();
 
+
         Optional<Member> byKakaoIdMember = memberRepository.findByKakaoId(kakaoId);
         if (byKakaoIdMember.isEmpty()) {
             log.info(username);

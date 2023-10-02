@@ -29,7 +29,6 @@ public class AuthController {
 
     @PostMapping("/kakao/logout")
     public ResponseEntity kakaoLogout(@RequestHeader(name = "Authorization") String bearerToken) {
-        System.out.println("bearerToken = " + bearerToken);
         return authService.logout(bearerToken);
     }
 
