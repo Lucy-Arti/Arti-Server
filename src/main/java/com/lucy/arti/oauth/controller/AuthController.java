@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     @GetMapping("/kakao/info")
-    public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String accessToken) {
+    public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String accessToken) throws Exception {
         return authService.getUserInfoByToken(accessToken);
     }
 }

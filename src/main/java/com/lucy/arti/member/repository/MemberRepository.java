@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
     Optional<Member> findByKakaoId(Long kakaoId);
 
-    Optional<Member> findByAccessToken(String accessToken);
+    Member findByAccessToken(String accessToken);
 
 }

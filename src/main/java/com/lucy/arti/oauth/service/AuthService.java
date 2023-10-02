@@ -1,5 +1,6 @@
 package com.lucy.arti.oauth.service;
 
+import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
 import com.lucy.arti.exception.MemberException;
 import com.lucy.arti.jwt.CustomKakaoIdAuthToken;
@@ -62,15 +63,13 @@ public class AuthService {
         return kakaoUserInfo;
     }
 
-    public Member getUserInfoByToken(String accessToken) {
-        Optional<Member> byAccessTokenMember = memberRepository.findByAccessToken(accessToken);
-        if (byAccessTokenMember.isPresent()) {
-            Member findByTokenmember = byAccessTokenMember.get();
+    public Member getUserInfoByToken(String accessToken) throws Exception {
+        Member targetMember = memberRepository.findByAccessToken(accessToken);
 
-            return findByTokenmember;
-        }
-        else {
-            return null;
+        if (targetMember != null) {
+            return targetMember;
+        } else {
+            throw new Exception("해당 AccessToken에 대한 정보를 찾을 수 없습니다.");
         }
     }
 
