@@ -29,7 +29,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if(request.getServletPath().startsWith("/api/v1/kakao/login")) {
             filterChain.doFilter(request,response);
-        }else {
+        } else if (request.getServletPath().startsWith("/api/v1/clothes")) {
+            filterChain.doFilter(request, response);
+        } else {
             String token = resolveToken(request);
 
             log.debug("token  = {}",token);

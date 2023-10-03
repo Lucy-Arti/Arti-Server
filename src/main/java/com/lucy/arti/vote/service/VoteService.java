@@ -11,17 +11,18 @@ import com.lucy.arti.winner.repository.WinnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class VoteService {
     private final ClothesRepository clothesRepository;
     private final VoteRepository voteRepository;
     private final MemberRepository memberRepository;
-    private final WinnerRepository winnerRepository;
 
     public List<Clothes> getVoteList() {
         List<Clothes> allClothes = clothesRepository.findAll();
@@ -32,7 +33,7 @@ public class VoteService {
         for (int i = 0; i < 8; i++) {
             while (true) {
                 int newInt = randInt.nextInt(clothesSize);
-                if (!(integerSet.contains(newInt))){
+                if (!(integerSet.contains(newInt))) {
                     integerSet.add(newInt);
                     randClothes.add(allClothes.get(newInt));
                     break;
@@ -60,6 +61,7 @@ public class VoteService {
         }
         return true;
     }
+    @Transactional
     public boolean vote(final Authentication authentication, VoteRequestDto voteRequestDto) {
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId).get();
@@ -67,6 +69,7 @@ public class VoteService {
             return false;
         }
         member.setLastVoted();
+        memberRepository.save(member);
         for (int clothesId : voteRequestDto.getFourth()) {
             Clothes clothes = clothesRepository.findById((long) clothesId).get();
             voteRepository.save(new Vote(member, clothes, 1));

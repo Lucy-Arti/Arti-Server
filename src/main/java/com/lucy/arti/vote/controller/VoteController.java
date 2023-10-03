@@ -6,6 +6,7 @@ import com.lucy.arti.vote.dto.VoteListResponseDto;
 import com.lucy.arti.vote.dto.VoteRequestDto;
 import com.lucy.arti.vote.service.VoteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;

@@ -2,6 +2,7 @@ package com.lucy.arti.like.domain;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.domain.Member;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -24,4 +25,9 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clothes_id")
     private Clothes clothes;
+
+    public Like(Member member, Clothes clothes) {
+        this.member = member;
+        this.clothes = clothes;
+    }
 }

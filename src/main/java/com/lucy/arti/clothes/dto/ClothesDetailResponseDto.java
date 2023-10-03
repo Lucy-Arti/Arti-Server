@@ -19,6 +19,7 @@ public class ClothesDetailResponseDto {
     private String preview;
     private Long designerId;
     private String designerName;
+    private long score;
 
     public static ClothesDetailResponseDto of(Clothes clothes, Designer designer) {
         return ClothesDetailResponseDto.builder()
@@ -31,6 +32,8 @@ public class ClothesDetailResponseDto {
                 .preview(clothes.getPreview())
                 .designerId(designer.getId())
                 .designerName(designer.getUserName())
+                .score(clothes.getScore())
                 .build();
     }
+
 }

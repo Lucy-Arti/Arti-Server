@@ -49,4 +49,8 @@ public class Clothes extends BaseTimeEntity {
     public void addScore(int score) {
         this.score += score;
     }
+
+    public void addLikeCount() {
+        this.likeCount += 1;
+    }
 }
