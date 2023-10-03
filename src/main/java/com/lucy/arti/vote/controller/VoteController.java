@@ -6,6 +6,7 @@ import com.lucy.arti.vote.dto.VoteListResponseDto;
 import com.lucy.arti.vote.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class VoteController {
     private final VoteService voteService;
 
     @GetMapping("")
+    @Secured("ROLE_USER")
     public ResponseEntity<?> getVoteList() {
         return ResponseEntity.ok(new VoteListResponseDto(true, voteService.getVoteList().stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList()));
     }

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.lucy.arti.exception.BizException;
 import com.lucy.arti.exception.MemberException;
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.member.domain.UserRole;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.oauth.Authority;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class CustomKakaoAuthService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String kakaoId) throws UsernameNotFoundException {
-
+        System.out.println("?");
         return memberRepository.findByKakaoId(Long.valueOf(kakaoId))
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new BizException(MemberException.NOT_FOUND_USER));
@@ -41,9 +42,10 @@ public class CustomKakaoAuthService implements UserDetailsService {
                 .orElseThrow(() -> new BizException(MemberException.NOT_FOUND_USER));
     }
     private UserDetails createUserDetails(Member member) {
+
         List<SimpleGrantedAuthority> authList = member.getAuthorities()
                 .stream()
-                .map(Authority::getAuthorityName)
+                .map(UserRole::getAbbreviation)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 

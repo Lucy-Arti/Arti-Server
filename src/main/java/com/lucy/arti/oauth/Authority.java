@@ -16,8 +16,6 @@ import javax.persistence.*;
 @Table(name = "authority")
 public class Authority {
     @Id
-    private Long id;
-
     @Column(name = "authority_name", length = 50)
     @Enumerated(EnumType.STRING)
     private UserRole authorityName;

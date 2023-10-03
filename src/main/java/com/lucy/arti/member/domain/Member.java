@@ -45,14 +45,8 @@ public class Member extends BaseTimeEntity {
     private String email;
 
     private String profile;
-    //add for login
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name="member_authority",
-            joinColumns = {@JoinColumn(name="member_id", referencedColumnName = "member_id")},
-            inverseJoinColumns = {@JoinColumn(name="authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities = new HashSet<>();
 
+    private UserRole authority;
 
     @Builder
     public Member(Long kakaoId, String username, String email, String profile) {
@@ -60,8 +54,13 @@ public class Member extends BaseTimeEntity {
         this.userName = username;
         this.email = email;
         this.profile = profile;
+        this.authority = UserRole.ROLE_USER;
     }
-
+    public Set<UserRole> getAuthorities(){
+        Set<UserRole> returnRole = new HashSet<>();
+        returnRole.add(this.authority);
+        return returnRole;
+    }
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }

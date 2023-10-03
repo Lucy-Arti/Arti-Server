@@ -59,7 +59,6 @@ public class AuthService {
         if (byKakaoIdMember.isEmpty()) {
             log.info(username);
             Member newMember = new Member(kakaoId, username, email, profile);
-
             memberRepository.save(newMember);
         }
 
