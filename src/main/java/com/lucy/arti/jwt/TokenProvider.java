@@ -54,6 +54,7 @@ public class TokenProvider {
                         )
                         .collect(Collectors.joining(",")));
         Date now = new Date();
+
         return Jwts.builder()
                 .setClaims(claims) // 토큰 발행 유저 정보
                 .setIssuedAt(now) // 토큰 발행 시간
@@ -94,7 +95,6 @@ public class TokenProvider {
 
         // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
-
         return new CustomKakaoIdAuthToken(principal, "", authorities);
     }
 

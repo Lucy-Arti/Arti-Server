@@ -63,6 +63,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 PrintWriter out = response.getWriter();
                 out.println("{\"error\": \"EMPTY_TOKEN\", \"message\" : \"토큰 값이 비어있습니다.\"}");
             }
+            filterChain.doFilter(request, response);
+
         }
     }
     private void setAuthentication(String token) {

@@ -21,13 +21,13 @@ public class VoteController {
     private final VoteService voteService;
 
     @GetMapping("")
-    @Secured("{ROLE_USER}")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<?> getVoteList() {
         return ResponseEntity.ok(new VoteListResponseDto(true, voteService.getVoteList().stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList()));
     }
 
     @GetMapping("/possible")
-    @Secured("{ROLE_USER}")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<?> isPossibleVotes(final Authentication authentication) {
         if (voteService.isPossibleVote(authentication)) {
             return ResponseEntity.ok().build();
@@ -36,7 +36,7 @@ public class VoteController {
         }
     }
     @PostMapping("")
-    @Secured("{ROLE_USER}")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<?> votes(final Authentication authentication, @RequestBody VoteRequestDto voteRequestDto) {
         boolean success = voteService.vote(authentication, voteRequestDto);
         if (success) {
