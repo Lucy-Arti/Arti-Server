@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        if(request.getServletPath().startsWith("/auth")) {
+        if(request.getServletPath().startsWith("/api/v1/kakao/login")) {
             filterChain.doFilter(request,response);
         }else {
             String token = resolveToken(request);

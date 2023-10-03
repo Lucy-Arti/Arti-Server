@@ -34,7 +34,7 @@ public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "BEARER";
 
-    private final long ACCESS_TOKEN_EXPIRE_TIME = 30*60*1000L;    // 30분 상수로 박음
+    private final long ACCESS_TOKEN_EXPIRE_TIME = 900000*30*60*1000L;    // 30분 상수로 박음
     private final long REFRESH_TOKEN_EXPIRE_TIME = 7*24*60*60*1000L; // 7일
 
     private final Key key;
@@ -53,7 +53,6 @@ public class TokenProvider {
                         .collect(Collectors.joining(",")));
 
         Date now = new Date();
-
         return Jwts.builder()
                 .setClaims(claims) // 토큰 발행 유저 정보
                 .setIssuedAt(now) // 토큰 발행 시간

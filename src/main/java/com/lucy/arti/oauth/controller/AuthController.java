@@ -14,19 +14,19 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/kakao")
 @Slf4j
 public class AuthController {
 
     private final AuthService authService;
     private final MemberRepository memberRepository;
 
-    @PostMapping("/kakao/login")
+    @PostMapping("/login")
     public TokenDto kakaoLogin(@RequestBody KakaoLoginRequestDto kakaoLoginRequestDto) {
         return authService.createToken(authService.kakaoLogin(kakaoLoginRequestDto));
     }
 
-    @PostMapping("/kakao/logout")
+    @PostMapping("/logout")
     public ResponseEntity kakaoLogout(@RequestHeader(name = "Authorization") String bearerToken) {
         System.out.println("bearerToken = " + bearerToken);
         return authService.logout(bearerToken);

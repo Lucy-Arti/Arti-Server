@@ -80,7 +80,7 @@ public class AuthService {
         CustomKakaoIdAuthToken customKakaoIdAuthToken = new CustomKakaoIdAuthToken(String.valueOf(kakaoId), "");
         Authentication authentication = authenticationManager.authenticate(customKakaoIdAuthToken);
         Member memberbyKakaoId = memberRepository.findByKakaoId(kakaoId).orElse(null); // member에 member가 있거나, null이 있거나
-
+        System.out.println(memberbyKakaoId.getAccessToken());
         String accessToken = tokenProvider.createAccessTokenByKakaoId(kakaoId, memberbyKakaoId.getAuthorities());
         if (refreshTokenRepository.existsByKey(String.valueOf(kakaoId))) {
             refreshTokenRepository.deleteRefreshToken(refreshTokenRepository.findByKey(String.valueOf(kakaoId))
