@@ -32,6 +32,7 @@ public class Clothes extends BaseTimeEntity {
 
     private Long likeCount;
 
+    private long score;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "designer_id")
     private Designer designer;
@@ -44,4 +45,8 @@ public class Clothes extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "clothes")
     private final List<Winner> winners = new ArrayList<>();
+
+    public void addScore(int score) {
+        this.score += score;
+    }
 }

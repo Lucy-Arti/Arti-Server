@@ -2,6 +2,7 @@ package com.lucy.arti.vote.domain;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.domain.Member;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -23,4 +24,11 @@ public class Vote {
     @JoinColumn(name = "clothes_id")
     private Clothes clothes;
 
+    private int score;
+
+    public Vote(Member member, Clothes clothes, int score) {
+        this.member = member;
+        this.clothes = clothes;
+        this.score = score;
+    }
 }

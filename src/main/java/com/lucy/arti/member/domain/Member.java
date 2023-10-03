@@ -9,6 +9,7 @@ import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.like.domain.Like;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +47,9 @@ public class Member extends BaseTimeEntity {
 
     private String profile;
 
+    private LocalDateTime lastVoted;
+
+    @Enumerated(EnumType.STRING)
     private UserRole authority;
 
     @Builder
@@ -55,6 +59,7 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.profile = profile;
         this.authority = UserRole.ROLE_USER;
+        this.lastVoted = LocalDateTime.of(1999, 1, 1, 0, 0);
     }
     public Set<UserRole> getAuthorities(){
         Set<UserRole> returnRole = new HashSet<>();
@@ -63,5 +68,9 @@ public class Member extends BaseTimeEntity {
     }
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public void setLastVoted() {
+        this.lastVoted = LocalDateTime.now();
     }
 }
