@@ -1,5 +1,7 @@
 package com.lucy.arti.member.domain;
 import com.lucy.arti.oauth.Authority;
+import com.lucy.arti.vote.domain.Vote;
+import com.lucy.arti.winner.domain.Winner;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,12 +34,17 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private final List<Like> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private final List<Vote> votes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private final List<Winner> winners = new ArrayList<>();
+
     private Long kakaoId;
 
     private String email;
 
     private String profile;
-
     //add for login
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
