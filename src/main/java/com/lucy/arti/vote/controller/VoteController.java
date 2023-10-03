@@ -22,7 +22,8 @@ public class VoteController {
 
     @GetMapping("")
     @Secured({"ROLE_USER"})
-    public ResponseEntity<?> getVoteList() {
+    public ResponseEntity<?> getVoteList(final Authentication authentication) {
+        voteService.isPossibleVote(authentication);
         return ResponseEntity.ok(new VoteListResponseDto(true, voteService.getVoteList().stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList()));
     }
 

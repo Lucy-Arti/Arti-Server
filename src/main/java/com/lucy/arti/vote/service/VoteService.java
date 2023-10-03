@@ -53,7 +53,7 @@ public class VoteService {
     }
 
     public boolean isPossibleVote(final Authentication authentication) {
-        long userId = Long.parseLong(authentication.getPrincipal().toString());
+        long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId).get();
         if (alreadyVoted(member)) {
             return false;
@@ -61,7 +61,7 @@ public class VoteService {
         return true;
     }
     public boolean vote(final Authentication authentication, VoteRequestDto voteRequestDto) {
-        long userId = Long.parseLong(authentication.getPrincipal().toString());
+        long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId).get();
         if (alreadyVoted(member)) {
             return false;

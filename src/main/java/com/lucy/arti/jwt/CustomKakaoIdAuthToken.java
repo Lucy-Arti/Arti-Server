@@ -11,6 +11,7 @@ public class CustomKakaoIdAuthToken extends AbstractAuthenticationToken {
     private final Object principal;
     private Object credentials;
 
+
     public CustomKakaoIdAuthToken(Object principal, Object credentials) {
         super(null);
         this.principal = principal;
