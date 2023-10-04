@@ -35,7 +35,7 @@ public class AuthController {
     }
 
     @GetMapping("/info")
-    @Secured({"ROLE_USER"})
+    @Secured({"ROLE_USER"}) // Secured 추가
     public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String accessToken) {
         return authService.getByAccessToken(accessToken);
     }
