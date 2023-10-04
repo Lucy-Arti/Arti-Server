@@ -2,6 +2,7 @@
 
 ### url
 http://lucy-arti.kro.kr:8080/
+https://arti-fashion.shop/
 
 ## spec
 - Java 17
