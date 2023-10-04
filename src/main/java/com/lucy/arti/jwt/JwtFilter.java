@@ -55,7 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     response.setContentType("application/json");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.setCharacterEncoding("UTF-8");
-                    PrintWriter out = response.getWriter();
+//                    PrintWriter out = response.getWriter();
                     log.debug("doFilterInternal Exception CALL!");
                     log.debug("{\"error\": \"BAD_TOKEN\", \"message\" : \"잘못된 토큰 값입니다.\"}");
 //                    out.flush(); // 응답 데이터 전송
@@ -65,7 +65,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setCharacterEncoding("UTF-8");
-                PrintWriter out = response.getWriter();
+//                PrintWriter out = response.getWriter();
                 log.debug("doFilterInternal Exception CALL!");
                 log.debug("{\"error\": \"EMPTY_TOKEN\", \"message\" : \"토큰 값이 비어있습니다.\"}");
 //                out.flush(); // 응답 데이터 전송

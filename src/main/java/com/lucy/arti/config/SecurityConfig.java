@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
 
-                 .addFilterBefore(new JwtFilter(tokenProvider), BasicAuthenticationFilter.class)
+                 .addFilterBefore(new JwtFilter(tokenProvider), BasicAuthenticationFilter.class) // parameter1 ~ param2까지 필터르르 먼저 적용시킨다
 //                 .addFilterAfter(RequestValidat
 //                         RequestValidationFilter(),
 //                        BasicAuthenticationFilter::class.java
