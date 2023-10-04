@@ -22,11 +22,14 @@ public class Designer extends BaseTimeEntity {
 
     private String userName;
 
+    @Column(nullable = true)
     private String phoneNumber;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(nullable = true)
     private Gender gender;
 
+    @Column(nullable = false, length = 50000)
     private String introduce;
 
     @OneToMany(mappedBy = "designer")
