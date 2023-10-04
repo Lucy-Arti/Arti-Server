@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,7 +40,11 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
 
-                .addFilterBefore(new JwtFilter(tokenProvider), LogoutFilter.class)
+                 .addFilterBefore(new JwtFilter(tokenProvider), BasicAuthenticationFilter.class)
+//                 .addFilterAfter(RequestValidat
+//                         RequestValidationFilter(),
+//                        BasicAuthenticationFilter::class.java
+//            )
                 .authorizeHttpRequests((authz) -> authz
                                 .anyRequest().permitAll()
                 )
@@ -67,7 +72,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("https://arti-fashion.site", "http://arti-fashion.site", "localhost://3000"));
+        config.setAllowedOrigins(List.of("https://arti-fashion.site", "http://arti-fashion.site", "http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
