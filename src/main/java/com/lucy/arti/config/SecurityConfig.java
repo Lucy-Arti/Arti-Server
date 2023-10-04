@@ -34,9 +34,12 @@ public class SecurityConfig {
     private final CustomKakaoIdAuthProvider customEmailPasswordAuthProvider;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors().and().csrf().disable()
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .httpBasic().disable()
+                .csrf().disable()
+                .cors().and()
+
                 .addFilterBefore(new JwtFilter(tokenProvider), LogoutFilter.class)
                 .authorizeHttpRequests((authz) -> authz
                                 .anyRequest().permitAll()
@@ -46,7 +49,7 @@ public class SecurityConfig {
                         .sessionAuthenticationStrategy(new NullAuthenticatedSessionStrategy()))
                 .httpBasic(Customizer.withDefaults());
 
-        return http.build();
+        return httpSecurity.build();
     }
 
     @Bean
