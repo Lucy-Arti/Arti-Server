@@ -9,6 +9,7 @@ import com.lucy.arti.config.BaseTimeEntity;
 import com.lucy.arti.like.domain.Like;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,14 +46,11 @@ public class Member extends BaseTimeEntity {
     private String email;
 
     private String profile;
-    //add for login
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name="member_authority",
-            joinColumns = {@JoinColumn(name="member_id", referencedColumnName = "member_id")},
-            inverseJoinColumns = {@JoinColumn(name="authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities = new HashSet<>();
 
+    private LocalDateTime lastVoted;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole authority;
 
     @Builder
     public Member(Long kakaoId, String username, String email, String profile) {
@@ -60,9 +58,19 @@ public class Member extends BaseTimeEntity {
         this.userName = username;
         this.email = email;
         this.profile = profile;
+        this.authority = UserRole.ROLE_USER;
+        this.lastVoted = LocalDateTime.of(1999, 1, 1, 0, 0);
     }
-
+    public Set<UserRole> getAuthorities(){
+        Set<UserRole> returnRole = new HashSet<>();
+        returnRole.add(this.authority);
+        return returnRole;
+    }
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public void setLastVoted() {
+        this.lastVoted = LocalDateTime.now();
     }
 }

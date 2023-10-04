@@ -27,9 +27,11 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        if(request.getServletPath().startsWith("/auth")) {
+        if(request.getServletPath().startsWith("/api/v1/kakao/login")) {
             filterChain.doFilter(request,response);
-        }else {
+        } else if (request.getServletPath().startsWith("/api/v1/clothes")) {
+            filterChain.doFilter(request, response);
+        } else {
             String token = resolveToken(request);
 
             log.debug("token  = {}",token);
@@ -63,6 +65,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 PrintWriter out = response.getWriter();
                 out.println("{\"error\": \"EMPTY_TOKEN\", \"message\" : \"토큰 값이 비어있습니다.\"}");
             }
+            filterChain.doFilter(request, response);
+
         }
     }
     private void setAuthentication(String token) {

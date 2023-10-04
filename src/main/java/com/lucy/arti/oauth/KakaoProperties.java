@@ -9,7 +9,16 @@ public class KakaoProperties {
     private String client_id;
     private String client_secret;
 
-    // Getter와 Setter 메서드
+    private String redirect_uri;
+
+    public String getRedirect_uri() {
+        return redirect_uri;
+    }
+
+    public void setRedirect_uri(String redirect_uri) {
+        this.redirect_uri = redirect_uri;
+    }
+// Getter와 Setter 메서드
 
     public String getClient_id() {
         return client_id;

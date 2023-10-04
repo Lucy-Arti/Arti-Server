@@ -2,6 +2,7 @@ package com.lucy.arti.jwt;
 
 import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
+import com.lucy.arti.member.domain.UserRole;
 import com.lucy.arti.oauth.Authority;
 import com.lucy.arti.oauth.dto.TokenDto;
 import io.jsonwebtoken.Claims;
@@ -34,7 +35,7 @@ public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "BEARER";
 
-    private final long ACCESS_TOKEN_EXPIRE_TIME = 30*60*1000L;    // 30분 상수로 박음
+    private final long ACCESS_TOKEN_EXPIRE_TIME = 900000*30*60*1000L;    // 30분 상수로 박음
     private final long REFRESH_TOKEN_EXPIRE_TIME = 7*24*60*60*1000L; // 7일
 
     private final Key key;
@@ -45,13 +46,13 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    protected String createTokenByKakaoId(Long kakaoId, Set<Authority> auth, long tokenValid) {
+    protected String createTokenByKakaoId(Long kakaoId, Set<UserRole> auth, long tokenValid) {
         Claims claims = Jwts.claims().setSubject(String.valueOf(kakaoId));
         claims.put(AUTHORITIES_KEY,
                 auth.stream()
-                        .map(Authority::getAuthorityName)
+                        .map(UserRole::getAbbreviation
+                        )
                         .collect(Collectors.joining(",")));
-
         Date now = new Date();
 
         return Jwts.builder()
@@ -62,11 +63,11 @@ public class TokenProvider {
                 .compact();
     }
 
-    public String createAccessTokenByKakaoId(Long kakaoId, Set<Authority> auth) {
+    public String createAccessTokenByKakaoId(Long kakaoId, Set<UserRole> auth) {
         return this.createTokenByKakaoId(kakaoId, auth, ACCESS_TOKEN_EXPIRE_TIME);
     }
 
-    public String createRefreshToken(Long kakaoId, Set<Authority> auth) {
+    public String createRefreshToken(Long kakaoId, Set<UserRole> auth) {
         return this.createTokenByKakaoId(kakaoId, auth, REFRESH_TOKEN_EXPIRE_TIME);
     }
 
@@ -94,7 +95,6 @@ public class TokenProvider {
 
         // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
-
         return new CustomKakaoIdAuthToken(principal, "", authorities);
     }
 

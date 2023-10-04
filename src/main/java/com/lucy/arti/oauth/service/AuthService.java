@@ -1,6 +1,8 @@
 package com.lucy.arti.oauth.service;
 
+import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
+import com.lucy.arti.exception.ErrorMessage;
 import com.lucy.arti.exception.MemberException;
 import com.lucy.arti.jwt.CustomKakaoIdAuthToken;
 import com.lucy.arti.jwt.RefreshToken;
@@ -8,7 +10,6 @@ import com.lucy.arti.jwt.RefreshTokenRepository;
 import com.lucy.arti.jwt.TokenProvider;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
-import com.lucy.arti.oauth.KakaoOauth2;
 import com.lucy.arti.oauth.KakaoUserInfo;
 import com.lucy.arti.oauth.dto.TokenDto;
 import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
@@ -23,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
+import java.util.logging.ErrorManager;
 
 @Service
 @Slf4j
@@ -43,35 +46,33 @@ public class AuthService {
     @Transactional // member Database에 저장해야 되기 때문
     public KakaoUserInfo kakaoLogin(KakaoLoginRequestDto kakaoLoginRequestDto) {
         String authorizedCode = kakaoLoginRequestDto.getAuthCode();
-
         KakaoUserInfo kakaoUserInfo = kakaoOauth2.getUserInfo(authorizedCode);
+        log.info(kakaoUserInfo.getUsername());
 
         Long kakaoId = kakaoUserInfo.getId();
         String username = kakaoUserInfo.getUsername();
         String email = kakaoUserInfo.getEmail();
         String profile = kakaoUserInfo.getProfile();
 
+
         Optional<Member> byKakaoIdMember = memberRepository.findByKakaoId(kakaoId);
         if (byKakaoIdMember.isEmpty()) {
             log.info(username);
             Member newMember = new Member(kakaoId, username, email, profile);
-
             memberRepository.save(newMember);
         }
 
-//        Optional<Member> byKakaoIdMember = memberRepository.findByKakaoId(kakaoId);
-//
-//        if (byKakaoIdMember.isEmpty()) {
-//            Optional<Authority> byAuthorityName = authorityReposistory.findByAuthorityName(UserRole.ROLE_KAKAO);
-//            if (byAuthorityName.isEmpty()) {
-//                throw new BizException(AuthorityException.NOT_FOUND_AUTHORITY);
-//            }
-//            Set<Authority> authorities = new HashSet<>();
-//            authorities.add(byAuthorityName.get());
-//            Member newMember = new Member(kakaoId, username, email, profile, authorities);
-//            memberRepository.save(newMember);
-//        }
         return kakaoUserInfo;
+    }
+
+    public Member getByAccessToken(String accessToken) {
+        Member member =  memberRepository.findByAccessToken(accessToken);
+
+        if (member != null) {
+            return member;
+        } else {
+            throw new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason());
+        }
     }
 
     @Transactional

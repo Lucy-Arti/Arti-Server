@@ -2,6 +2,8 @@ package com.lucy.arti.vote.domain;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.domain.Member;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "votes")
+@Getter
 public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +25,14 @@ public class Vote {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clothes_id")
     private Clothes clothes;
+
+    private int score;
+
+    public Vote(Member member, Clothes clothes, int score) {
+        this.member = member;
+        this.clothes = clothes;
+        this.score = score;
+    }
+
 
 }
