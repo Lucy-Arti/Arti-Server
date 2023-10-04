@@ -23,7 +23,6 @@ public class KakaoOauth2 {
 
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         //인가코드 -> 엑세스 토큰
-        log.info("KakaouOauth2.java/getUserInfo에 넘어옴" + authorizedCode);
         String accessToken = getAccessToken(authorizedCode);
         log.info("엑세스");
         //엑세스 토큰 -> 카카오 사용자 정보
@@ -32,7 +31,6 @@ public class KakaoOauth2 {
     }
 
     public String getAccessToken(String authorizedCode) {
-//        log.info("getAccessToken에서" + authorizedCode);
         String clientId = kakaoProperties.getClient_id();
         String clientSecret = kakaoProperties.getClient_secret();
         String redirectUri = kakaoProperties.getRedirect_uri();
@@ -49,7 +47,6 @@ public class KakaoOauth2 {
         params.add("client_id", clientId);
         params.add("code", authorizedCode);
         params.add("client_secret", clientSecret);
-        log.info(redirectUri);
 
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
@@ -61,11 +58,9 @@ public class KakaoOauth2 {
                 kakaoTokenRequest,
                 String.class
         );
-
         String tokenJson = response.getBody();
         org.json.JSONObject rjson = new JSONObject(tokenJson);
         String accessToken = rjson.getString("access_token");
-        log.info("엑세스 넘어옴" + accessToken);
 
         return accessToken;
     }

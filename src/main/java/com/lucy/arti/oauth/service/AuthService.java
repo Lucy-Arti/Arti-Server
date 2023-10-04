@@ -78,6 +78,7 @@ public class AuthService {
     @Transactional
     public TokenDto createToken(KakaoUserInfo kakaoUserInfo) {
         Long kakaoId = kakaoUserInfo.getId();
+
         CustomKakaoIdAuthToken customKakaoIdAuthToken = new CustomKakaoIdAuthToken(String.valueOf(kakaoId), "");
         Authentication authentication = authenticationManager.authenticate(customKakaoIdAuthToken);
         Member memberbyKakaoId = memberRepository.findByKakaoId(kakaoId).orElse(null); // member에 member가 있거나, null이 있거나
