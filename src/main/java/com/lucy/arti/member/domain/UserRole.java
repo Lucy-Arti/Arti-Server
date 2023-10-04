@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum UserRole {
-    ROLE_KAKAO("ROLE_KAKAO"), ROLE_CUSTOM("ROLE_CUSTOM"), ROLE_ADMIN("ROLE_ADMIN");
+    ROLE_USER("ROLE_USER"), ROLE_DESIGNER("ROLE_DESIGNER"), ROLE_ADMIN("ROLE_ADMIN");
     private final String key;
     private static final Map<String, UserRole> lookup = new HashMap<>();
 

@@ -1,21 +1,17 @@
-package com.lucy.arti.like.domain;
+package com.lucy.arti.winner.domain;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.domain.Member;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "likes") // like가 MySQL의 예약어로 등록이 되어 있어 테이블 이름을 likesfh tjfwjdgkduTek.
 @NoArgsConstructor
-public class Like {
-
+public class Winner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
+    @Column(name = "winner_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,8 +22,4 @@ public class Like {
     @JoinColumn(name = "clothes_id")
     private Clothes clothes;
 
-    public Like(Member member, Clothes clothes) {
-        this.member = member;
-        this.clothes = clothes;
-    }
 }

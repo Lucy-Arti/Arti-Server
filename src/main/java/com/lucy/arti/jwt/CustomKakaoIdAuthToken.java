@@ -1,12 +1,16 @@
 package com.lucy.arti.jwt;
 
 import java.util.Collection;
+import java.util.EnumSet;
+
+import com.lucy.arti.member.domain.UserRole;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 public class CustomKakaoIdAuthToken extends AbstractAuthenticationToken {
     private final Object principal;
     private Object credentials;
+
 
     public CustomKakaoIdAuthToken(Object principal, Object credentials) {
         super(null);
@@ -16,8 +20,8 @@ public class CustomKakaoIdAuthToken extends AbstractAuthenticationToken {
     }
 
     public CustomKakaoIdAuthToken(Object principal, Object credentials,
-                                  Collection<? extends GrantedAuthority> authorites) {
-        super(authorites);
+                                  Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
         this.principal = principal;
         this.credentials = credentials;
         super.setAuthenticated(true);
