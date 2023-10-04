@@ -31,7 +31,7 @@ public class AuthController {
         return authService.logout(bearerToken);
     }
 
-    @GetMapping("/kakao/info")
+    @GetMapping("/info")
     public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String accessToken) {
         return authService.getByAccessToken(accessToken);
     }
