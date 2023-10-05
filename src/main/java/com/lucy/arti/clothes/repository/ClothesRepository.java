@@ -12,4 +12,6 @@ public interface ClothesRepository extends JpaRepository<Clothes, Long> {
             "c.name LIKE CONCAT('%',:query, '%')" +
             "Or c.designer.userName LIKE CONCAT('%', :query, '%')")
     List<Clothes> searchClothes(String query);
+
+//    List<Clothes> findByClothesID(Long designer_id);
 }

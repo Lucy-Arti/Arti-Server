@@ -32,6 +32,10 @@ public class ClothesService {
         return ClothesDetailResponseDto.of(clothes, clothes.getDesigner());
     }
 
+    public List<?> searchClothes(String query) {
+        return clothesRepository.searchClothes(query).stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
+    }
+
     @Transactional
     public boolean isLiked(final Authentication authentication, Long clothesId) {
         long userKakaoId = Long.parseLong(authentication.getName());
@@ -48,7 +52,6 @@ public class ClothesService {
         Member member = memberRepository.findByKakaoId(userKakaoId).get();
         Clothes clothes = clothesRepository.findById(clothesId).get();
         boolean isLiked = isLiked(authentication, clothesId);
-        System.out.println("좋아요?" + isLiked);
         if(isLiked) {
             Like deletedLike = likeRepository.findByMemberIdAndClothesId(member.getId(), clothesId)
                     .orElseThrow();
@@ -62,8 +65,11 @@ public class ClothesService {
         }
     }
 
-    public List<Clothes> searchClothes(String query) {
-        List<Clothes> searchClothes = clothesRepository.searchClothes(query);
-        return searchClothes;
-    }
+
+
+//    public List<Clothes> getClothesByDesignerId(final Authentication authentication, Long clothesId) {
+//        long userKakaoId = Long.parseLong(authentication.getName());
+//        List<Clothes> clothesById = clothesRepository.findByClothesID(clothesId);
+//        return clothesById;
+//    }
 }
