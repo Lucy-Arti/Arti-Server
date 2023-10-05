@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -30,15 +31,35 @@ public class ClothesService {
         Clothes clothes = clothesRepository.findById(clothesId).get();
         return ClothesDetailResponseDto.of(clothes, clothes.getDesigner());
     }
+
+    @Transactional
+    public boolean isLiked(final Authentication authentication, Long clothesId) {
+        long userKakaoId = Long.parseLong(authentication.getName());
+        Member member = memberRepository.findByKakaoId(userKakaoId).get();
+        Clothes clothes = clothesRepository.findById(clothesId).get();
+
+        boolean isLiked = likeRepository.existsByMemberAndClothes(member, clothes);
+        return isLiked;
+    }
+
     @Transactional
     public void like(final Authentication authentication, Long clothesId) {
         long userKakaoId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userKakaoId).get();
         Clothes clothes = clothesRepository.findById(clothesId).get();
-        Like like = new Like(member, clothes);
-        likeRepository.save(like);
-        clothes.addLikeCount();
-        clothesRepository.save(clothes);
+        boolean isLiked = isLiked(authentication, clothesId);
+        System.out.println("좋아요?" + isLiked);
+        if(isLiked) {
+            Like deletedLike = likeRepository.findByMemberIdAndClothesId(member.getId(), clothesId)
+                    .orElseThrow();
+            likeRepository.delete(deletedLike);
+        }
+        else {
+            Like like = new Like(member, clothes);
+            likeRepository.save(like);
+            clothes.addLikeCount();
+            clothesRepository.save(clothes);
+        }
     }
 
     public List<Clothes> searchClothes(String query) {
