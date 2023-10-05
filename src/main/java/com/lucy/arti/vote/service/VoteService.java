@@ -65,7 +65,7 @@ public class VoteService {
     public boolean vote(final Authentication authentication, VoteRequestDto voteRequestDto) {
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId).get();
-        if (alreadyVoted(member)) {
+        if (alreadyVoted(member)) { // alreadyVoted(member)인데 하루마다 초기화해주는 로직이 들어가야 하기 떄문에 isPossibleVote(member) 메서드로 변경
             return false;
         }
         member.setLastVoted();

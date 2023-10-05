@@ -37,16 +37,24 @@ public class VoteController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+//    @PostMapping("/topossible")
+//    @Secured({"ROLE_USER"})
+//    public ResponseEntity<?> possibleVotes(final Authentication authentication) {
+//        return
+//    }
+
     @PostMapping("")
     @Secured({"ROLE_USER"})
     public ResponseEntity<?> votes(final Authentication authentication, @RequestBody VoteRequestDto voteRequestDto) {
-        boolean success = voteService.vote(authentication, voteRequestDto);
-        if (success) {
-            return ResponseEntity.ok().build();
+        if (voteService.isPossibleVote(authentication)) {
+            boolean success = voteService.vote(authentication, voteRequestDto);
+            if (success) {
+                return ResponseEntity.ok().build();
+            }
         }
         return ResponseEntity.badRequest().build();
     }
-
 }
 
 
