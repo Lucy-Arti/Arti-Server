@@ -40,4 +40,9 @@ public class ClothesService {
         clothes.addLikeCount();
         clothesRepository.save(clothes);
     }
+
+    public List<Clothes> searchClothes(String query) {
+        List<Clothes> searchClothes = clothesRepository.searchClothes(query);
+        return searchClothes;
+    }
 }
