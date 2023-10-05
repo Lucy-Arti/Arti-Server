@@ -33,9 +33,15 @@ public class MemberController {
         return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> myPage(final Authentication authentication) {
-        return ResponseEntity.ok(memberService.myPage(authentication));
-
+    @GetMapping("/1st") // 1등한 옷 조회
+    public ResponseEntity<?> victory(final Authentication authentication) {
+        return ResponseEntity.ok(memberService.victory(authentication));
     }
+
+    @GetMapping("/save") // 저장한(좋아요 누른) 옷 조회
+    public ResponseEntity<?> saveList(final Authentication authentication) {
+        return ResponseEntity.ok(memberService.saveListShow(authentication));
+    }
+
+
 }
