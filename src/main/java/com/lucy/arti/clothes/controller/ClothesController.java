@@ -24,10 +24,17 @@ public class ClothesController {
         return ResponseEntity.ok(clothesService.getAll());
     }
 
-    @GetMapping("{clothesId}")
+    @GetMapping("/{clothesId}")
     public ResponseEntity<?> getById(@PathVariable Long clothesId) {
         return ResponseEntity.ok(clothesService.getById(clothesId));
     }
+
+    // 로그인 후 상세 조회
+//    @GetMapping("/member/{clothesId}")
+//    @Secured({"ROLE_USER"})
+//    public ResponseEntity<?> getByIdWithToken(final Authentication authentication, @PathVariable Long clothesId) {
+//        return ResponseEntity.ok(clothesService.getByIdWithToken(authentication, clothesId));
+//    }
 
     // 옷 검색 api
     @GetMapping("/search")
@@ -42,5 +49,4 @@ public class ClothesController {
     public ResponseEntity<?> getClothesBySort() {
         return ResponseEntity.ok(clothesService.sortClothes());
     }
-
 }

@@ -8,6 +8,8 @@ import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
+import com.lucy.arti.view.domain.View;
+import com.lucy.arti.view.repository.ViewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -26,6 +28,7 @@ public class ClothesService {
     private final ClothesRepository clothesRepository;
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
+    private final ViewRepository viewRepository;
 
     public List<?> getAll(){
         return clothesRepository.findAll().stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
@@ -52,12 +55,10 @@ public class ClothesService {
 
     @Transactional
     public void like(final Authentication authentication, Long clothesId) {
-        log.info("like 함수로 넘어옴");
         long userKakaoId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userKakaoId).get();
         Clothes clothes = clothesRepository.findById(clothesId).get();
         boolean isLiked = isLiked(authentication, clothesId);
-        System.out.println(isLiked);
 
         if(isLiked) {
             Like deletedLike = likeRepository.findByMemberIdAndClothesId(member.getId(), clothesId)
@@ -78,4 +79,26 @@ public class ClothesService {
     public List<ClothesDetailResponseDto> sortClothes() {
         return clothesRepository.findAll(Sort.by(Sort.Direction.DESC, "score")).stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
     }
+
+//    @Transactional
+//    public ClothesDetailResponseDto getByIdWithToken(final Authentication authentication, Long clothesId) {
+//        System.out.println("들어옴");
+//        long userKakaoId = Long.parseLong(authentication.getName());
+//        Member member = memberRepository.findByKakaoId(userKakaoId).get();
+//        Clothes clothes = clothesRepository.findById(clothesId).get();
+//
+//        log.info((member.getUserName()));
+//
+//        View viewObject = viewRepository.findByClothesId(clothesId);
+//        log.info(viewObject.getClothes().getName());
+//
+//        // save 하는 방법
+//        if(!viewObject.getClothes().equals(clothes)) { // 본적이 없는 옷일 떄 저장
+//            View view = new View(member, clothes);
+//            viewRepository.save(view);
+//            log.info("view에 저장 됨");
+//        }
+//
+//        return ClothesDetailResponseDto.of(clothes, clothes.getDesigner());
+//    }
 }
