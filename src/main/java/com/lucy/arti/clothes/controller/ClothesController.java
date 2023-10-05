@@ -37,4 +37,10 @@ public class ClothesController {
     @GetMapping("/designer/{designerId}")
     public ResponseEntity<?> getClothesById(@PathVariable Long designerId) {
         return ResponseEntity.ok(clothesService.getClothesByDesignerId(designerId));
-    }}
+    }
+    @GetMapping("/score")
+    public ResponseEntity<?> getClothesBySort() {
+        return ResponseEntity.ok(clothesService.sortClothes());
+    }
+
+}

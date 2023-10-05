@@ -15,4 +15,5 @@ public interface ClothesRepository extends JpaRepository<Clothes, Long> {
     List<Clothes> searchClothes(String query);
 
     List<Clothes> findByDesignerId(Long designerId);
+
 }

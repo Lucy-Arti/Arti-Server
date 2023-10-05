@@ -3,12 +3,14 @@ package com.lucy.arti.clothes.service;
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import com.lucy.arti.clothes.repository.ClothesRepository;
+import com.lucy.arti.clothes.repository.ClothesRepositoryCustom;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +73,10 @@ public class ClothesService {
     }
     public List<ClothesDetailResponseDto> getClothesByDesignerId(Long designerId) {
         return clothesRepository.findByDesignerId(designerId).stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
+    }
+
+    public List<ClothesDetailResponseDto> sortClothes() {
+        return clothesRepository.findAll(Sort.by(Sort.Direction.DESC, "score")).stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
     }
 
 //    public List<?> getAll(){
