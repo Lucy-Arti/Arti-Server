@@ -63,6 +63,7 @@ public class ClothesService {
         if(isLiked) {
             Like deletedLike = likeRepository.findByMemberIdAndClothesId(member.getId(), clothesId)
                     .orElseThrow();
+            clothes.minusLikeCount();
             likeRepository.delete(deletedLike);
         }
         else {

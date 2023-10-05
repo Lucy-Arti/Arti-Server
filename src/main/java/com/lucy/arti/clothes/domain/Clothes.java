@@ -53,4 +53,6 @@ public class Clothes extends BaseTimeEntity {
     public void addLikeCount() {
         this.likeCount += 1;
     }
+
+    public void minusLikeCount() { this.likeCount -= 1; }
 }
