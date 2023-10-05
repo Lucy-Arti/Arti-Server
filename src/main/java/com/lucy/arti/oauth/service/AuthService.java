@@ -1,6 +1,5 @@
 package com.lucy.arti.oauth.service;
 
-import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
 import com.lucy.arti.exception.ErrorMessage;
 import com.lucy.arti.exception.MemberException;
@@ -8,10 +7,10 @@ import com.lucy.arti.jwt.CustomKakaoIdAuthToken;
 import com.lucy.arti.jwt.RefreshToken;
 import com.lucy.arti.jwt.RefreshTokenRepository;
 import com.lucy.arti.jwt.TokenProvider;
-import com.lucy.arti.member.MemberResponseDto;
+import com.lucy.arti.member.dto.MemberResponseDto;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
-import com.lucy.arti.oauth.KakaoUserInfo;
+import com.lucy.arti.oauth.dto.KakaoUserInfo;
 import com.lucy.arti.oauth.dto.TokenDto;
 import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
 import com.lucy.arti.oauth.repository.AuthorityRepository;
@@ -27,7 +26,6 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
-import java.util.logging.ErrorManager;
 
 @Service
 @Slf4j

@@ -1,4 +1,4 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.dto;
 
 public class AuthCode {
     private String authCode;

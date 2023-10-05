@@ -1,4 +1,4 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.dto;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

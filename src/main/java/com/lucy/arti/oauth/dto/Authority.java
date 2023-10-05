@@ -1,4 +1,4 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.dto;
 
 import com.lucy.arti.member.domain.UserRole;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,6 @@ public class Authority {
     @Column(name = "authority_name", length = 50)
     @Enumerated(EnumType.STRING)
     private UserRole authorityName;
-
 
     public String getAuthorityName(){
         return this.authorityName.toString();

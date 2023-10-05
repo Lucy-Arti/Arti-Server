@@ -1,4 +1,4 @@
-package com.lucy.arti.member;
+package com.lucy.arti.member.dto;
 
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.like.dto.LikeDto;
@@ -38,14 +38,14 @@ public class MemberResponseDto {
         // likes 리스트를 LikeDto 리스트로 변환하여 할당
         if (likes != null) {
             this.likes = likes.stream()
-                    .map(like -> new LikeDto(like.getId()))
+                    .map(like -> new LikeDto(like.getClothes().getId()))
                     .collect(Collectors.toList());
         }
 
         // votes 리스트를 VoteDto 리스트로 변환하여 할당
         if (votes != null) {
             this.votes = votes.stream()
-                    .map(vote -> new VoteDto(vote.getId()))
+                    .map(vote -> new VoteDto(vote.getClothes().getId()))
                     .collect(Collectors.toList());
         }
 

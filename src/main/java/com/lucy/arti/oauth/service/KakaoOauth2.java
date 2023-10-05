@@ -1,7 +1,7 @@
 package com.lucy.arti.oauth.service;
 
-import com.lucy.arti.oauth.KakaoProperties;
-import com.lucy.arti.oauth.KakaoUserInfo;
+import com.lucy.arti.oauth.dto.KakaoProperties;
+import com.lucy.arti.oauth.dto.KakaoUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;

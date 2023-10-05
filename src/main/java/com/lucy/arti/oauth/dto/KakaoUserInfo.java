@@ -1,4 +1,4 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

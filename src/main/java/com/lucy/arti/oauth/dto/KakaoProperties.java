@@ -1,4 +1,4 @@
-package com.lucy.arti.oauth;
+package com.lucy.arti.oauth.dto;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
