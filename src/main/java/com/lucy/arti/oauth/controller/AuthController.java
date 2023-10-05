@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,13 +29,28 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity kakaoLogout(@RequestHeader(name = "Authorization") String bearerToken) {
+    @Secured({"ROLE_USER"})
+    public ResponseEntity kakaoLogout(final Authentication authentication, @RequestHeader(name = "Authorization") String bearerToken) {
         return authService.logout(bearerToken);
     }
 
     @GetMapping("/info")
-    public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String accessToken) {
+    @Secured({"ROLE_USER"}) // Secured 추가
+    public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        String accessToken = extractAccessToken(authorizationHeader);
         return authService.getByAccessToken(accessToken);
+    }
+    private String extractAccessToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        throw new IllegalArgumentException("Invalid access token");
     }
 }
 
+//    @GetMapping("/info")
+//    @Secured({"ROLE_USER"}) // Secured 추가
+//    public Member getUserInfoByToken(final Authentication authentication, @RequestHeader(name="Authorization") String aceessToken) {
+//        return authService.getByAccessToken(authentication);
+//    }
+//}

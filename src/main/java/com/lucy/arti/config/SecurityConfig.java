@@ -1,6 +1,7 @@
 package com.lucy.arti.config;
 
 import com.lucy.arti.jwt.*;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,10 +37,19 @@ public class SecurityConfig {
     private final CustomKakaoIdAuthProvider customEmailPasswordAuthProvider;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors().and().csrf().disable()
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf().disable()
+                .cors().and()
+
                 .addFilterBefore(new JwtFilter(tokenProvider), LogoutFilter.class)
+
+//                 .addFilterBefore(new JwtFilter(tokenProvider), BasicAuthenticationFilter.class) // parameter1 ~ param2까지 필터르르 먼저 적용시킨다
+//                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+//                 .addFilterAfter(RequestValidat
+//                         RequestValidationFilter(),
+//                        BasicAuthenticationFilter::class.java
+//            )
                 .authorizeHttpRequests((authz) -> authz
                                 .anyRequest().permitAll()
                 )
@@ -46,7 +58,7 @@ public class SecurityConfig {
                         .sessionAuthenticationStrategy(new NullAuthenticatedSessionStrategy()))
                 .httpBasic(Customizer.withDefaults());
 
-        return http.build();
+        return httpSecurity.build();
     }
 
     @Bean
@@ -65,9 +77,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://arti-fashion.site"));
-//        config.setAllowedOrigins(List.of("http://localhost:3000"));
-//        config.setAllowedOrigins(List.of("http://arti-fashion.site"));
+        config.setAllowedOrigins(List.of("https://arti-fashion.site", "http://arti-fashion.site", "http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));

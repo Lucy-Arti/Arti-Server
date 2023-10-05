@@ -67,13 +67,20 @@ public class AuthService {
 
     public Member getByAccessToken(String accessToken) {
         Member member =  memberRepository.findByAccessToken(accessToken);
-
         if (member != null) {
             return member;
         } else {
             throw new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason());
         }
     }
+
+//    public Member getByAccessToken(Authentication authentication) {
+//        long userId = Long.parseLong(authentication.getName());
+//        Member authMember = memberRepository.findByKakaoId(userId).get();
+//        log.info("getByAccessToken 메서드 내부  : " + authMember.getUserName());
+//        return Optional.ofNullable(authMember)
+//                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason()));
+//    }
 
     @Transactional
     public TokenDto createToken(KakaoUserInfo kakaoUserInfo) {

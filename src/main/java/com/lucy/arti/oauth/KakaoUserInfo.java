@@ -10,4 +10,3 @@ public class KakaoUserInfo {
     String username;
     String profile;
 }
-

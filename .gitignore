@@ -40,3 +40,6 @@ out/
 application.yml
 application-rds.yml
 application-s3.yml
+
+### keystore
+keystore.p12
