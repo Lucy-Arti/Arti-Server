@@ -1,6 +1,7 @@
 package com.lucy.arti.clothes.repository;
 
 import com.lucy.arti.clothes.domain.Clothes;
+import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,5 +14,5 @@ public interface ClothesRepository extends JpaRepository<Clothes, Long> {
             "Or c.designer.userName LIKE CONCAT('%', :query, '%')")
     List<Clothes> searchClothes(String query);
 
-//    List<Clothes> findByClothesID(Long designer_id);
+    List<Clothes> findByDesignerId(Long designerId);
 }

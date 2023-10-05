@@ -20,9 +20,5 @@ import java.util.List;
 @RequestMapping("api/v1/designers")
 public class DesignerController {
     private final ClothesService clothesService;
-//    @GetMapping("/{clotehsId}")
-//    @Secured({"ROLE_USER"})
-//    public List<Clothes> getClothesById(final Authentication authentication, @PathVariable Long clothesId) {
-//        return clothesService.getClothesByDesignerId(authentication, clothesId);
-//    }
+
 }
