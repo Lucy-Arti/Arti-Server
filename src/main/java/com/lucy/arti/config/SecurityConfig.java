@@ -1,6 +1,7 @@
 package com.lucy.arti.config;
 
 import com.lucy.arti.jwt.*;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,8 +42,10 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
 
+                .addFilterBefore(new JwtFilter(tokenProvider), LogoutFilter.class)
+
 //                 .addFilterBefore(new JwtFilter(tokenProvider), BasicAuthenticationFilter.class) // parameter1 ~ param2까지 필터르르 먼저 적용시킨다
-                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
 //                 .addFilterAfter(RequestValidat
 //                         RequestValidationFilter(),
 //                        BasicAuthenticationFilter::class.java

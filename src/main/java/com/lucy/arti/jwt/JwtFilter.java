@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        if(request.getServletPath().startsWith("/api/v1/kakao/login")) {
+        if(request.getServletPath().startsWith("/api/v1/kakao/login")) { // "/api/v1/kakao/login" 원래는 로그인만 doFilter였음.
             filterChain.doFilter(request,response);
         } else if (request.getServletPath().startsWith("/api/v1/clothes")) {
             filterChain.doFilter(request, response);
@@ -46,11 +46,9 @@ public class JwtFilter extends OncePerRequestFilter {
                     response.setContentType("application/json");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.setCharacterEncoding("UTF-8");
-
-                    PrintWriter out = response.getWriter(); // 첫 호출
+//                    PrintWriter out = response.getWriter(); // 첫 호출
                     log.debug("doFilterInternal Exception CALL!");
                     log.info("{\"error\": \"ACCESS_TOKEN_EXPIRED\", \"message\" : \"엑세스토큰이 만료되었습니다.\"}");
-//                    out.flush(); // 응답 데이터 전송
                 } else { //잘못된 토큰
                     response.setContentType("application/json");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
