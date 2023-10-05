@@ -1,5 +1,6 @@
 package com.lucy.arti.oauth.controller;
 
+import com.lucy.arti.member.MemberResponseDto;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.oauth.KakaoUserInfo;
@@ -36,9 +37,9 @@ public class AuthController {
 
     @GetMapping("/info")
     @Secured({"ROLE_USER"}) // Secured 추가
-    public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String authorizationHeader) {
+    public ResponseEntity<MemberResponseDto> getUserInfoByToken(@RequestHeader(name = "Authorization") String authorizationHeader) {
         String accessToken = extractAccessToken(authorizationHeader);
-        return authService.getByAccessToken(accessToken);
+        return ResponseEntity.ok(authService.getByAccessToken(accessToken));
     }
     private String extractAccessToken(String authorizationHeader) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -47,10 +48,3 @@ public class AuthController {
         throw new IllegalArgumentException("Invalid access token");
     }
 }
-
-//    @GetMapping("/info")
-//    @Secured({"ROLE_USER"}) // Secured 추가
-//    public Member getUserInfoByToken(final Authentication authentication, @RequestHeader(name="Authorization") String aceessToken) {
-//        return authService.getByAccessToken(authentication);
-//    }
-//}

@@ -38,7 +38,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.victory(authentication));
     }
 
-    @GetMapping("/save") // 저장한(좋아요 누른) 옷 조회
+    @GetMapping("/mine") // 저장한(좋아요 누른) 옷 조회
     public ResponseEntity<?> saveList(final Authentication authentication) {
         return ResponseEntity.ok(memberService.saveListShow(authentication));
     }

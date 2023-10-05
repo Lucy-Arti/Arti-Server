@@ -8,6 +8,7 @@ import com.lucy.arti.jwt.CustomKakaoIdAuthToken;
 import com.lucy.arti.jwt.RefreshToken;
 import com.lucy.arti.jwt.RefreshTokenRepository;
 import com.lucy.arti.jwt.TokenProvider;
+import com.lucy.arti.member.MemberResponseDto;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.oauth.KakaoUserInfo;
@@ -65,14 +66,18 @@ public class AuthService {
         return kakaoUserInfo;
     }
 
-    public Member getByAccessToken(String accessToken) {
-        Member member =  memberRepository.findByAccessToken(accessToken);
+    public MemberResponseDto getByAccessToken(String accessToken) {
+        Member member = memberRepository.findByAccessToken(accessToken);
         if (member != null) {
-            return member;
+            // Member 객체를 MemberDto로 변환하여 반환
+            return new MemberResponseDto(member.getId(), member.getUserName(), member.getEmail(),
+                    member.getProfile(), member.getLikes(),
+                    member.getVotes(), member.getWinners(), member.getAccessToken(), member.getAuthority());
         } else {
             throw new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason());
         }
     }
+
 
 //    public Member getByAccessToken(Authentication authentication) {
 //        long userId = Long.parseLong(authentication.getName());

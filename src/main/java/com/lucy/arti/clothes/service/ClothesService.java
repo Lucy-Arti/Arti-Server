@@ -78,8 +78,4 @@ public class ClothesService {
     public List<ClothesDetailResponseDto> sortClothes() {
         return clothesRepository.findAll(Sort.by(Sort.Direction.DESC, "score")).stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
     }
-
-//    public List<?> getAll(){
-//        return clothesRepository.findAll().stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
-//    }
 }

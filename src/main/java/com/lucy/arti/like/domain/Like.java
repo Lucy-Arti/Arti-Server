@@ -1,5 +1,6 @@
 package com.lucy.arti.like.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.domain.Member;
 import lombok.AllArgsConstructor;
