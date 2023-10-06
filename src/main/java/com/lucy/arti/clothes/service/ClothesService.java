@@ -38,7 +38,6 @@ public class ClothesService {
         return clothesRepository.searchClothes(query).stream().map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
     }
 
-    @Transactional
     public boolean isLiked(final Authentication authentication, Long clothesId) {
         long userKakaoId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userKakaoId).get();
