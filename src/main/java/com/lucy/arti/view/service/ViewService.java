@@ -33,14 +33,14 @@ public class ViewService {
         Member member = memberRepository.findByKakaoId(userKakaoId).get();
         Clothes clothes = clothesRepository.findById(clothesId).get();
 
-        View viewObject = viewRepository.findByClothesId(clothesId);
+        View viewObject = viewRepository.findByClothesAndMember(clothes, member);
         if (viewObject == null) {
             // 본적이 없는 옷일 때 저장
             View view = new View(member, clothes);
-            log.info(view.getClothes().getName());
+            log.info("옷" + view.getClothes().getName());
             viewRepository.save(view);
         } else {
-            log.info(viewObject.getClothes().getName());
+            log.info("본적 있음"+viewObject.getClothes().getName());
         }
         return ClothesDetailResponseDto.of(clothes, clothes.getDesigner());
     }

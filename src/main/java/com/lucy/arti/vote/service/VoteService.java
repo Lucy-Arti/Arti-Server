@@ -38,7 +38,6 @@ public class VoteService {
                     randClothes.add(allClothes.get(newInt));
                     break;
                 }
-
             }
         }
         return randClothes;
