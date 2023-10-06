@@ -1,6 +1,6 @@
-package com.lucy.arti.view;
+package com.lucy.arti.view.controller;
 
-import com.lucy.arti.clothes.service.ClothesService;
+import com.lucy.arti.view.service.ViewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

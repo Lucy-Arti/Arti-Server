@@ -1,4 +1,4 @@
-package com.lucy.arti.view;
+package com.lucy.arti.view.service;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;

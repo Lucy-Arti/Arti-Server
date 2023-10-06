@@ -29,7 +29,7 @@ public class Designer extends BaseTimeEntity {
     @Column(nullable = true)
     private Gender gender;
 
-    @Column(nullable = false, length = 50000)
+    @Column(nullable = false, length = 1000)
     private String introduce;
 
     @OneToMany(mappedBy = "designer")
