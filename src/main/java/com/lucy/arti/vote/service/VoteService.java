@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -54,11 +55,9 @@ public class VoteService {
 
     public boolean isPossibleVote(final Authentication authentication) {
         long userId = Long.parseLong(authentication.getName());
-        Member member = memberRepository.findByKakaoId(userId).get();
-        if (alreadyVoted(member)) {
-            return false;
-        }
-        return true;
+        Member member = memberRepository.findByKakaoId(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 조회할 수 없습니다."));
+        return !alreadyVoted(member);
     }
     @Transactional
     public boolean vote(final Authentication authentication, VoteRequestDto voteRequestDto) {
