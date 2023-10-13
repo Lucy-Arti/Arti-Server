@@ -34,12 +34,12 @@ public class MemberController {
     }
 
     @GetMapping("/1st") // 1등한 옷 조회
-    public ResponseEntity<?> victory(final Authentication authentication) {
+    public ResponseEntity<?> getWinningClothes(final Authentication authentication) {
         return ResponseEntity.ok(memberService.victory(authentication));
     }
 
     @GetMapping("/mine") // 저장한(좋아요 누른) 옷 조회
-    public ResponseEntity<?> saveList(final Authentication authentication) {
+    public ResponseEntity<?> getSavedClothes(final Authentication authentication) {
         return ResponseEntity.ok(memberService.saveListShow(authentication));
     }
 }
