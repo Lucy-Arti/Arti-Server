@@ -1,6 +1,6 @@
 package com.lucy.arti.designer.dto;
 
-import com.lucy.arti.config.Gender;
+import com.lucy.arti.global.config.Gender;
 import lombok.Data;
 
 @Data

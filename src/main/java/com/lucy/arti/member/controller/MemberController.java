@@ -42,6 +42,4 @@ public class MemberController {
     public ResponseEntity<?> saveList(final Authentication authentication) {
         return ResponseEntity.ok(memberService.saveListShow(authentication));
     }
-
-
 }

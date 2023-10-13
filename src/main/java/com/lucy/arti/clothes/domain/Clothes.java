@@ -1,6 +1,6 @@
 package com.lucy.arti.clothes.domain;
 
-import com.lucy.arti.config.BaseTimeEntity;
+import com.lucy.arti.global.config.BaseTimeEntity;
 import com.lucy.arti.designer.domain.Designer;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.vote.domain.Vote;
@@ -54,5 +54,6 @@ public class Clothes extends BaseTimeEntity {
         this.likeCount += 1;
     }
 
+    // 좋아요 취소할 때 동작
     public void minusLikeCount() { this.likeCount -= 1; }
 }

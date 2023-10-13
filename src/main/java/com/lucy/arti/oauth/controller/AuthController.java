@@ -31,7 +31,7 @@ public class AuthController {
     }
 
     @GetMapping("/info")
-    @Secured({"ROLE_USER"}) // Secured 추가
+    @Secured({"ROLE_USER"})
     public ResponseEntity<MemberResponseDto> getUserInfoByToken(@RequestHeader(name = "Authorization") String authorizationHeader) {
         String accessToken = extractAccessToken(authorizationHeader);
         return ResponseEntity.ok(authService.getByAccessToken(accessToken));

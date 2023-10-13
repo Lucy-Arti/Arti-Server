@@ -1,8 +1,8 @@
 package com.lucy.arti.designer.domain;
 
 import com.lucy.arti.clothes.domain.Clothes;
-import com.lucy.arti.config.BaseTimeEntity;
-import com.lucy.arti.config.Gender;
+import com.lucy.arti.global.config.BaseTimeEntity;
+import com.lucy.arti.global.config.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

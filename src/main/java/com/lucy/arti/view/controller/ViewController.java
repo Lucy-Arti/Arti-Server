@@ -29,5 +29,4 @@ public class ViewController {
     public ResponseEntity<?> getRecent(final Authentication authentication) {
         return ResponseEntity.ok(viewService.getAllRecent(authentication));
     }
-
 }

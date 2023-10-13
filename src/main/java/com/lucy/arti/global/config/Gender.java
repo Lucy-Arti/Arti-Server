@@ -1,4 +1,4 @@
-package com.lucy.arti.config;
+package com.lucy.arti.global.config;
 
 public enum Gender {
     MAN, FEMALE

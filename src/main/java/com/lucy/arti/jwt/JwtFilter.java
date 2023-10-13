@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        if(request.getServletPath().startsWith("/api/v1/kakao/login")) { // "/api/v1/kakao/login" 원래는 로그인만 doFilter였음.
+        if(request.getServletPath().startsWith("/api/v1/kakao/login")) {
             filterChain.doFilter(request,response);
         } else if (request.getServletPath().startsWith("/api/v1/clothes")) {
             filterChain.doFilter(request, response);
