@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -56,7 +57,7 @@ public class ClothesService {
 
         if(isLiked) {
             Like deletedLike = likeRepository.findByMemberIdAndClothesId(member.getId(), clothesId)
-                    .orElseThrow();
+                    .orElseThrow(() -> new EntityNotFoundException("해당하는 좋아요 id를 찾을 수 없습니다."));
             clothes.minusLikeCount();
             likeRepository.delete(deletedLike);
         }
