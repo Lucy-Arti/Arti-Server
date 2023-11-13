@@ -38,15 +38,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf().disable()
                 .cors().and()
-
                 .addFilterBefore(new JwtFilter(tokenProvider), LogoutFilter.class)
-
-//                 .addFilterBefore(new JwtFilter(tokenProvider), BasicAuthenticationFilter.class) // parameter1 ~ param2까지 필터르르 먼저 적용시킨다
-//                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
-//                 .addFilterAfter(RequestValidat
-//                         RequestValidationFilter(),
-//                        BasicAuthenticationFilter::class.java
-//            )
                 .authorizeHttpRequests((authz) -> authz
                                 .anyRequest().permitAll()
                 )
@@ -74,7 +66,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("https://arti-fashion.site", "http://arti-fashion.site", "http://localhost:3000"));
+        config.setAllowedOrigins(List.of("https://arti-fashion.site", "http://arti-fashion.site", "http://localhost:3000", "http://localhost:3001"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
