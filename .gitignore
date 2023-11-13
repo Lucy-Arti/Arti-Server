@@ -43,3 +43,5 @@ application-s3.yml
 
 ### keystore
 keystore.p12
+
+.jwtF.swp

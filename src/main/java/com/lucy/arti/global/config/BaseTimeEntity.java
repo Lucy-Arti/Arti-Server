@@ -1,4 +1,4 @@
-package com.lucy.arti.config;
+package com.lucy.arti.global.config;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

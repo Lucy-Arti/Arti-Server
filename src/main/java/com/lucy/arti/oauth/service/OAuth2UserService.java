@@ -26,7 +26,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                 .getUserNameAttributeName();
 
         // DB 저장로직이 필요하면 추가
-
         return new DefaultOAuth2User(authorities, oAuth2User.getAttributes(), userNameAttributeName);
     }
 }

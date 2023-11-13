@@ -1,5 +1,8 @@
 package com.lucy.arti.clothes.repository;
 
 
-public interface ClothesRepositoryCustom {
+import com.lucy.arti.clothes.domain.Clothes;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ClothesRepositoryCustom extends JpaRepository<Clothes, Long> {
 }

@@ -1,6 +1,5 @@
 package com.lucy.arti.oauth.service;
 
-import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
 import com.lucy.arti.exception.ErrorMessage;
 import com.lucy.arti.exception.MemberException;
@@ -8,9 +7,10 @@ import com.lucy.arti.jwt.CustomKakaoIdAuthToken;
 import com.lucy.arti.jwt.RefreshToken;
 import com.lucy.arti.jwt.RefreshTokenRepository;
 import com.lucy.arti.jwt.TokenProvider;
+import com.lucy.arti.member.dto.MemberResponseDto;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
-import com.lucy.arti.oauth.KakaoUserInfo;
+import com.lucy.arti.oauth.dto.KakaoUserInfo;
 import com.lucy.arti.oauth.dto.TokenDto;
 import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
 import com.lucy.arti.oauth.repository.AuthorityRepository;
@@ -26,7 +26,6 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
-import java.util.logging.ErrorManager;
 
 @Service
 @Slf4j
@@ -65,14 +64,18 @@ public class AuthService {
         return kakaoUserInfo;
     }
 
-    public Member getByAccessToken(String accessToken) {
-        Member member =  memberRepository.findByAccessToken(accessToken);
+    public MemberResponseDto getByAccessToken(String accessToken) {
+        Member member = memberRepository.findByAccessToken(accessToken);
         if (member != null) {
-            return member;
+            // Member 객체를 MemberDto로 변환하여 반환
+            return new MemberResponseDto(member.getId(), member.getUserName(), member.getEmail(),
+                    member.getProfile(), member.getLikes(),
+                    member.getVotes(), member.getWinners(), member.getAccessToken(), member.getAuthority());
         } else {
             throw new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason());
         }
     }
+
 
 //    public Member getByAccessToken(Authentication authentication) {
 //        long userId = Long.parseLong(authentication.getName());

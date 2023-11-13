@@ -1,4 +1,4 @@
-package com.lucy.arti.config;
+package com.lucy.arti.global.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
