@@ -7,6 +7,7 @@ import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.dto.VoteDto;
 import com.lucy.arti.winner.domain.Winner;
 import com.lucy.arti.winner.dto.WinnerDto;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
+@Data
 public class MemberResponseDto {
     private Long id;
     private String userName;
@@ -35,7 +37,6 @@ public class MemberResponseDto {
         this.accessToken = accessToken;
         this.userRole = userRole;
 
-        // likes 리스트를 LikeDto 리스트로 변환하여 할당
         if (likes != null) {
             this.likes = likes.stream()
                     .map(like -> new LikeDto(like.getClothes().getId()))

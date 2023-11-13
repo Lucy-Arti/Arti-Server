@@ -1,6 +1,5 @@
 package com.lucy.arti.like.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,5 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikeDto {
     private Long id;
+
+    public LikeDto(Long id) {
+        this.id = id;
+    }
 }
 
