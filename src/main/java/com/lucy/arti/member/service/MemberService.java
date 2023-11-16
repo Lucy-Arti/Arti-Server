@@ -38,6 +38,6 @@ public class MemberService {
     //포인트 상점 구매 api를 위해 추가함
     public Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElse(null);  // 또는 다른 처리 방식에 맞게 수정
+                .orElse(null);
     }
 }
