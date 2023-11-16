@@ -74,7 +74,7 @@ public class DeliveryController {
 //        }
 //    }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<String> createDelivery(@RequestBody DeliveryRequest deliveryRequest){
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
