@@ -7,15 +7,15 @@ import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.dto.VoteDto;
 import com.lucy.arti.winner.domain.Winner;
 import com.lucy.arti.winner.dto.WinnerDto;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 public class MemberResponseDto {
+
     private Long id;
     private String userName;
     private String accessToken;
@@ -27,7 +27,8 @@ public class MemberResponseDto {
     private List<WinnerDto> winners;
 
     public MemberResponseDto(Long id, String userName, String email, String profile,
-                     List<Like> likes, List<Vote> votes, List<Winner> winners, String accessToken, UserRole userRole) {
+        List<Like> likes, List<Vote> votes, List<Winner> winners, String accessToken,
+        UserRole userRole) {
         this.id = id;
         this.userName = userName;
         this.email = email;
@@ -38,22 +39,22 @@ public class MemberResponseDto {
         // likes 리스트를 LikeDto 리스트로 변환하여 할당
         if (likes != null) {
             this.likes = likes.stream()
-                    .map(like -> new LikeDto(like.getClothes().getId()))
-                    .collect(Collectors.toList());
+                .map(like -> new LikeDto(like.getClothes().getId()))
+                .collect(Collectors.toList());
         }
 
         // votes 리스트를 VoteDto 리스트로 변환하여 할당
         if (votes != null) {
             this.votes = votes.stream()
-                    .map(vote -> new VoteDto(vote.getClothes().getId()))
-                    .collect(Collectors.toList());
+                .map(vote -> new VoteDto(vote.getClothes().getId()))
+                .collect(Collectors.toList());
         }
 
         // winners 리스트를 WinnerDto 리스트로 변환하여 할당
         if (winners != null) {
             this.winners = winners.stream()
-                    .map(winner -> new WinnerDto(winner.getId()))
-                    .collect(Collectors.toList());
+                .map(winner -> new WinnerDto(winner.getId()))
+                .collect(Collectors.toList());
         }
     }
 

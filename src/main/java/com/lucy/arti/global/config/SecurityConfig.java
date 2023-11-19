@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -29,9 +30,6 @@ import java.util.List;
 public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private final CustomKakaoIdAuthProvider customEmailPasswordAuthProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -41,12 +39,6 @@ public class SecurityConfig {
 
                 .addFilterBefore(new JwtFilter(tokenProvider), LogoutFilter.class)
 
-//                 .addFilterBefore(new JwtFilter(tokenProvider), BasicAuthenticationFilter.class) // parameter1 ~ param2까지 필터르르 먼저 적용시킨다
-//                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
-//                 .addFilterAfter(RequestValidat
-//                         RequestValidationFilter(),
-//                        BasicAuthenticationFilter::class.java
-//            )
                 .authorizeHttpRequests((authz) -> authz
                                 .anyRequest().permitAll()
                 )
@@ -54,7 +46,6 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .sessionAuthenticationStrategy(new NullAuthenticatedSessionStrategy()))
                 .httpBasic(Customizer.withDefaults());
-
         return httpSecurity.build();
     }
 

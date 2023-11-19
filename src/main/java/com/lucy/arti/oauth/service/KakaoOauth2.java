@@ -22,10 +22,7 @@ public class KakaoOauth2 {
 
 
     public KakaoUserInfo getUserInfo(String authorizedCode) {
-        //인가코드 -> 엑세스 토큰
         String accessToken = getAccessToken(authorizedCode);
-        log.info("엑세스");
-        //엑세스 토큰 -> 카카오 사용자 정보
         KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
         return userInfo;
     }
@@ -35,12 +32,9 @@ public class KakaoOauth2 {
         String clientSecret = kakaoProperties.getClient_secret();
         String redirectUri = kakaoProperties.getRedirect_uri();
 
-        // http header 생성
-        // kakao developers 문서에 accessToken을 요청할 때 header의 content-type이 정해져있다.
         HttpHeaders headers = new HttpHeaders();
         headers.add("content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        //http Params 설정 : POST인데 param으로 넣어야 한다.
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("redirect_uri", redirectUri);
@@ -51,7 +45,6 @@ public class KakaoOauth2 {
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
 
-        //http 요청
         ResponseEntity<String> response = rt.exchange(
                 "https://kauth.kakao.com/oauth/token",
                 HttpMethod.POST,
@@ -66,16 +59,13 @@ public class KakaoOauth2 {
     }
 
     public KakaoUserInfo getUserInfoByToken(String accessToken) {
-        //HttpHeader 오브젝트 추가
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        //httpheader와 httpbody 하나의 오브젝트에 담기
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
 
-        //http 요청
         ResponseEntity<String> response = rt.exchange(
                 "https://kapi.kakao.com/v2/user/me",
                 HttpMethod.GET,
