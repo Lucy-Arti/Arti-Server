@@ -4,11 +4,16 @@ import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.clothes.repository.ClothesRepository;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
+import com.lucy.arti.point.domain.Point;
+import com.lucy.arti.point.repository.PointRepository;
+import com.lucy.arti.pointHistory.domain.PointHistory;
+import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.dto.VoteRequestDto;
 import com.lucy.arti.vote.repository.VoteRepository;
 import com.lucy.arti.winner.repository.WinnerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +28,12 @@ public class VoteService {
     private final ClothesRepository clothesRepository;
     private final VoteRepository voteRepository;
     private final MemberRepository memberRepository;
+
+    @Autowired
+    private PointRepository pointRepository;
+
+    @Autowired
+    private PointHistoryRepository pointHistoryRepository;
 
     public List<Clothes> getVoteList() {
         List<Clothes> allClothes = clothesRepository.findAll();
@@ -70,6 +81,18 @@ public class VoteService {
         }
         member.setLastVoted();
         memberRepository.save(member);
+
+        //////
+        // 포인트 추가 로직
+        Point point = pointRepository.findByMember(member);
+        point.addPoint(250L);
+        point.setVote(false);
+        pointRepository.save(point);
+
+        // PointHistory 생성
+        PointHistory pointHistory = new PointHistory(point, "투표하기", 250L);
+        pointHistoryRepository.save(pointHistory);
+        //////
         for (int clothesId : voteRequestDto.getFourth()) {
             Clothes clothes = clothesRepository.findById((long) clothesId).get();
             voteRepository.save(new Vote(member, clothes, 1));

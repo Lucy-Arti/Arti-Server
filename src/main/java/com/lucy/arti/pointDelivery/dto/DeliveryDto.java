@@ -1,5 +1,6 @@
 package com.lucy.arti.pointDelivery.dto;
 
+import com.lucy.arti.pointShop.domain.ShopItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +16,6 @@ public class DeliveryDto {
     private String address;
     private String phoneNumber;
     private boolean delivery;
+    private ShopItem item;
     
 }

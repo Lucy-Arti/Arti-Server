@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,6 @@ public class MemberService {
     //포인트 상점 구매 api를 위해 추가함
     public Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElse(null);
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
     }
 }
