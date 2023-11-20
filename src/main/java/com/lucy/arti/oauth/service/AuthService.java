@@ -32,7 +32,6 @@ import org.springframework.util.StringUtils;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-// 서비스단에서 쓰는 get 요청은 transsaction 필요 없음. post, put은 transaction 허용하겠다.
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;

@@ -36,21 +36,18 @@ public class MemberResponseDto {
         this.accessToken = accessToken;
         this.userRole = userRole;
 
-        // likes 리스트를 LikeDto 리스트로 변환하여 할당
         if (likes != null) {
             this.likes = likes.stream()
                 .map(like -> new LikeDto(like.getClothes().getId()))
                 .collect(Collectors.toList());
         }
 
-        // votes 리스트를 VoteDto 리스트로 변환하여 할당
         if (votes != null) {
             this.votes = votes.stream()
                 .map(vote -> new VoteDto(vote.getClothes().getId()))
                 .collect(Collectors.toList());
         }
 
-        // winners 리스트를 WinnerDto 리스트로 변환하여 할당
         if (winners != null) {
             this.winners = winners.stream()
                 .map(winner -> new WinnerDto(winner.getId()))

@@ -6,13 +6,16 @@ import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import com.lucy.arti.exception.ErrorResult;
 import com.lucy.arti.global.exception.BusinessException;
 import com.lucy.arti.global.exception.ErrorCode;
+import com.lucy.arti.global.util.S3Manager;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.member.dto.MemberPictureResponseDto;
 import com.lucy.arti.member.dto.MemberUpdateResponseDto;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.repository.VoteRepository;
+import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -32,6 +36,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final VoteRepository voteRepository;
     private final LikeRepository likeRepository;
+    private final S3Manager s3Manager;
     public List<ClothesDetailResponseDto> victory(final Authentication authentication) {
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId).get();
@@ -55,9 +60,29 @@ public class MemberService {
         return allClothes;
     }
 
+    public MemberPictureResponseDto updatePicture(final Authentication authentication,
+        MultipartFile image) throws IOException {
+
+        Member member = memberRepository.findByKakaoIdOrThrow(
+            Long.parseLong(authentication.getName()));
+
+        String customProfileUrl = s3Manager.upload(image, "profile");
+        member.updateProfile(customProfileUrl);
+        Member saved = memberRepository.save(member);
+
+        return new MemberPictureResponseDto(
+            saved.getId(),
+            saved.getCustomProfile()
+        );
+    }
+
     public MemberUpdateResponseDto updateNickname(final Authentication authentication, String customName) {
         long kakaoId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoIdOrThrow(kakaoId);
+
+        if (customName.length() > 10) {
+            throw BusinessException.from(ErrorCode.MEMBER_NICKNAME_LENGTH);
+        }
 
         if (memberRepository.existsByNickname(customName)) {
             throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_NICKNAME);
