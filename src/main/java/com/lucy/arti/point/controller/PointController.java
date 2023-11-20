@@ -26,6 +26,7 @@ import com.lucy.arti.point.service.S3Uploader;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -103,6 +104,7 @@ public class PointController {
         if (result == 2L) {
             return ResponseEntity.internalServerError().body("이미 출석했습니다");
         } else if (result == 1L) {
+            pointService.autoCheck(member);
             return ResponseEntity.ok("출석 완료");
         }
         else{
@@ -211,5 +213,6 @@ public class PointController {
         return new ResponseEntity<>(result,HttpStatus.OK);
 
     }
+
 
 }

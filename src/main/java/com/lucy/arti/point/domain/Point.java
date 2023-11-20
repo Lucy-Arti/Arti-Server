@@ -134,6 +134,7 @@ public class Point {
     public void addTotal(){this.total = this.total+1;}
     public void addPoint(Long score){this.point = this.point+score;}
     public void addContinue(){this.cotinue = this.cotinue+1;}
+    public void resetContinue(){this.cotinue=0L;}
     public void addInvited(){this.invited = this.invited+1;}
     public void addCommentCount(){this.commentCount = this.commentCount+1;}
     public void addTotalComment(){this.totalComment = this.totalComment+1;}

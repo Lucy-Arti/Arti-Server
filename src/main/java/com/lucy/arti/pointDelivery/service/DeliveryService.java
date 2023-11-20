@@ -68,20 +68,6 @@ public class DeliveryService {
             .build();
     }
 
-//    public Delivery createDelivery(DeliveryRequest deliveryRequest, Member member) {
-//        // Create the Delivery entity
-//        Delivery delivery = Delivery.builder()
-//                .name(deliveryRequest.getName())
-//                .address(deliveryRequest.getAddress())
-//                .phoneNumber(deliveryRequest.getPhoneNumber())
-//                .delivery(deliveryRequest.isDelivery())
-//                .member(member)
-//                .build();
-//
-//        // Save the Delivery entity
-//        return deliveryRepository.save(delivery);
-//    }
-
 
     public Delivery createDelivery(DeliveryRequest deliveryRequest, Member member) {
         ShopItem shopItem = shopRepository.findById(deliveryRequest.getItemId())
