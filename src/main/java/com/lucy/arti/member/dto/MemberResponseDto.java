@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class MemberResponseDto {
 
     private Long id;
-    private String userName;
+    private String nickname;
     private String accessToken;
     private UserRole userRole;
     private String email;
@@ -28,9 +28,9 @@ public class MemberResponseDto {
 
     public MemberResponseDto(Long id, String userName, String email, String profile,
         List<Like> likes, List<Vote> votes, List<Winner> winners, String accessToken,
-        UserRole userRole) {
+        UserRole userRole, String nickname) {
         this.id = id;
-        this.userName = userName;
+        this.nickname = nickname;
         this.email = email;
         this.profile = profile;
         this.accessToken = accessToken;

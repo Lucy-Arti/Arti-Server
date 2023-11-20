@@ -50,26 +50,24 @@ public class MemberService {
         return allClothes;
     }
 
-    public MemberUpdateResponseDto updateNickname(final Authentication authentication) {
+    public MemberUpdateResponseDto updateNickname(final Authentication authentication, String customName) {
         long kakaoId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoIdOrThrow(kakaoId);
-        String nickName = generateRandom();
-        member.updateNickName(nickName);
+
+        if (memberRepository.existsByNickname(customName)) {
+            throw new IllegalArgumentException("[Error] 이미 존재하는 닉네임입니다.");
+        }
+        member.updateNickName(customName);
         Member updated = memberRepository.save(member);
 
         return new MemberUpdateResponseDto(
             updated.getId(),
             updated.getKakaoId(),
-            updated.getNickName()
+            updated.getNickname()
         );
     }
 
-    private String generateCode() {
-        String uuid = UUID.randomUUID().toString().replaceAll("[^0-9]", "");
-        return uuid.substring(0, 2);
-    }
-
-    private String generateRandom() {
+    public String generateRandomNickName() {
         enum Adjective {
             헬스하는, 독서하는, 팝콘먹는, 라면먹는, 사과깎는, 귤먹는,
             영화보는, 스키타는, 농사짓는, 코딩하는, 요가하는, 명상하는, 멍때리는
@@ -91,6 +89,11 @@ public class MemberService {
         Random random = new Random();
         T[] enums = enumClass.getEnumConstants();
         return enums[random.nextInt(enums.length)];
+    }
+
+    private String generateCode() {
+        String uuid = UUID.randomUUID().toString().replaceAll("[^0-9]", "");
+        return uuid.substring(0, 2);
     }
 
 }

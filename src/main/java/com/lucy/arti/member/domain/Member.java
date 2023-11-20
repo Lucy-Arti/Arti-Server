@@ -52,8 +52,8 @@ public class Member extends BaseTimeEntity {
 
     private LocalDateTime lastVoted;
 
-    @Column(name = "nickname")
-    private String nickName;
+    @Column(name = "nickname", length = 10)
+    private String nickname;
 
     @Column(name = "custom_profile")
     private String customProfile;
@@ -62,13 +62,14 @@ public class Member extends BaseTimeEntity {
     private UserRole authority;
 
     @Builder
-    public Member(Long kakaoId, String username, String email, String profile) {
+    public Member(Long kakaoId, String username, String email, String profile, String nickname) {
         this.kakaoId = kakaoId;
         this.userName = username;
         this.email = email;
         this.profile = profile;
         this.authority = UserRole.ROLE_USER;
         this.lastVoted = LocalDateTime.of(1999, 1, 1, 0, 0);
+        this.nickname = nickname;
     }
     public Set<UserRole> getAuthorities(){
         Set<UserRole> returnRole = new HashSet<>();
@@ -84,7 +85,7 @@ public class Member extends BaseTimeEntity {
     }
 
     public void updateNickName(String nickName) {
-        this.nickName = nickName;
+        this.nickname = nickName;
     }
 
     public void updateProfile(String customProfile) {

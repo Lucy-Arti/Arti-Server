@@ -47,7 +47,7 @@ public class MemberController {
     }
 
     @PostMapping("/profile/name")
-    public ResponseEntity<MemberUpdateResponseDto> updateName(final Authentication authentication) {
-        return ResponseEntity.ok(memberService.updateNickname(authentication));
+    public ResponseEntity<MemberUpdateResponseDto> updateName(final Authentication authentication, @RequestParam(name = "customName") String customName) {
+        return ResponseEntity.ok(memberService.updateNickname(authentication, customName));
     }
 }

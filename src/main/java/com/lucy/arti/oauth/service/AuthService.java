@@ -11,6 +11,7 @@ import com.lucy.arti.jwt.TokenProvider;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.dto.MemberResponseDto;
 import com.lucy.arti.member.repository.MemberRepository;
+import com.lucy.arti.member.service.MemberService;
 import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
 import com.lucy.arti.oauth.dto.KakaoUserInfo;
 import com.lucy.arti.oauth.dto.TokenDto;
@@ -35,6 +36,7 @@ import org.springframework.util.StringUtils;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
+    private final MemberService memberService;
 
     private final KakaoOauth2 kakaoOauth2;
     private final MemberRepository memberRepository;
@@ -53,11 +55,12 @@ public class AuthService {
         String username = kakaoUserInfo.getUsername();
         String email = kakaoUserInfo.getEmail();
         String profile = kakaoUserInfo.getProfile();
+        String nickname= memberService.generateRandomNickName();
 
         Optional<Member> byKakaoIdMember = memberRepository.findByKakaoId(kakaoId);
         if (byKakaoIdMember.isEmpty()) {
             log.info(username);
-            Member newMember = new Member(kakaoId, username, email, profile);
+            Member newMember = new Member(kakaoId, username, email, profile, nickname);
             memberRepository.save(newMember);
         }
 
@@ -67,11 +70,10 @@ public class AuthService {
     public MemberResponseDto getByAccessToken(String accessToken) {
         Member member = memberRepository.findByAccessToken(accessToken);
         if (member != null) {
-            // Member 객체를 MemberDto로 변환하여 반환
             return new MemberResponseDto(member.getId(), member.getUserName(), member.getEmail(),
                 member.getProfile(), member.getLikes(),
                 member.getVotes(), member.getWinners(), member.getAccessToken(),
-                member.getAuthority());
+                member.getAuthority(), member.getNickname());
         } else {
             throw new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason());
         }
