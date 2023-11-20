@@ -114,7 +114,7 @@ public class PointController {
 
     @ResponseBody
     @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Long saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
+    public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
         log.info("컨트롤러");
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -125,7 +125,7 @@ public class PointController {
         log.info(String.valueOf(member));
         Long uploadCheck = pointService.uploadImage(image, member);
             log.info("Upload Check: {}", uploadCheck);
-        return uploadCheck;
+        return ResponseEntity.ok(uploadCheck);
     }
 
     @ResponseBody
