@@ -1,6 +1,11 @@
 package com.lucy.arti.member.service;
 
+import static com.lucy.arti.exception.MemberException.DUPLICATE_NICKNAME;
+
 import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
+import com.lucy.arti.exception.ErrorResult;
+import com.lucy.arti.global.exception.BusinessException;
+import com.lucy.arti.global.exception.ErrorCode;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
@@ -55,7 +60,7 @@ public class MemberService {
         Member member = memberRepository.findByKakaoIdOrThrow(kakaoId);
 
         if (memberRepository.existsByNickname(customName)) {
-            throw new IllegalArgumentException("[Error] 이미 존재하는 닉네임입니다.");
+            throw BusinessException.from(ErrorCode.MEMBER_DUPLICATE_NICKNAME);
         }
         member.updateNickName(customName);
         Member updated = memberRepository.save(member);
