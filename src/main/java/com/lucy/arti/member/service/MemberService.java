@@ -4,10 +4,12 @@ import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.member.dto.MemberUpdateResponseDto;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,19 @@ public class MemberService {
             allClothes.add(ClothesDetailResponseDto.of(likes.getClothes(), likes.getClothes().getDesigner()));
         }
         return allClothes;
+    }
+
+    public MemberUpdateResponseDto updateNickname(final Authentication authentication) {
+        long kakaoId = Long.parseLong(authentication.getName());
+        Member member = memberRepository.findByKakaoIdOrThrow(kakaoId);
+        String nickName = "tmp";
+        member.updateNickName(nickName);
+        Member updated = memberRepository.save(member);
+
+        return new MemberUpdateResponseDto(
+            updated.getKakaoId(),
+            updated.getNickName()
+        );
     }
 
 }

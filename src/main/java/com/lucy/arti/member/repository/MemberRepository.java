@@ -9,4 +9,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     Optional<Member> findByKakaoId(Long kakaoId);
 
     Member findByAccessToken(String accessToken);
+
+    default Member findByKakaoIdOrThrow(Long id) {
+        return findByKakaoId(id).orElseThrow(
+            () -> new IllegalArgumentException(("[Error] 해당 카카오 ID로 회원을 조회할 수 없습니다.")));
+    }
 }

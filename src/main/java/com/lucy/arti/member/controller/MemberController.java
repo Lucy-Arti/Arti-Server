@@ -1,6 +1,7 @@
 package com.lucy.arti.member.controller;
 
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.member.dto.MemberUpdateResponseDto;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,11 @@ import java.util.List;
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
+
     @Autowired
     private MemberRepository memberRepository;
     private final MemberService memberService;
+
     @GetMapping("/getAll")
     public ResponseEntity getAll() {
         List<Member> List = new ArrayList<>();
@@ -33,13 +36,18 @@ public class MemberController {
         return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
     }
 
-    @GetMapping("/1st") // 1등한 옷 조회
+    @GetMapping("/1st")
     public ResponseEntity<?> getWinningClothes(final Authentication authentication) {
         return ResponseEntity.ok(memberService.victory(authentication));
     }
 
-    @GetMapping("/mine") // 저장한(좋아요 누른) 옷 조회
+    @GetMapping("/mine")
     public ResponseEntity<?> getSavedClothes(final Authentication authentication) {
         return ResponseEntity.ok(memberService.saveListShow(authentication));
+    }
+
+    @PostMapping("/profile/name")
+    public ResponseEntity<MemberUpdateResponseDto> updateName(final Authentication authentication) {
+        return ResponseEntity.ok(memberService.updateNickname(authentication));
     }
 }
