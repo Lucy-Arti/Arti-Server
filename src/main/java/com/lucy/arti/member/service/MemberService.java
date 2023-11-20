@@ -8,6 +8,8 @@ import com.lucy.arti.member.dto.MemberUpdateResponseDto;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.repository.VoteRepository;
+import java.util.Random;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -51,14 +53,44 @@ public class MemberService {
     public MemberUpdateResponseDto updateNickname(final Authentication authentication) {
         long kakaoId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoIdOrThrow(kakaoId);
-        String nickName = "tmp";
+        String nickName = generateRandom();
         member.updateNickName(nickName);
         Member updated = memberRepository.save(member);
 
         return new MemberUpdateResponseDto(
+            updated.getId(),
             updated.getKakaoId(),
             updated.getNickName()
         );
+    }
+
+    private String generateCode() {
+        String uuid = UUID.randomUUID().toString().replaceAll("[^0-9]", "");
+        return uuid.substring(0, 2);
+    }
+
+    private String generateRandom() {
+        enum Adjective {
+            헬스하는, 독서하는, 팝콘먹는, 라면먹는, 사과깎는, 귤먹는,
+            영화보는, 스키타는, 농사짓는, 코딩하는, 요가하는, 명상하는, 멍때리는
+        }
+
+        enum Animal {
+            코끼리, 곰, 도마뱀, 뱀, 코알라, 캥거루, 홍학, 황새,
+            물고기, 고래, 미어캣, 펭귄, 판다, 오징어, 원숭이,
+            고릴라, 얼룩말, 청설모, 다람쥐, 푸들, 불독, 치와와,
+            수달, 해달, 토끼, 햄스터, 독수리, 까치, 참새, 하마, 기린,
+            개구리, 두꺼비, 염소, 코뿔소, 거북이, 너구리, 앵무새
+        }
+
+        return String.format("%s%s%s", getRandomEnum(Adjective.class),
+            getRandomEnum(Animal.class), generateCode());
+    }
+
+    private <T extends Enum<?>> T getRandomEnum(Class<T> enumClass) {
+        Random random = new Random();
+        T[] enums = enumClass.getEnumConstants();
+        return enums[random.nextInt(enums.length)];
     }
 
 }
