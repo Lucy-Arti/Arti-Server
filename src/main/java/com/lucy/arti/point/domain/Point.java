@@ -38,6 +38,7 @@ public class Point {
     private Long invited;
     private Long commentCount;
     private Long totalComment;
+    private Long totalVote;
 
     //mission
     private boolean comment; // 하루에 한번
@@ -65,6 +66,7 @@ public class Point {
         this.invited=0L;
         this.commentCount=0L;
         this.totalComment=0L;
+        this.totalVote=0L;
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
@@ -129,7 +131,7 @@ public class Point {
     public void addInvited(){this.invited = this.invited+1;}
     public void addCommentCount(){this.commentCount = this.commentCount+1;}
     public void addTotalComment(){this.totalComment = this.totalComment+1;}
-
+    public void addTotalVote(){this.totalVote = this.totalVote+1;}
 
     public void setLastCheck() {
         this.lastCheck = LocalDateTime.now();

@@ -85,14 +85,26 @@ public class VoteService {
         //////
         // 포인트 추가 로직
         Point point = pointRepository.findByMember(member);
-        point.addPoint(250L);
-        point.setVote(false);
-        pointRepository.save(point);
+        if(point.getTotalVote()==0){
+            point.addPoint(750L);
+            point.setVote(false);
+            point.addTotalVote();;
+            pointRepository.save(point);
 
-        // PointHistory 생성
-        PointHistory pointHistory = new PointHistory(point, "투표하기", 250L);
-        pointHistoryRepository.save(pointHistory);
-        //////
+            PointHistory pointHistory = new PointHistory(point, "첫 투표 하기", 500L);
+            pointHistoryRepository.save(pointHistory);
+            PointHistory pointHistory1 = new PointHistory(point, "투표하기", 250L);
+            pointHistoryRepository.save(pointHistory1);
+        }else{
+            point.addPoint(250L);
+            point.setVote(false);
+            point.addTotalVote();
+            pointRepository.save(point);
+
+            PointHistory pointHistory = new PointHistory(point, "투표하기", 250L);
+            pointHistoryRepository.save(pointHistory);
+        }
+        ///////
         for (int clothesId : voteRequestDto.getFourth()) {
             Clothes clothes = clothesRepository.findById((long) clothesId).get();
             voteRepository.save(new Vote(member, clothes, 1));
