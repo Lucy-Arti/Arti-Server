@@ -7,6 +7,10 @@ import com.lucy.arti.comment.dto.MemberDto;
 import com.lucy.arti.comment.repository.AnswerRepository;
 import com.lucy.arti.comment.repository.CommentRepository;
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.point.domain.Point;
+import com.lucy.arti.point.repository.PointRepository;
+import com.lucy.arti.pointHistory.domain.PointHistory;
+import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +33,12 @@ public class CommentService {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Autowired
+    private PointRepository pointRepository;
+
+    @Autowired
+    private PointHistoryRepository pointHistoryRepository;
+
     public Comment createComment(Clothes clothes,Member member, String content) {
         Comment comment = Comment.builder()
                 .member(member)
@@ -38,6 +48,29 @@ public class CommentService {
                 .createdAt(LocalDateTime.now())
                 .clothes(clothes)
                 .build();
+        Point point = pointRepository.findByMember(member);
+        if(point.getCommentCount()<5){
+            if(point.getCommentCount()==4){
+                point.setComment(false);
+            }
+            if(point.getTotalComment()==0){
+                point.addPoint(550L);
+                PointHistory pointHistory = new PointHistory(point, "첫 댓글 달기", 500L);
+                pointHistoryRepository.save(pointHistory);
+                PointHistory pointHistory1 = new PointHistory(point, "댓글 달기", 50L);
+                pointHistoryRepository.save(pointHistory1);
+                point.addCommentCount();
+                point.addTotalComment();
+                pointRepository.save(point);
+            }else{
+                point.addPoint(50L);
+                PointHistory pointHistory1 = new PointHistory(point, "댓글 달기", 50L);
+                pointHistoryRepository.save(pointHistory1);
+                point.addCommentCount();
+                point.addTotalComment();
+                pointRepository.save(point);
+            }
+        }
         return commentRepository.save(comment);
     }
 

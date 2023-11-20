@@ -17,5 +17,6 @@ public class DeliveryDto {
     private String phoneNumber;
     private boolean delivery;
     private ShopItem item;
+    private String status;
     
 }

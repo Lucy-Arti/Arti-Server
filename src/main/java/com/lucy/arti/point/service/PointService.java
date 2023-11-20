@@ -141,4 +141,13 @@ public class PointService {
         response.put("point history", findhistories);
         return ResponseEntity.ok(response);
     }
+
+    public void plusComment(Point point){
+        point.addPoint(50L);
+        pointRepository.save(point);
+
+        // PointHistory 생성
+        PointHistory pointHistory = new PointHistory(point, "댓글", 50L);
+        pointHistoryRepository.save(pointHistory);
+    }
 }

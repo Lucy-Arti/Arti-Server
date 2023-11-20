@@ -29,6 +29,8 @@ public class Delivery {
 
     private String phoneNumber;
 
+    private String status;
+
     boolean delivery;
 
     @OneToOne

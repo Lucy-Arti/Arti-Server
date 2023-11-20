@@ -36,6 +36,8 @@ public class Point {
     private String img;
 
     private Long invited;
+    private Long commentCount;
+    private Long totalComment;
 
     //mission
     private boolean comment; // 하루에 한번
@@ -54,13 +56,15 @@ public class Point {
         this.code = generateCode();
         this.point=0L;
         this.cotinue=0L;
-        this.total=0L;
+        this.total=0L; // 총 출석 체크날짜
         this.comment=true; // 하루에 한번
         this.vote=true; // 하루에 한번
         this.visit=true; // 하루에 한번
         this.follow=true;
         this.story=true; //하루에 한번
         this.invited=0L;
+        this.commentCount=0L;
+        this.totalComment=0L;
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
@@ -70,6 +74,12 @@ public class Point {
         this.vote = true;
         this.visit = true;
         this.story = true;
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resetCommentCount() {
+        // 하루에 한 번 가능한 플래그들을 초기화
+        this.commentCount = 0L;
     }
 
     @Scheduled(cron = "0 0 0 L * ?")
@@ -117,6 +127,9 @@ public class Point {
     public void addPoint(Long score){this.point = this.point+score;}
     public void addContinue(){this.cotinue = this.cotinue+1;}
     public void addInvited(){this.invited = this.invited+1;}
+    public void addCommentCount(){this.commentCount = this.commentCount+1;}
+    public void addTotalComment(){this.totalComment = this.totalComment+1;}
+
 
     public void setLastCheck() {
         this.lastCheck = LocalDateTime.now();
