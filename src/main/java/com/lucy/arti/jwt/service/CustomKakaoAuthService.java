@@ -8,7 +8,6 @@ import com.lucy.arti.exception.MemberException;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.domain.UserRole;
 import com.lucy.arti.member.repository.MemberRepository;
-import com.lucy.arti.oauth.Authority;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -31,22 +31,19 @@ public class VoteController {
     @GetMapping("/possible")
     @Secured({"ROLE_USER"})
     public ResponseEntity<?> isPossibleVotes(final Authentication authentication) {
-        if (voteService.isPossibleVote(authentication)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(voteService.isPossibleVote(authentication));
     }
     @PostMapping("")
     @Secured({"ROLE_USER"})
     public ResponseEntity<?> votes(final Authentication authentication, @RequestBody VoteRequestDto voteRequestDto) {
-        boolean success = voteService.vote(authentication, voteRequestDto);
-        if (success) {
-            return ResponseEntity.ok().build();
+        if (voteService.isPossibleVote(authentication)) {
+            boolean success = voteService.vote(authentication, voteRequestDto);
+            if (success) {
+                return ResponseEntity.ok().build();
+            }
         }
         return ResponseEntity.badRequest().build();
     }
-
 }
 
 
