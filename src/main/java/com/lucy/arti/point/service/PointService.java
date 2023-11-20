@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -142,12 +143,18 @@ public class PointService {
         return ResponseEntity.ok(response);
     }
 
-    public void plusComment(Point point){
-        point.addPoint(50L);
-        pointRepository.save(point);
+    public void redeemCode(String inputCode, Point point) {
+        Point codePoint = pointRepository.findByCode(inputCode);
+        if (codePoint == null) {
+            throw new EntityNotFoundException("invalid code");
+        }
 
-        // PointHistory 생성
-        PointHistory pointHistory = new PointHistory(point, "댓글", 50L);
-        pointHistoryRepository.save(pointHistory);
+        codePoint.addPoint(1000L);
+        codePoint.addInvited();
+        pointRepository.save(codePoint);
+
+        point.addPoint(1500L);
+        point.setCodeUse(true);
+        pointRepository.save(point);
     }
 }

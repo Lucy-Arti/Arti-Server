@@ -3,6 +3,7 @@ package com.lucy.arti.point.domain;
 import com.lucy.arti.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.persistence.*;
@@ -35,10 +36,14 @@ public class Point {
     @Column(length = 2000)
     private String img;
 
-    private Long invited;
+
+    private Long invited; //내가 초대한 사람
     private Long commentCount;
     private Long totalComment;
     private Long totalVote;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean codeUse; //추천인 코드 입력 했는지
 
     //mission
     private boolean comment; // 하루에 한번
@@ -57,7 +62,7 @@ public class Point {
         this.code = generateCode();
         this.point=0L;
         this.cotinue=0L;
-        this.total=0L; // 총 출석 체크날짜
+        this.total=0L; // 총 출석 체크날
         this.comment=true; // 하루에 한번
         this.vote=true; // 하루에 한번
         this.visit=true; // 하루에 한번
@@ -67,6 +72,7 @@ public class Point {
         this.commentCount=0L;
         this.totalComment=0L;
         this.totalVote=0L;
+        this.codeUse=false;
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
@@ -95,7 +101,7 @@ public class Point {
 
 
     private static final String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private static final int CODE_LENGTH = 10;
+    private static final int CODE_LENGTH = 6;
     private static Set<String> existingCodes = new HashSet<>();
     public static String generateCode() {
         SecureRandom random = new SecureRandom();
@@ -140,6 +146,7 @@ public class Point {
     public void setComment(boolean comment) {
         this.comment = comment;
     }
+    public void setCodeUse(boolean codeUse) {this.codeUse = codeUse;}
 
     public void setVote(boolean vote) {
         this.vote = vote;
@@ -165,4 +172,5 @@ public class Point {
     public void addImg(String img) {
         this.img = img;
     }
+
 }

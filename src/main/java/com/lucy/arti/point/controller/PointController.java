@@ -27,6 +27,7 @@ import com.lucy.arti.point.service.S3Uploader;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -182,6 +183,33 @@ public class PointController {
             log.info("point == null");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/invited")
+    public ResponseEntity<String> invitedCode(@RequestBody Map<String, String> requestBody) {
+        String code = requestBody.get("code");
+        Authentication authentication = authenticationHelper.getAuthentication();
+        long userId = Long.parseLong(authentication.getName());
+        Member member = memberRepository.findByKakaoId(userId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        Point point = pointRepository.findByMember(member);
+
+        pointService.redeemCode(code, point);
+
+        return new ResponseEntity<>("포인트가 성공적으로 추가되었습니다.", HttpStatus.OK);
+    }
+
+    @GetMapping("/invited")
+    public ResponseEntity<Boolean> checkInvited(){
+        Authentication authentication = authenticationHelper.getAuthentication();
+        long userId = Long.parseLong(authentication.getName());
+        Member member = memberRepository.findByKakaoId(userId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        Point point = pointRepository.findByMember(member);
+//        Boolean result = pointService.getCodeUse(point);
+        Boolean result = point.isCodeUse();
+        return new ResponseEntity<>(result,HttpStatus.OK);
+
     }
 
 }

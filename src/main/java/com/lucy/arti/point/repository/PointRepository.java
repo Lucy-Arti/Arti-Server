@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PointRepository extends JpaRepository<Point,Long> {
 
     Point findByMember(Member member);
+    Point findByCode(String code);
 }
