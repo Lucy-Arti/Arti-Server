@@ -34,4 +34,7 @@ public class Designer extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "designer")
     private List<Clothes> clothes = new ArrayList<>();
+
+    @Column(name = "instagram")
+    private String instagram;
 }

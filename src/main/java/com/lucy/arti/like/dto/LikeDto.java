@@ -8,5 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikeDto {
     private Long id;
+
+    public LikeDto(Long id) {
+        this.id = id;
+    }
+
 }
 

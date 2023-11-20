@@ -6,6 +6,7 @@ import com.lucy.arti.oauth.dto.TokenDto;
 import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -26,8 +27,9 @@ public class AuthController {
 
     @PostMapping("/logout")
     @Secured({"ROLE_USER"})
-    public ResponseEntity kakaoLogout(final Authentication authentication, @RequestHeader(name = "Authorization") String bearerToken) {
-        return authService.logout(bearerToken);
+    public ResponseEntity<String> kakaoLogout(final Authentication authentication) {
+        authService.logout(authentication);
+        return ResponseEntity.ok("로그아웃 되었습니다.");
     }
 
     @GetMapping("/info")

@@ -1,5 +1,6 @@
 package com.lucy.arti.jwt;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class RefreshTokenRepository{
     private final EntityManager em;
 
@@ -23,6 +25,8 @@ public class RefreshTokenRepository{
     //Delete 함수 구현
     @Transactional
     public void deleteRefreshToken(RefreshToken refreshToken){
+        log.info("hi");
+        log.info(refreshToken.getValue());
         em.remove(refreshToken);
     }
 
