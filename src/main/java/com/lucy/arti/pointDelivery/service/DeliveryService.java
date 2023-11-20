@@ -65,6 +65,7 @@ public class DeliveryService {
             .phoneNumber(delivery.getPhoneNumber())
             .delivery(delivery.isDelivery())
                 .item(delivery.getItem())
+                .created_at(delivery.getCreated_at())
             .build();
     }
 
@@ -93,6 +94,8 @@ public class DeliveryService {
                 Long score = -(shopItem.getPrice());
                 PointHistory pointHistory = new PointHistory(point, title, score);
                 pointHistoryRepository.save(pointHistory);
+                log.info("아이템");
+                log.info(String.valueOf(shopItem.getTitle()));
                 return deliveryRepository.save(delivery);
             } catch (Exception e) {
                 // Log the exception and rethrow or handle it accordingly
@@ -102,4 +105,13 @@ public class DeliveryService {
         }
     }
 
+    public DeliveryDto getDeliveryById(Long id) {
+        Delivery delivery = deliveryRepository.findById(id).orElse(null);
+
+        if (delivery != null) {
+            return convertToDto(delivery);
+        }
+
+        return null;
+    }
 }
