@@ -1,4 +1,8 @@
 package com.lucy.arti.member.domain;
+import com.lucy.arti.comment.domain.Answer;
+import com.lucy.arti.comment.domain.Comment;
+import com.lucy.arti.oauth.Authority;
+import com.lucy.arti.point.domain.Point;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.winner.domain.Winner;
 import lombok.Builder;
@@ -60,6 +64,16 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRole authority;
+
+    //회원이 생기면 동시에 point가 생길 수 있도록 연결
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private Point point=new Point(this);
+
+    @ManyToMany(mappedBy = "memberList")
+    private List<Comment> comments = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "memberList")
+    private List<Answer> answers = new ArrayList<>();
 
     @Builder
     public Member(Long kakaoId, String username, String email, String profile, String nickname) {
