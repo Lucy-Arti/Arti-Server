@@ -37,6 +37,8 @@ public class ClothesController {
         return ResponseEntity.created(location).build();
     }
 
+
+
     @GetMapping("/type/{type}")
     public ResponseEntity<?> getSketchAll(@PathVariable String type) {
 

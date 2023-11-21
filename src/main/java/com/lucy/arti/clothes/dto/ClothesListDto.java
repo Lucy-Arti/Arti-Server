@@ -16,4 +16,5 @@ public class ClothesListDto {
     private String preview;
     private Long designerId;
     private Type type;
+    private String link;
 }

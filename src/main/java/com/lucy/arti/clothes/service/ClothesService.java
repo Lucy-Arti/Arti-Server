@@ -5,6 +5,8 @@ import com.lucy.arti.clothes.domain.Type;
 import com.lucy.arti.clothes.dto.ClothesCreateRequestDto;
 import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import com.lucy.arti.clothes.repository.ClothesRepository;
+import com.lucy.arti.designer.domain.Designer;
+import com.lucy.arti.designer.repository.DesignerRepository;
 import com.lucy.arti.global.exception.BusinessException;
 import com.lucy.arti.global.exception.ErrorCode;
 import com.lucy.arti.global.util.S3Manager;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -35,17 +38,20 @@ public class ClothesService {
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
     private final S3Manager s3Manager;
+    private final DesignerRepository designerRepository;
 
     @Transactional
     public String createClothes(ClothesCreateRequestDto requestDto, MultipartFile preview,
         MultipartFile img) throws IOException {
         checkIsNull(requestDto);
+        Designer designer = designerRepository.findByIdOrThrow(requestDto.designerId());
 
         Clothes clothes = clothesRepository.save(Clothes.builder()
             .name(requestDto.name())
+            .type(Type.valueOf(requestDto.type()))
+            .designer(designer)
             .preview(uploadClothesImages(preview))
             .img(uploadClothesImages(img))
-            .type(Type.valueOf(requestDto.type()))
             .build());
         return clothes.getId().toString();
     }

@@ -30,9 +30,10 @@ public class DesignerController {
     private final DesignerService designerService;
 
     @PostMapping
-    public ResponseEntity<String> createDesigner(@ModelAttribute DesignerPostDto postDto,
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<String> createDesigner(
+        @ModelAttribute DesignerPostDto postDto,
         MultipartFile designerProfile) throws IOException {
-
         String createdDesignerId = designerService.create(postDto, designerProfile);
         URI uri = URI.create("/api/v1/designers/" + createdDesignerId);
         return ResponseEntity.created(uri).build();
