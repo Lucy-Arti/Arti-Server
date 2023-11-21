@@ -33,9 +33,13 @@ public class Clothes extends BaseTimeEntity {
     private Long likeCount;
 
     private long score;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "designer_id")
     private Designer designer;
+
+    @Column(name = "type")
+    private Type type;
 
     @OneToMany(mappedBy = "clothes")
     private final List<Like> likes = new ArrayList<>();
@@ -54,6 +58,5 @@ public class Clothes extends BaseTimeEntity {
         this.likeCount += 1;
     }
 
-    // 좋아요 취소할 때 동작
     public void minusLikeCount() { this.likeCount -= 1; }
 }
