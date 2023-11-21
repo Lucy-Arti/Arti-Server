@@ -1,5 +1,6 @@
 package com.lucy.arti.clothes.dto;
 
+import com.lucy.arti.clothes.domain.Type;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,4 +15,5 @@ public class ClothesListDto {
     private String clothesName;
     private String preview;
     private Long designerId;
+    private Type type;
 }

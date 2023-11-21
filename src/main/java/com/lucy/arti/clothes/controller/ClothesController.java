@@ -1,6 +1,10 @@
 package com.lucy.arti.clothes.controller;
 
+import com.lucy.arti.clothes.domain.Type;
 import com.lucy.arti.clothes.service.ClothesService;
+import com.lucy.arti.global.exception.BusinessException;
+import com.lucy.arti.global.exception.ErrorCode;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +21,18 @@ public class ClothesController {
     @GetMapping("")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(clothesService.getAll());
+    }
+
+    @GetMapping("/type/{type}")
+    public ResponseEntity<?> getSketchAll(@PathVariable String type) {
+        if (!Objects.equals(type, Type.sketch.toString()) && !Objects.equals(type,
+            Type.product.toString())) {
+
+            throw BusinessException.from(ErrorCode.CLOTHES_INVALID_TYPE);
+        }
+
+        Type requestType = Type.valueOf(type);
+        return ResponseEntity.ok(clothesService.getSketchAll(requestType));
     }
 
     @GetMapping("/{clothesId}")

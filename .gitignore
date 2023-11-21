@@ -46,3 +46,4 @@ application-oauth2.yml
 keystore.p12
 
 .jwtF.swp
+*.jar

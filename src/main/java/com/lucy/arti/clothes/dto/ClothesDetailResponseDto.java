@@ -1,6 +1,7 @@
 package com.lucy.arti.clothes.dto;
 
 import com.lucy.arti.clothes.domain.Clothes;
+import com.lucy.arti.clothes.domain.Type;
 import com.lucy.arti.designer.domain.Designer;
 import lombok.Builder;
 import lombok.Data;
@@ -20,20 +21,22 @@ public class ClothesDetailResponseDto {
     private Long designerId;
     private String designerName;
     private long score;
+    private Type type;
 
     public static ClothesDetailResponseDto of(Clothes clothes, Designer designer) {
         return ClothesDetailResponseDto.builder()
-                .clothesId(clothes.getId())
-                .createdAt(clothes.getCreatedAt())
-                .updatedAt(clothes.getUpdatedAt())
-                .detailImg(clothes.getImg())
-                .likeCount(clothes.getLikeCount())
-                .clothesName(clothes.getName())
-                .preview(clothes.getPreview())
-                .designerId(designer.getId())
-                .designerName(designer.getUserName())
-                .score(clothes.getScore())
-                .build();
+            .clothesId(clothes.getId())
+            .createdAt(clothes.getCreatedAt())
+            .updatedAt(clothes.getUpdatedAt())
+            .detailImg(clothes.getImg())
+            .likeCount(clothes.getLikeCount())
+            .clothesName(clothes.getName())
+            .preview(clothes.getPreview())
+            .designerId(designer.getId())
+            .designerName(designer.getUserName())
+            .score(clothes.getScore())
+            .type(clothes.getType())
+            .build();
     }
 
 }
