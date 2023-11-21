@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class MemberResponseDto {
 
     private Long id;
-    private String userName;
+    private String nickname;
     private String accessToken;
     private UserRole userRole;
     private String email;
@@ -28,29 +28,26 @@ public class MemberResponseDto {
 
     public MemberResponseDto(Long id, String userName, String email, String profile,
         List<Like> likes, List<Vote> votes, List<Winner> winners, String accessToken,
-        UserRole userRole) {
+        UserRole userRole, String nickname) {
         this.id = id;
-        this.userName = userName;
+        this.nickname = nickname;
         this.email = email;
         this.profile = profile;
         this.accessToken = accessToken;
         this.userRole = userRole;
 
-        // likes 리스트를 LikeDto 리스트로 변환하여 할당
         if (likes != null) {
             this.likes = likes.stream()
                 .map(like -> new LikeDto(like.getClothes().getId()))
                 .collect(Collectors.toList());
         }
 
-        // votes 리스트를 VoteDto 리스트로 변환하여 할당
         if (votes != null) {
             this.votes = votes.stream()
                 .map(vote -> new VoteDto(vote.getClothes().getId()))
                 .collect(Collectors.toList());
         }
 
-        // winners 리스트를 WinnerDto 리스트로 변환하여 할당
         if (winners != null) {
             this.winners = winners.stream()
                 .map(winner -> new WinnerDto(winner.getId()))
