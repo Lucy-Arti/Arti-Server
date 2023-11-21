@@ -1,15 +1,20 @@
 package com.lucy.arti.clothes.controller;
 
 import com.lucy.arti.clothes.domain.Type;
+import com.lucy.arti.clothes.dto.ClothesCreateRequestDto;
 import com.lucy.arti.clothes.service.ClothesService;
 import com.lucy.arti.global.exception.BusinessException;
 import com.lucy.arti.global.exception.ErrorCode;
+import java.io.IOException;
+import java.net.URI;
 import java.util.Objects;
+import javax.swing.plaf.multi.MultiListUI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -18,13 +23,23 @@ import java.util.List;
 public class ClothesController {
     private final ClothesService clothesService;
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(clothesService.getAll());
     }
 
+    @PostMapping
+    public ResponseEntity<String> create(@ModelAttribute ClothesCreateRequestDto requestDto,
+        @RequestParam MultipartFile preview, @RequestParam MultipartFile img) throws IOException {
+
+        String createdClothesId = clothesService.createClothes(requestDto, preview, img);
+        URI location = URI.create("/api/v1/clothes" + createdClothesId);
+        return ResponseEntity.created(location).build();
+    }
+
     @GetMapping("/type/{type}")
     public ResponseEntity<?> getSketchAll(@PathVariable String type) {
+
         if (!Objects.equals(type, Type.sketch.toString()) && !Objects.equals(type,
             Type.product.toString())) {
 
@@ -32,7 +47,7 @@ public class ClothesController {
         }
 
         Type requestType = Type.valueOf(type);
-        return ResponseEntity.ok(clothesService.getSketchAll(requestType));
+        return ResponseEntity.ok(clothesService.getTypeAll(requestType));
     }
 
     @GetMapping("/{clothesId}")

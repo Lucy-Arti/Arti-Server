@@ -2,12 +2,18 @@ package com.lucy.arti.clothes.service;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.clothes.domain.Type;
+import com.lucy.arti.clothes.dto.ClothesCreateRequestDto;
 import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import com.lucy.arti.clothes.repository.ClothesRepository;
+import com.lucy.arti.global.exception.BusinessException;
+import com.lucy.arti.global.exception.ErrorCode;
+import com.lucy.arti.global.util.S3Manager;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
+import java.io.IOException;
+import javax.swing.plaf.multi.MultiMenuItemUI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -17,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +34,41 @@ public class ClothesService {
     private final ClothesRepository clothesRepository;
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
+    private final S3Manager s3Manager;
+
+    @Transactional
+    public String createClothes(ClothesCreateRequestDto requestDto, MultipartFile preview,
+        MultipartFile img) throws IOException {
+        checkIsNull(requestDto);
+
+        Clothes clothes = clothesRepository.save(Clothes.builder()
+            .name(requestDto.name())
+            .preview(uploadClothesImages(preview))
+            .img(uploadClothesImages(img))
+            .type(Type.valueOf(requestDto.type()))
+            .build());
+        return clothes.getId().toString();
+    }
+
+    private void checkIsNull(ClothesCreateRequestDto requestDto) {
+        if (requestDto.name() == null) {
+            throw BusinessException.from(ErrorCode.CLOTHES_NO_NAME);
+        }
+        if (requestDto.type() == null) {
+            throw BusinessException.from(ErrorCode.CLOTHES_NO_TYPE);
+        }
+    }
+
+    private String uploadClothesImages(MultipartFile image) throws IOException {
+        return s3Manager.upload(image, "arti-lookbook");
+    }
 
     public List<?> getAll() {
         return clothesRepository.findAll().stream()
             .map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
     }
 
-    public List<?> getSketchAll(Type type) {
+    public List<?> getTypeAll(Type type) {
         return clothesRepository.findAllByType(type).stream()
             .map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
     }
