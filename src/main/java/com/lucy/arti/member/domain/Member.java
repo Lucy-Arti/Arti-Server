@@ -1,7 +1,7 @@
 package com.lucy.arti.member.domain;
 import com.lucy.arti.comment.domain.Answer;
 import com.lucy.arti.comment.domain.Comment;
-import com.lucy.arti.oauth.Authority;
+//import com.lucy.arti.oauth.Authority;
 import com.lucy.arti.point.domain.Point;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.winner.domain.Winner;
