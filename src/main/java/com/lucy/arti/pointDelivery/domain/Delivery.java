@@ -5,9 +5,11 @@ import com.lucy.arti.pointShop.domain.ShopItem;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -34,9 +36,12 @@ public class Delivery {
     boolean delivery;
 
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name = "shop_item_id")
     private ShopItem item;
 
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime created_at;
     @Builder
     public Delivery(String name, String address, String phoneNumber, boolean delivery, Member member, ShopItem item) {
         this.name = name;
@@ -45,6 +50,7 @@ public class Delivery {
         this.delivery = delivery;
         this.member = member;
         this.item = item;
+        this.created_at=LocalDateTime.now();
     }
 
 }

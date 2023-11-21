@@ -16,6 +16,10 @@ import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
 import com.lucy.arti.oauth.dto.KakaoUserInfo;
 import com.lucy.arti.oauth.dto.TokenDto;
 import com.lucy.arti.oauth.repository.AuthorityRepository;
+import com.lucy.arti.point.domain.Point;
+import com.lucy.arti.point.repository.PointRepository;
+import com.lucy.arti.pointHistory.domain.PointHistory;
+import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +45,8 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final PointRepository pointRepository;
+    private final PointHistoryRepository pointHistoryRepository;
 
     public static final String BEARER_PREFIX = "Bearer ";
 
@@ -61,6 +67,14 @@ public class AuthService {
             log.info(username);
             Member newMember = new Member(kakaoId, username, email, profile, nickname);
             memberRepository.save(newMember);
+
+            //회원가입 포인트 로직
+            Point point = pointRepository.findByMember(newMember);
+            point.addPoint(500L);
+            pointRepository.save(point);
+            PointHistory pointHistory = new PointHistory(point, "회원 가입", 500L);
+            pointHistoryRepository.save(pointHistory);
+
         }
 
         return kakaoUserInfo;

@@ -48,7 +48,6 @@ public class S3Uploader {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
 
         }catch (AmazonS3Exception e){
-            log.info("error 남");
 //            e.printStackTrace();
             log.info(String.valueOf(e));
         }

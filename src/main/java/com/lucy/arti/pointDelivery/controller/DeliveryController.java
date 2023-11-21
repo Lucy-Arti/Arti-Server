@@ -47,4 +47,14 @@ public class DeliveryController {
         Delivery newDelivery = deliveryService.createDelivery(deliveryRequest, member);
         return new ResponseEntity<>("Delivery created successfully with ID: " + newDelivery.getId(), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DeliveryDto> getDeliveryById(@PathVariable Long id) {
+        DeliveryDto deliveryDto = deliveryService.getDeliveryById(id);
+        if (deliveryDto != null) {
+            return ResponseEntity.ok(deliveryDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

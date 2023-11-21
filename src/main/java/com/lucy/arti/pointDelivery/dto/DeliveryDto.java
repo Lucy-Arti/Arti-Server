@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 @AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
@@ -18,5 +20,6 @@ public class DeliveryDto {
     private boolean delivery;
     private ShopItem item;
     private String status;
-    
+    private LocalDateTime created_at;
+
 }

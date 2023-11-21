@@ -65,22 +65,9 @@ public class DeliveryService {
             .phoneNumber(delivery.getPhoneNumber())
             .delivery(delivery.isDelivery())
                 .item(delivery.getItem())
+                .created_at(delivery.getCreated_at())
             .build();
     }
-
-//    public Delivery createDelivery(DeliveryRequest deliveryRequest, Member member) {
-//        // Create the Delivery entity
-//        Delivery delivery = Delivery.builder()
-//                .name(deliveryRequest.getName())
-//                .address(deliveryRequest.getAddress())
-//                .phoneNumber(deliveryRequest.getPhoneNumber())
-//                .delivery(deliveryRequest.isDelivery())
-//                .member(member)
-//                .build();
-//
-//        // Save the Delivery entity
-//        return deliveryRepository.save(delivery);
-//    }
 
 
     public Delivery createDelivery(DeliveryRequest deliveryRequest, Member member) {
@@ -116,4 +103,13 @@ public class DeliveryService {
         }
     }
 
+    public DeliveryDto getDeliveryById(Long id) {
+        Delivery delivery = deliveryRepository.findById(id).orElse(null);
+
+        if (delivery != null) {
+            return convertToDto(delivery);
+        }
+
+        return null;
+    }
 }
