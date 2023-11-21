@@ -2,12 +2,14 @@ package com.lucy.arti.winner.domain;
 
 import com.lucy.arti.clothes.domain.Clothes;
 import com.lucy.arti.member.domain.Member;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class Winner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,7 @@ import com.lucy.arti.winner.domain.Winner;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import com.lucy.arti.config.BaseTimeEntity;
+import com.lucy.arti.global.config.BaseTimeEntity;
 import com.lucy.arti.like.domain.Like;
 
 import javax.persistence.*;
@@ -30,10 +30,11 @@ public class Member extends BaseTimeEntity {
     private String accessToken;
 
     private String userName;
-
-// 성별은 카카오에서 받아올 수 있는지 모르겠음
-//    @Enumerated(EnumType.STRING)
-//    private Gender gender;
+/**
+    성별은 카카오싱크 등록 이후 불러올 수 있음
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+ **/
 
     @OneToMany(mappedBy = "member")
     private final List<Like> likes = new ArrayList<>();

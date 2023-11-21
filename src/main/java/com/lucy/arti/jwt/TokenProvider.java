@@ -3,7 +3,6 @@ package com.lucy.arti.jwt;
 import com.lucy.arti.exception.AuthorityException;
 import com.lucy.arti.exception.BizException;
 import com.lucy.arti.member.domain.UserRole;
-import com.lucy.arti.oauth.Authority;
 import com.lucy.arti.oauth.dto.TokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

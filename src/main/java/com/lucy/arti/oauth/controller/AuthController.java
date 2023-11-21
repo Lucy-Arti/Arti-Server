@@ -1,15 +1,12 @@
 package com.lucy.arti.oauth.controller;
 
-import com.lucy.arti.member.domain.Member;
-import com.lucy.arti.member.repository.MemberRepository;
-import com.lucy.arti.oauth.KakaoUserInfo;
+import com.lucy.arti.member.dto.MemberResponseDto;
 import com.lucy.arti.oauth.service.AuthService;
 import com.lucy.arti.oauth.dto.TokenDto;
 import com.lucy.arti.oauth.dto.KakaoLoginRequestDto;
-import com.lucy.arti.oauth.service.KakaoOauth2;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -30,15 +27,16 @@ public class AuthController {
 
     @PostMapping("/logout")
     @Secured({"ROLE_USER"})
-    public ResponseEntity kakaoLogout(final Authentication authentication, @RequestHeader(name = "Authorization") String bearerToken) {
-        return authService.logout(bearerToken);
+    public ResponseEntity<String> kakaoLogout(final Authentication authentication) {
+        authService.logout(authentication);
+        return ResponseEntity.ok("로그아웃 되었습니다.");
     }
 
     @GetMapping("/info")
-    @Secured({"ROLE_USER"}) // Secured 추가
-    public Member getUserInfoByToken(@RequestHeader(name = "Authorization") String authorizationHeader) {
+    @Secured({"ROLE_USER"})
+    public ResponseEntity<MemberResponseDto> getUserInfoByToken(@RequestHeader(name = "Authorization") String authorizationHeader) {
         String accessToken = extractAccessToken(authorizationHeader);
-        return authService.getByAccessToken(accessToken);
+        return ResponseEntity.ok(authService.getByAccessToken(accessToken));
     }
     private String extractAccessToken(String authorizationHeader) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -47,10 +45,3 @@ public class AuthController {
         throw new IllegalArgumentException("Invalid access token");
     }
 }
-
-//    @GetMapping("/info")
-//    @Secured({"ROLE_USER"}) // Secured 추가
-//    public Member getUserInfoByToken(final Authentication authentication, @RequestHeader(name="Authorization") String aceessToken) {
-//        return authService.getByAccessToken(authentication);
-//    }
-//}

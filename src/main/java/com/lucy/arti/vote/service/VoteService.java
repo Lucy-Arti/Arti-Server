@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -49,7 +50,6 @@ public class VoteService {
                     randClothes.add(allClothes.get(newInt));
                     break;
                 }
-
             }
         }
         return randClothes;
@@ -66,17 +66,15 @@ public class VoteService {
 
     public boolean isPossibleVote(final Authentication authentication) {
         long userId = Long.parseLong(authentication.getName());
-        Member member = memberRepository.findByKakaoId(userId).get();
-        if (alreadyVoted(member)) {
-            return false;
-        }
-        return true;
+        Member member = memberRepository.findByKakaoId(userId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 조회할 수 없습니다."));
+        return !alreadyVoted(member);
     }
     @Transactional
     public boolean vote(final Authentication authentication, VoteRequestDto voteRequestDto) {
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId).get();
-        if (alreadyVoted(member)) {
+        if (alreadyVoted(member)) { // alreadyVoted(member)인데 하루마다 초기화해주는 로직이 들어가야 하기 떄문에 isPossibleVote(member) 메서드로 변경
             return false;
         }
         member.setLastVoted();

@@ -40,6 +40,9 @@ out/
 application.yml
 application-rds.yml
 application-s3.yml
+application-oauth2.yml
 
 ### keystore
 keystore.p12
+
+.jwtF.swp

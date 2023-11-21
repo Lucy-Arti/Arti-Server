@@ -1,7 +1,7 @@
 package com.lucy.arti.oauth.repository;
 
 import com.lucy.arti.member.domain.UserRole;
-import com.lucy.arti.oauth.Authority;
+import com.lucy.arti.oauth.dto.Authority;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
