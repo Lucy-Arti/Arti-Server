@@ -45,13 +45,22 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private final List<Winner> winners = new ArrayList<>();
 
+    @Column(nullable = false)
     private Long kakaoId;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String profile;
 
     private LocalDateTime lastVoted;
+
+    @Column(name = "nickname", length = 10)
+    private String nickname;
+
+    @Column(name = "custom_profile")
+    private String customProfile;
 
     @Enumerated(EnumType.STRING)
     private UserRole authority;
@@ -67,13 +76,14 @@ public class Member extends BaseTimeEntity {
     private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    public Member(Long kakaoId, String username, String email, String profile) {
+    public Member(Long kakaoId, String username, String email, String profile, String nickname) {
         this.kakaoId = kakaoId;
         this.userName = username;
         this.email = email;
         this.profile = profile;
         this.authority = UserRole.ROLE_USER;
         this.lastVoted = LocalDateTime.of(1999, 1, 1, 0, 0);
+        this.nickname = nickname;
     }
     public Set<UserRole> getAuthorities(){
         Set<UserRole> returnRole = new HashSet<>();
@@ -86,5 +96,13 @@ public class Member extends BaseTimeEntity {
 
     public void setLastVoted() {
         this.lastVoted = LocalDateTime.now();
+    }
+
+    public void updateNickName(String nickName) {
+        this.nickname = nickName;
+    }
+
+    public void updateProfile(String customProfile) {
+        this.customProfile = customProfile;
     }
 }
