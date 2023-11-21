@@ -65,12 +65,38 @@ public class Clothes extends BaseTimeEntity {
     public void minusLikeCount() { this.likeCount -= 1; }
 
     @Builder
-    public Clothes(String name, String preview, String img, Type type, String link, Designer designer) {
+    public Clothes(String name, String preview, String img, Type type, String link, Designer designer, Long likeCount) {
         this.name = name;
         this.preview = preview;
         this.img = img;
         this.type = type;
         this.link = link;
         this.designer = designer;
+        this.likeCount = likeCount;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateType(Type type) {
+        this.type = type;
+    }
+
+    public void updateLink(String link) {
+        this.link = link;
+    }
+
+    public void updatePreview(String preview) {
+        this.preview = preview;
+    }
+
+    public void updateDetailImage(String img) {
+        this.img = img;
+    }
+
+    public void updateDesigner(Designer designer) {
+        this.designer = designer;
+    }
+
 }

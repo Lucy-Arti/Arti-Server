@@ -39,5 +39,6 @@ public class ClothesDetailResponseDto {
             .type(clothes.getType())
             .link(clothes.getLink())
             .build();
+
     }
 }

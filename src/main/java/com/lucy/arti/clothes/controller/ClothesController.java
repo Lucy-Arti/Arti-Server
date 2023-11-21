@@ -2,6 +2,7 @@ package com.lucy.arti.clothes.controller;
 
 import com.lucy.arti.clothes.domain.Type;
 import com.lucy.arti.clothes.dto.ClothesCreateRequestDto;
+import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import com.lucy.arti.clothes.service.ClothesService;
 import com.lucy.arti.global.exception.BusinessException;
 import com.lucy.arti.global.exception.ErrorCode;
@@ -37,7 +38,13 @@ public class ClothesController {
         return ResponseEntity.created(location).build();
     }
 
-
+    @PatchMapping("/{clothesId}")
+    public ResponseEntity<ClothesDetailResponseDto> update (
+        @PathVariable Long clothesId,
+        @ModelAttribute ClothesCreateRequestDto requestDto,
+        MultipartFile preview, MultipartFile img) throws IOException {
+        return ResponseEntity.ok(clothesService.update(clothesId, requestDto, preview, img));
+    }
 
     @GetMapping("/type/{type}")
     public ResponseEntity<?> getSketchAll(@PathVariable String type) {

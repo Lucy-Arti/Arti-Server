@@ -19,6 +19,7 @@ public enum ErrorCode {
     CLOTHES_INVALID_TYPE(3001, 400, "유효한 옷 타입이 아닙니다."),
     CLOTHES_NO_NAME(3002, 400, "입력된 옷 이름이 없습니다."),
     CLOTHES_NO_TYPE(3003, 400, "입력된 옷 타입이 없습니다."),
+    CLOTHES_NOT_FOUND(3004, 400, "해당 id의 옷을 찾을 수 없습니다."),
 
     DESIGNER_NO_NAME(4001, 400, "디자이너의 이름이 없습니다."),
     DESIGNER_NOT_FOUND(4003, 400, "해당 id의 디자이너를 찾을 수 없습니다."),

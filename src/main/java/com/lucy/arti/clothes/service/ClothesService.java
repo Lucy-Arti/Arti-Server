@@ -6,6 +6,8 @@ import com.lucy.arti.clothes.dto.ClothesCreateRequestDto;
 import com.lucy.arti.clothes.dto.ClothesDetailResponseDto;
 import com.lucy.arti.clothes.repository.ClothesRepository;
 import com.lucy.arti.designer.domain.Designer;
+import com.lucy.arti.designer.dto.DesignerDetailResponseDto;
+import com.lucy.arti.designer.dto.DesignerPostDto;
 import com.lucy.arti.designer.repository.DesignerRepository;
 import com.lucy.arti.global.exception.BusinessException;
 import com.lucy.arti.global.exception.ErrorCode;
@@ -15,6 +17,7 @@ import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
 import java.io.IOException;
+import javax.swing.plaf.multi.MultiListUI;
 import javax.swing.plaf.multi.MultiMenuItemUI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +55,7 @@ public class ClothesService {
             .designer(designer)
             .preview(uploadClothesImages(preview))
             .img(uploadClothesImages(img))
+            .likeCount(0L)
             .build());
         return clothes.getId().toString();
     }
@@ -67,6 +71,45 @@ public class ClothesService {
 
     private String uploadClothesImages(MultipartFile image) throws IOException {
         return s3Manager.upload(image, "arti-lookbook");
+    }
+
+    @Transactional
+    public ClothesDetailResponseDto update(Long clothesId, ClothesCreateRequestDto requestDto,
+        MultipartFile preview, MultipartFile img) throws IOException {
+        Clothes clothes = clothesRepository.findByIdOrThrow(clothesId);
+        findAndChange(clothes, requestDto, preview, img);
+
+        Clothes updated = clothesRepository.save(clothes);
+        return ClothesDetailResponseDto.of(updated, updated.getDesigner());
+    }
+
+    private void findAndChange(Clothes clothes, ClothesCreateRequestDto requestDto,
+        MultipartFile preview, MultipartFile img)
+        throws IOException {
+
+        if (requestDto.name() != null) {
+            clothes.updateName(requestDto.name());
+        }
+
+        if (requestDto.type() != null) {
+            clothes.updateType(Type.valueOf(requestDto.type()));
+        }
+
+        if (requestDto.link() != null) {
+            clothes.updateLink(requestDto.link());
+        }
+
+        if (requestDto.designerId() != null) {
+            clothes.updateDesigner(designerRepository.findByIdOrThrow(requestDto.designerId()));
+        }
+
+        if (preview != null) {
+            clothes.updatePreview(uploadClothesImages(preview));
+        }
+
+        if (img != null) {
+            clothes.updateDetailImage(uploadClothesImages(img));
+        }
     }
 
     public List<?> getAll() {
