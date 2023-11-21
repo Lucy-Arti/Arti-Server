@@ -36,9 +36,4 @@ public class MemberService {
 
     }
 
-    //포인트 상점 구매 api를 위해 추가함
-    public Member getMemberById(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
-    }
 }

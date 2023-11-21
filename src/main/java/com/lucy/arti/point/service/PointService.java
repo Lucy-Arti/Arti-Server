@@ -110,8 +110,6 @@ public class PointService {
 
         // Point 저장
         pointRepository.save(point);
-        log.info(String.valueOf(point.getLastCheck()));
-        log.info(String.valueOf(point.getCotinue()));
         return 1L;
     }
 
@@ -129,25 +127,18 @@ public class PointService {
 
     public Long uploadImage(MultipartFile image, Member member) throws IOException {
         Point searchpoint = pointRepository.findByMember(member);
-        log.info("service 넘어옴");
         if (searchpoint == null) {
             searchpoint = new Point(); // 기존 Point가 없으면 새로운 Point 객체 생성
             searchpoint.addMember(member);
-            log.info("새로운 포인트 생성");
         }
 
         if (!image.isEmpty()) {
-            log.info("파일 안비어있음");
             String storedFileName = s3Uploader.upload(image, "image");
-            log.info("파일 올려서 주소 ㅂ받아옴");
-            log.info(storedFileName);
             searchpoint.addImg(storedFileName);
         }else{
-            log.info("파일이 비어있");
         }
         searchpoint.setStory(false);
         Point savedPoint = pointRepository.save(searchpoint);
-        log.info("point저장하고 이제 나감");
         return savedPoint.getId();
     }
 
@@ -168,9 +159,7 @@ public class PointService {
 
     public ResponseEntity<?> getUserPointsAndHistory(Point point){
         Long savedpoint = point.getPoint();
-        log.info(String.valueOf(savedpoint));
         List<PointHistoryDto> findhistories = pointHistoryRepository.findByPoint(point);
-        log.info(findhistories.toString());
         Map<String, Object> response = new HashMap<>();
         response.put("savedpoint", savedpoint);
         response.put("point history", findhistories);

@@ -94,8 +94,6 @@ public class DeliveryService {
                 Long score = -(shopItem.getPrice());
                 PointHistory pointHistory = new PointHistory(point, title, score);
                 pointHistoryRepository.save(pointHistory);
-                log.info("아이템");
-                log.info(String.valueOf(shopItem.getTitle()));
                 return deliveryRepository.save(delivery);
             } catch (Exception e) {
                 // Log the exception and rethrow or handle it accordingly
