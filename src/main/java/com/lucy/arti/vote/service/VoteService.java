@@ -1,6 +1,7 @@
 package com.lucy.arti.vote.service;
 
 import com.lucy.arti.clothes.domain.Clothes;
+import com.lucy.arti.clothes.domain.Type;
 import com.lucy.arti.clothes.repository.ClothesRepository;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
@@ -37,7 +38,7 @@ public class VoteService {
     private PointHistoryRepository pointHistoryRepository;
 
     public List<Clothes> getVoteList() {
-        List<Clothes> allClothes = clothesRepository.findAll();
+        List<Clothes> allClothes = clothesRepository.findAllByType(Type.sketch);
         int clothesSize = allClothes.size();
         List<Clothes> randClothes = new ArrayList<>();
         Random randInt = new Random();
