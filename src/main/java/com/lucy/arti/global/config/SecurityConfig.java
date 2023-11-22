@@ -38,8 +38,8 @@ public class SecurityConfig {
                 .cors().and()
 
                 .addFilterBefore(new JwtFilter(tokenProvider), LogoutFilter.class)
-
                 .authorizeHttpRequests((authz) -> authz
+                        .antMatchers("/api/v2/shop/**").permitAll()
                                 .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
