@@ -22,6 +22,7 @@ public class ClothesDetailResponseDto {
     private String designerName;
     private long score;
     private Type type;
+    private String link;
 
     public static ClothesDetailResponseDto of(Clothes clothes, Designer designer) {
         return ClothesDetailResponseDto.builder()
@@ -36,7 +37,8 @@ public class ClothesDetailResponseDto {
             .designerName(designer.getUserName())
             .score(clothes.getScore())
             .type(clothes.getType())
+            .link(clothes.getLink())
             .build();
-    }
 
+    }
 }

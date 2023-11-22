@@ -5,6 +5,7 @@ import com.lucy.arti.designer.domain.Designer;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.winner.domain.Winner;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,6 +42,9 @@ public class Clothes extends BaseTimeEntity {
     @Column(name = "type")
     private Type type;
 
+    @Column(name = "link")
+    private String link;
+
     @OneToMany(mappedBy = "clothes")
     private final List<Like> likes = new ArrayList<>();
 
@@ -59,4 +63,40 @@ public class Clothes extends BaseTimeEntity {
     }
 
     public void minusLikeCount() { this.likeCount -= 1; }
+
+    @Builder
+    public Clothes(String name, String preview, String img, Type type, String link, Designer designer, Long likeCount) {
+        this.name = name;
+        this.preview = preview;
+        this.img = img;
+        this.type = type;
+        this.link = link;
+        this.designer = designer;
+        this.likeCount = likeCount;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateType(Type type) {
+        this.type = type;
+    }
+
+    public void updateLink(String link) {
+        this.link = link;
+    }
+
+    public void updatePreview(String preview) {
+        this.preview = preview;
+    }
+
+    public void updateDetailImage(String img) {
+        this.img = img;
+    }
+
+    public void updateDesigner(Designer designer) {
+        this.designer = designer;
+    }
+
 }
