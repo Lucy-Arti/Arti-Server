@@ -161,8 +161,8 @@ public class PointService {
         Long savedpoint = point.getPoint();
         List<PointHistoryDto> findhistories = pointHistoryRepository.findByPoint(point);
         Map<String, Object> response = new HashMap<>();
-        response.put("savedpoint", savedpoint);
-        response.put("point history", findhistories);
+        response.put("savedPoint", savedpoint);
+        response.put("pointHistory", findhistories);
         return ResponseEntity.ok(response);
     }
 
