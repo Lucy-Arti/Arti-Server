@@ -19,13 +19,6 @@ public class ShopService {
     @Autowired
     private ShopRepository shopRepository;
 
-//    public List<ShopDto> getItemsByCategory(ShopCategory category){
-//        return shopRepository.findByCategory(category)
-//                .stream()
-//                .map(this::convertToDto)
-//                .collect(Collectors.toList());
-//
-//    }
 
     public List<ShopDto> getItemsByCategory(ShopCategory category) {
         List<ShopItem> items = shopRepository.findByCategory(category);
@@ -37,12 +30,6 @@ public class ShopService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
-
-//    public ShopDto getItemById(Long id) {
-//        return shopRepository.findById(id)
-//                .map(this::convertToDto)
-//                .orElse(null);
-//    }
 
 
     public ShopDto getItemById(Long id) {

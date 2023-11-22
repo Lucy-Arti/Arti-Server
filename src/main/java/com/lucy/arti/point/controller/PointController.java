@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +55,7 @@ public class PointController {
     private final S3Uploader s3Uploader;
 
     @GetMapping("")
+    @Secured({"ROLE_USER"})
     public PointInfoDto getPointInfo() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -63,6 +65,7 @@ public class PointController {
     }
 
     @GetMapping("/code")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> getUserCode() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -74,6 +77,7 @@ public class PointController {
     }
 
     @GetMapping("/check")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<Long> getMonthCheck() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -85,6 +89,7 @@ public class PointController {
     }
 
     @GetMapping("/check/continue")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<Long> getContinueCheck() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -95,6 +100,7 @@ public class PointController {
         return ResponseEntity.ok(ContinueCheck);
     }
     @PostMapping("/check")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> checkIn() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -113,6 +119,7 @@ public class PointController {
     }
 
     @ResponseBody
+    @Secured({"ROLE_USER"})
     @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
         Authentication authentication = authenticationHelper.getAuthentication();
@@ -126,6 +133,7 @@ public class PointController {
     }
 
     @ResponseBody
+    @Secured({"ROLE_USER"})
     @PostMapping("/follow")
     public ResponseEntity<String> updateInstagram(@RequestBody InstagramRequest request) {
         try {
@@ -142,6 +150,7 @@ public class PointController {
     }
 
     @ResponseBody
+    @Secured({"ROLE_USER"})
     @PostMapping("/check/plus")
     public ResponseEntity<String> plusCheck() {
         try {
@@ -158,6 +167,7 @@ public class PointController {
     }
 
     @GetMapping("/history")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<?> getHistoryAndPoint() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -168,6 +178,7 @@ public class PointController {
     }
 
     @GetMapping("/invite")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<PointValuesResponse> getInvitedValues() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -184,6 +195,7 @@ public class PointController {
     }
 
     @PostMapping("/invited")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> invitedCode(@RequestBody Map<String, String> requestBody) {
         String code = requestBody.get("code");
         Authentication authentication = authenticationHelper.getAuthentication();
@@ -198,6 +210,7 @@ public class PointController {
     }
 
     @GetMapping("/invited")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<Boolean> checkInvited(){
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
