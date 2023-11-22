@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,7 @@ public class CommentController {
     private AnswerRepository answerRepository;
 
     @PostMapping("/{clothesId}")
+    @Secured({"ROLE_USER"})
     public String createComment(@PathVariable Long clothesId, @RequestBody Map<String, String> requestBody) {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -62,6 +64,7 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> updateComment(
             @PathVariable Long commentId,
             @RequestBody Map<String, String> requestBody
@@ -83,6 +86,7 @@ public class CommentController {
 
 
     @PutMapping("/{commentId}/like")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> likeComment(@PathVariable Long commentId) {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -99,6 +103,7 @@ public class CommentController {
     }
 
     @PostMapping("/{commentId}/answer")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> createAnswer(
             @PathVariable Long commentId,
             @RequestBody Map<String, String> requestBody
@@ -120,6 +125,7 @@ public class CommentController {
     }
 
     @PutMapping("/answer/{answerId}/like")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> likeAnswer(@PathVariable Long answerId) {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -136,6 +142,7 @@ public class CommentController {
     }
 
     @PutMapping("/answer/{answerId}")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> updateAnswer(
             @PathVariable Long answerId,
             @RequestBody Map<String, String> requestBody

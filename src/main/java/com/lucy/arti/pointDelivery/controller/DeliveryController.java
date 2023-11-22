@@ -11,6 +11,7 @@ import com.lucy.arti.pointDelivery.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class DeliveryController {
 
 
     @GetMapping("")
+    @Secured({"ROLE_USER"})
     public List<DeliveryDto> getDeliveriesByMember() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
@@ -40,6 +42,7 @@ public class DeliveryController {
     }
 
     @PostMapping("")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<String> createDelivery(@RequestBody DeliveryRequest deliveryRequest){
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
