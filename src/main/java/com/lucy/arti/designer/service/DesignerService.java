@@ -86,7 +86,7 @@ public class DesignerService {
     }
 
     public DesignerDetailResponseDto getById(Long designerId) {
-        Designer designer = designerRepository.findById(designerId).get();
+        Designer designer = designerRepository.findByIdOrThrow(designerId);
         return DesignerDetailResponseDto.of(designer);
     }
 

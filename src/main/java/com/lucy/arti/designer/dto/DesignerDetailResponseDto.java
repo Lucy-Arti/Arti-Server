@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 @Builder
 public class DesignerDetailResponseDto {
+
+   private Long designerId;
    private String userName;
    private String introduce;
    private String instagram;
@@ -19,6 +21,7 @@ public class DesignerDetailResponseDto {
    private Map<Long, String> sketchesIdAndNameByDesigner;
     public static DesignerDetailResponseDto of(Designer designer) {
         return DesignerDetailResponseDto.builder()
+            .designerId(designer.getId())
             .userName(designer.getUserName())
             .introduce(designer.getIntroduce())
             .instagram(designer.getInstagram())

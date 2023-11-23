@@ -1,5 +1,6 @@
 package com.lucy.arti.clothes.domain;
 
+import com.lucy.arti.comment.domain.Comment;
 import com.lucy.arti.global.config.BaseTimeEntity;
 import com.lucy.arti.designer.domain.Designer;
 import com.lucy.arti.like.domain.Like;
@@ -55,6 +56,9 @@ public class Clothes extends BaseTimeEntity {
     @OneToMany(mappedBy = "clothes")
     private final List<Winner> winners = new ArrayList<>();
 
+    @OneToMany(mappedBy = "clothes")
+    private final List<Comment> comments = new ArrayList<>();
+
     public void addScore(int score) {
         this.score += score;
     }
@@ -98,6 +102,10 @@ public class Clothes extends BaseTimeEntity {
 
     public void updateDesigner(Designer designer) {
         this.designer = designer;
+    }
+
+    public int getCommentCountByClothes(Long clothesId) {
+        return this.comments.size();
     }
 
 }
