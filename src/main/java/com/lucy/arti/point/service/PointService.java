@@ -2,6 +2,7 @@ package com.lucy.arti.point.service;
 
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.point.domain.Point;
+import com.lucy.arti.point.dto.TotalPointDto;
 import com.lucy.arti.point.repository.PointRepository;
 import com.lucy.arti.pointDelivery.repository.DeliveryRepository;
 import com.lucy.arti.pointHistory.domain.PointHistory;
@@ -51,11 +52,11 @@ public class PointService {
         }
     }
 
-    public Long getMonthTotal(Member member) {
+    public TotalPointDto getMonthTotal(Member member) {
         Point point = pointRepository.findByMember(member);
 
         if (point != null) {
-            return point.getTotal();
+            return new TotalPointDto(point.getTotal(), point.getPoint());
         } else {
             throw new RuntimeException("Member not found");
         }
@@ -161,8 +162,8 @@ public class PointService {
         Long savedpoint = point.getPoint();
         List<PointHistoryDto> findhistories = pointHistoryRepository.findByPoint(point);
         Map<String, Object> response = new HashMap<>();
-        response.put("savedpoint", savedpoint);
-        response.put("point history", findhistories);
+        response.put("savedPoint", savedpoint);
+        response.put("pointHistory", findhistories);
         return ResponseEntity.ok(response);
     }
 

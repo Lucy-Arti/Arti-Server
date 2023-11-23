@@ -3,10 +3,7 @@ package com.lucy.arti.point.controller;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.point.domain.Point;
-import com.lucy.arti.point.dto.InstagramRequest;
-import com.lucy.arti.point.dto.PointDto;
-import com.lucy.arti.point.dto.PointInfoDto;
-import com.lucy.arti.point.dto.PointValuesResponse;
+import com.lucy.arti.point.dto.*;
 import com.lucy.arti.point.repository.PointRepository;
 import com.lucy.arti.point.service.PointService;
 import com.lucy.arti.pointDelivery.controller.AuthenticationHelper;
@@ -78,13 +75,13 @@ public class PointController {
 
     @GetMapping("/check")
     @Secured({"ROLE_USER"})
-    public ResponseEntity<Long> getMonthCheck() {
+    public ResponseEntity<?> getMonthCheck() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
-        Long MonthCheck = pointService.getMonthTotal(member);
+        TotalPointDto MonthCheck = pointService.getMonthTotal(member);
         return ResponseEntity.ok(MonthCheck);
     }
 

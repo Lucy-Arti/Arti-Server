@@ -85,22 +85,22 @@ public class VoteService {
         // 포인트 추가 로직
         Point point = pointRepository.findByMember(member);
         if(point.getTotalVote()==0){
-            point.addPoint(750L);
+            point.addPoint(600L);
             point.setVote(false);
             point.addTotalVote();;
             pointRepository.save(point);
 
             PointHistory pointHistory = new PointHistory(point, "첫 투표 하기", 500L);
             pointHistoryRepository.save(pointHistory);
-            PointHistory pointHistory1 = new PointHistory(point, "투표하기", 250L);
+            PointHistory pointHistory1 = new PointHistory(point, "투표하기", 100L);
             pointHistoryRepository.save(pointHistory1);
         }else{
-            point.addPoint(250L);
+            point.addPoint(100L);
             point.setVote(false);
             point.addTotalVote();
             pointRepository.save(point);
 
-            PointHistory pointHistory = new PointHistory(point, "투표하기", 250L);
+            PointHistory pointHistory = new PointHistory(point, "투표하기", 100L);
             pointHistoryRepository.save(pointHistory);
         }
         ///////
