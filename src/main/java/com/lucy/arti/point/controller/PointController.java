@@ -220,5 +220,17 @@ public class PointController {
 
     }
 
+    @GetMapping("/commentReward")
+    @Secured({"ROLE_USER"})
+    public ResponseEntity<Long> getCommentReward() {
+        Authentication authentication = authenticationHelper.getAuthentication();
+        long userId = Long.parseLong(authentication.getName());
+        Member member = memberRepository.findByKakaoId(userId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        Point point = pointRepository.findByMember(member);
+        Long commentCount = point.getCommentCount();
+        Long reward = pointService.calculateReward(commentCount);
+        return ResponseEntity.ok(reward);
+    }
 
 }
