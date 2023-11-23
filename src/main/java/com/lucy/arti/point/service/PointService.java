@@ -181,4 +181,22 @@ public class PointService {
         point.setCodeUse(true);
         pointRepository.save(point);
     }
+
+    public Long calculateReward(Long commentCount) {
+        if (commentCount >= 5) {
+            return 0L;
+        } else if (commentCount == 4) {
+            return 50L;
+        } else if (commentCount == 3) {
+            return 100L;
+        } else if (commentCount == 2) {
+            return 150L;
+        } else if (commentCount == 1) {
+            return 200L;
+        } else if(commentCount == 0){
+            return 250L;
+        }else{
+            throw new IllegalArgumentException("Comment count cannot be null");
+        }
+    }
 }
