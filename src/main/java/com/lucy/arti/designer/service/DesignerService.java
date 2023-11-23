@@ -10,6 +10,7 @@ import com.lucy.arti.global.exception.BusinessException;
 import com.lucy.arti.global.exception.ErrorCode;
 import com.lucy.arti.global.util.S3Manager;
 import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,11 @@ public class DesignerService {
     public DesignerDetailResponseDto getById(Long designerId) {
         Designer designer = designerRepository.findById(designerId).get();
         return DesignerDetailResponseDto.of(designer);
+    }
+
+    public List<DesignerDetailResponseDto> getAll() {
+        return designerRepository.findAll().stream()
+            .map(DesignerDetailResponseDto::of).toList();
     }
 
 }

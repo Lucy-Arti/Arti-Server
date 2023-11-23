@@ -40,6 +40,7 @@ public class Clothes extends BaseTimeEntity {
     private Designer designer;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @Column(name = "link")
