@@ -24,6 +24,7 @@ public class ShopController {
         return shopService.getItemsByCategory(category);
     }
 
+    //
     @GetMapping("/item/{id}")
     public ShopDto getItemById(@PathVariable Long id) {
         return shopService.getItemById(id);
