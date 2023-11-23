@@ -35,7 +35,10 @@ public class Point {
 
     @Column(length = 2000)
     private String img;
-
+    private LocalDateTime img_time;
+    public void setImg_time() {
+        this.img_time = LocalDateTime.now();
+    }
 
     private Long invited; //내가 초대한 사람
     private Long commentCount;
@@ -81,6 +84,11 @@ public class Point {
         this.comment = true;
         this.vote = true;
         this.visit = true;
+    }
+
+    // 이 메서드는 매주 화요일 00:00:00에 호출됩니다.
+    @Scheduled(cron = "0 0 0 * * TUE")
+    public void tueDailyFlags() {
         this.story = true;
     }
 
