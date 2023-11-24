@@ -24,7 +24,10 @@ public enum ErrorCode {
 
     DESIGNER_NO_NAME(4001, 400, "디자이너의 이름이 없습니다."),
     DESIGNER_NOT_FOUND(4003, 400, "해당 id의 디자이너를 찾을 수 없습니다."),
-    DESIGNER_LINK_ERROR(4002, 400, "url 주소의 형식이 잘못되었습니다.");
+    DESIGNER_LINK_ERROR(4002, 400, "url 주소의 형식이 잘못되었습니다."),
+
+    DELIVERY_NOT_FOUND(5001, 400, "해당 id의 delivery를 찾을 수 없습니다.");
+
 
 
 

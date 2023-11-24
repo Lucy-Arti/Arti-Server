@@ -21,7 +21,6 @@ import java.util.List;
 @RequestMapping("/api/v2/buy")
 public class DeliveryController {
 
-
     @Autowired
     private DeliveryService deliveryService;
 
@@ -37,18 +36,21 @@ public class DeliveryController {
     public List<DeliveryDto> getDeliveriesByMember() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
-        Member member = memberRepository.findByKakaoId(userId).orElseThrow(() -> new RuntimeException("Member not found"));
+        Member member = memberRepository.findByKakaoId(userId)
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         return deliveryService.getDeliveriesByMember(member);
     }
 
     @PostMapping("")
     @Secured({"ROLE_USER"})
-    public ResponseEntity<String> createDelivery(@RequestBody DeliveryRequest deliveryRequest){
+    public ResponseEntity<String> createDelivery(@RequestBody DeliveryRequest deliveryRequest) {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
-        Member member = memberRepository.findByKakaoId(userId).orElseThrow(() -> new RuntimeException("Member not found"));
+        Member member = memberRepository.findByKakaoId(userId)
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Delivery newDelivery = deliveryService.createDelivery(deliveryRequest, member);
-        return new ResponseEntity<>("Delivery created successfully with ID: " + newDelivery.getId(), HttpStatus.CREATED);
+        return new ResponseEntity<>("Delivery created successfully with ID: " + newDelivery.getId(),
+            HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -59,5 +61,17 @@ public class DeliveryController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<?> getAllReword() {
+        return ResponseEntity.ok(deliveryService.getAllDeliveries());
+    }
+
+    @PatchMapping("/admin/{deliveryId}")
+    public ResponseEntity<?> updateStatus(@PathVariable Long deliveryId,
+        @RequestParam String status) {
+
+        return ResponseEntity.ok(deliveryService.updateStatus(deliveryId, status));
     }
 }

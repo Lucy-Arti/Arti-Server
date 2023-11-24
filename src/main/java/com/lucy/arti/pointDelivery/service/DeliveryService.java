@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DeliveryService {
@@ -113,4 +114,13 @@ public class DeliveryService {
 
         return null;
     }
+
+    @Transactional
+    public String updateStatus(Long deliveryId, String status) {
+        Delivery updateDelivery = deliveryRepository.findByIdOrThrow(deliveryId);
+        updateDelivery.updateStatus(status);
+        deliveryRepository.save(updateDelivery);
+        return updateDelivery.getStatus();
+    }
+
 }

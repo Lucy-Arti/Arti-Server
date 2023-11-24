@@ -1,5 +1,8 @@
 package com.lucy.arti.pointDelivery.dto;
 
+import com.lucy.arti.designer.domain.Designer;
+import com.lucy.arti.designer.dto.DesignerDetailResponseDto;
+import com.lucy.arti.pointDelivery.domain.Delivery;
 import com.lucy.arti.pointShop.domain.ShopItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,13 +18,14 @@ import java.time.LocalDateTime;
 public class DeliveryDto {
 
     private Long id;
+    private LocalDate created_at;
+    private ShopItem item;
     private String name;
     private String address;
     private String phoneNumber;
     private boolean delivery;
-    private ShopItem item;
     private String status;
-    private LocalDate created_at;
+
 
     public DeliveryDto(Long id, String name, String address, String phoneNumber,
                        boolean delivery, ShopItem item, String status, LocalDateTime created_at) {
@@ -34,6 +38,4 @@ public class DeliveryDto {
         this.status = status;
         this.created_at = created_at.toLocalDate(); // LocalDateTime을 LocalDate로 변환
     }
-
-
 }
