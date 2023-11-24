@@ -6,10 +6,11 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Getter
 @Builder
+@Getter
 @AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
 public class DeliveryDto {
 
@@ -20,6 +21,19 @@ public class DeliveryDto {
     private boolean delivery;
     private ShopItem item;
     private String status;
-    private LocalDateTime created_at;
+    private LocalDate created_at;
+
+    public DeliveryDto(Long id, String name, String address, String phoneNumber,
+                       boolean delivery, ShopItem item, String status, LocalDateTime created_at) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.delivery = delivery;
+        this.item = item;
+        this.status = status;
+        this.created_at = created_at.toLocalDate(); // LocalDateTime을 LocalDate로 변환
+    }
+
 
 }

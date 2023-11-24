@@ -139,6 +139,7 @@ public class PointService {
         }else{
         }
         searchpoint.setStory(false);
+        searchpoint.setImg_time();
         Point savedPoint = pointRepository.save(searchpoint);
         return savedPoint.getId();
     }

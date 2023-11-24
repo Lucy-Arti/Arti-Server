@@ -65,7 +65,7 @@ public class DeliveryService {
             .phoneNumber(delivery.getPhoneNumber())
             .delivery(delivery.isDelivery())
                 .item(delivery.getItem())
-                .created_at(delivery.getCreated_at())
+                .created_at(delivery.getCreated_at().toLocalDate())
             .build();
     }
 
@@ -88,10 +88,11 @@ public class DeliveryService {
                         .member(member)
                         .item(shopItem)
                         .build();
-                point.addPoint(250L);
-                pointRepository.save(point);
+
                 String title = shopItem.getTitle() + "구매";
                 Long score = -(shopItem.getPrice());
+                point.addPoint(score);
+                pointRepository.save(point);
                 PointHistory pointHistory = new PointHistory(point, title, score);
                 pointHistoryRepository.save(pointHistory);
                 return deliveryRepository.save(delivery);
