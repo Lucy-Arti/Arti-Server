@@ -31,7 +31,7 @@ public class S3Manager {
     private final AmazonS3 amazonS3;
 
     public String upload(MultipartFile multipartFile,String dir) throws IOException {
-        String S3_PATH_PREFIX = dir;
+        String S3_PATH_PREFIX = dir+"/";
         String s3FileName = S3_PATH_PREFIX + UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
