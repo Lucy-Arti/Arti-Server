@@ -31,7 +31,7 @@ public class Delivery {
 
     private String phoneNumber;
 
-    private String status;
+    private String status="상품이 준비중입니다";
 
     boolean delivery;
 
