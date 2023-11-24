@@ -245,18 +245,4 @@ public class PointController {
         return ResponseEntity.created(uri).build();
     }
 
-    @ResponseBody
-    @Secured({"ROLE_USER"})
-    @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
-        Authentication authentication = authenticationHelper.getAuthentication();
-        long userId = Long.parseLong(authentication.getName());
-
-        Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-        Long uploadCheck = pointService.uploadImage(image, member);
-        log.info("Upload Check: {}", uploadCheck);
-        return ResponseEntity.ok(uploadCheck);
-    }
-
 }

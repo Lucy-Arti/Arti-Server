@@ -7,6 +7,7 @@ import com.lucy.arti.global.config.Gender;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class Designer extends BaseTimeEntity {
 
     private String userName;
 
-    @Column(nullable = false, length = 1000)
+    @Column(nullable = false, length = 3000)
     private String introduce;
 
     @Column(name = "designer_profile")
