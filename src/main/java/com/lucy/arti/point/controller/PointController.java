@@ -221,7 +221,7 @@ public class PointController {
     @ResponseBody
     @Secured({"ROLE_USER"})
     @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
+    public ResponseEntity<?> saveImg(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
 
