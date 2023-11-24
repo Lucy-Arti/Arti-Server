@@ -66,7 +66,7 @@ public class MemberService {
         Member member = memberRepository.findByKakaoIdOrThrow(
             Long.parseLong(authentication.getName()));
 
-        String customProfileUrl = s3Manager.upload(image, "profile");
+        String customProfileUrl = s3Manager.upload(image,"profile");
         member.updateProfile(customProfileUrl);
         Member saved = memberRepository.save(member);
 
