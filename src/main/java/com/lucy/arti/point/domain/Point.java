@@ -35,9 +35,11 @@ public class Point {
 
     @Column(length = 2000)
     private String img;
-    private LocalDateTime img_time;
+
+    @Column(name = "img_time")
+    private LocalDateTime imgTime;
     public void setImg_time() {
-        this.img_time = LocalDateTime.now();
+        this.imgTime = LocalDateTime.now();
     }
 
     private Long invited; //내가 초대한 사람
