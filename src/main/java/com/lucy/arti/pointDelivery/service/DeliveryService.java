@@ -8,6 +8,7 @@ import com.lucy.arti.point.repository.PointRepository;
 import com.lucy.arti.pointDelivery.domain.Delivery;
 import com.lucy.arti.pointDelivery.dto.DeliveryDto;
 import com.lucy.arti.pointDelivery.dto.DeliveryRequest;
+import com.lucy.arti.pointDelivery.dto.DeliveryUpdateDto;
 import com.lucy.arti.pointDelivery.repository.DeliveryRepository;
 import com.lucy.arti.pointHistory.domain.PointHistory;
 import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
@@ -116,11 +117,11 @@ public class DeliveryService {
     }
 
     @Transactional
-    public String updateStatus(Long deliveryId, String status) {
+    public DeliveryUpdateDto updateStatus(Long deliveryId, String status) {
         Delivery updateDelivery = deliveryRepository.findByIdOrThrow(deliveryId);
         updateDelivery.updateStatus(status);
         deliveryRepository.save(updateDelivery);
-        return updateDelivery.getStatus();
+        return DeliveryUpdateDto.of(deliveryId, status);
     }
 
 }
