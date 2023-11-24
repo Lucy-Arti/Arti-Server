@@ -51,4 +51,9 @@ public class DesignerController {
         return ResponseEntity.ok(designerService.getById(designerId));
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(designerService.getAll());
+    }
+
 }

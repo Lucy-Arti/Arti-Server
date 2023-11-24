@@ -12,32 +12,30 @@ import java.time.LocalDateTime;
 @Builder
 public class ClothesDetailResponseDto {
     private Long clothesId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String detailImg;
     private Long likeCount;
     private String clothesName;
     private String preview;
+    private String detailImg;
     private Long designerId;
     private String designerName;
     private long score;
     private Type type;
-    private String link;
+    private String purchaseLink;
+    private int commentCount;
 
     public static ClothesDetailResponseDto of(Clothes clothes, Designer designer) {
         return ClothesDetailResponseDto.builder()
+            .type(clothes.getType())
             .clothesId(clothes.getId())
-            .createdAt(clothes.getCreatedAt())
-            .updatedAt(clothes.getUpdatedAt())
-            .detailImg(clothes.getImg())
-            .likeCount(clothes.getLikeCount())
             .clothesName(clothes.getName())
+            .detailImg(clothes.getImg())
             .preview(clothes.getPreview())
             .designerId(designer.getId())
             .designerName(designer.getUserName())
+            .likeCount(clothes.getLikeCount())
             .score(clothes.getScore())
-            .type(clothes.getType())
-            .link(clothes.getLink())
+            .purchaseLink(clothes.getLink())
+            .commentCount(clothes.getCommentCountByClothes(clothes.getId()))
             .build();
 
     }
