@@ -53,4 +53,8 @@ public class Delivery {
         this.created_at=LocalDateTime.now();
     }
 
+    public void updateStatus(String newStatus) {
+        this.status = newStatus;
+    }
+
 }

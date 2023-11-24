@@ -8,6 +8,7 @@ import com.lucy.arti.point.repository.PointRepository;
 import com.lucy.arti.pointDelivery.domain.Delivery;
 import com.lucy.arti.pointDelivery.dto.DeliveryDto;
 import com.lucy.arti.pointDelivery.dto.DeliveryRequest;
+import com.lucy.arti.pointDelivery.dto.DeliveryUpdateDto;
 import com.lucy.arti.pointDelivery.repository.DeliveryRepository;
 import com.lucy.arti.pointHistory.domain.PointHistory;
 import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DeliveryService {
@@ -114,4 +116,13 @@ public class DeliveryService {
 
         return null;
     }
+
+    @Transactional
+    public DeliveryUpdateDto updateStatus(Long deliveryId, String status) {
+        Delivery updateDelivery = deliveryRepository.findByIdOrThrow(deliveryId);
+        updateDelivery.updateStatus(status);
+        deliveryRepository.save(updateDelivery);
+        return DeliveryUpdateDto.of(deliveryId, status);
+    }
+
 }

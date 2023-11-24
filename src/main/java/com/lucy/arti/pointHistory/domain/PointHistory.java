@@ -23,6 +23,7 @@ public class PointHistory {
     private Point point;
 
     private String title;
+
     private Long score;
 
     @CreatedDate
