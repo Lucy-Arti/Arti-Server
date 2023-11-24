@@ -68,6 +68,7 @@ public class DeliveryService {
             .delivery(delivery.isDelivery())
                 .item(delivery.getItem())
                 .created_at(delivery.getCreated_at().toLocalDate())
+                .status(delivery.getStatus())
             .build();
     }
 

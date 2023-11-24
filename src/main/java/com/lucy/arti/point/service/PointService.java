@@ -15,11 +15,14 @@ import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
 import com.lucy.arti.pointHistory.service.PointHistoryService;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
@@ -39,9 +42,6 @@ public class PointService {
 
     @Autowired
     private PointRepository pointRepository;
-
-    @Autowired
-    private S3Uploader s3Uploader;
 
     @Autowired
     private PointHistoryRepository pointHistoryRepository;
@@ -137,6 +137,11 @@ public class PointService {
         }
     }
 
+
+    @Autowired
+    private S3Upload s3Upload;
+
+    @Transactional
     public Long uploadImage(MultipartFile image, Member member) throws IOException {
         Point searchpoint = pointRepository.findByMember(member);
         if (searchpoint == null) {
@@ -145,7 +150,7 @@ public class PointService {
         }
 
         if (!image.isEmpty()) {
-            String storedFileName = s3Uploader.upload(image, "image");
+            String storedFileName = s3Upload.upload(image);
             searchpoint.addImg(storedFileName);
         }else{
         }
