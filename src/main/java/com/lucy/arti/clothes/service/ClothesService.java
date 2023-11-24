@@ -70,7 +70,7 @@ public class ClothesService {
     }
 
     private String uploadClothesImages(MultipartFile image) throws IOException {
-        return s3Manager.upload(image, "arti-lookbook");
+        return s3Manager.upload(image,"arti-lookbook");
     }
 
     @Transactional

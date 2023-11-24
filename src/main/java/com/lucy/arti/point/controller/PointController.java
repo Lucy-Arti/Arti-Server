@@ -6,6 +6,7 @@ import com.lucy.arti.point.domain.Point;
 import com.lucy.arti.point.dto.*;
 import com.lucy.arti.point.repository.PointRepository;
 import com.lucy.arti.point.service.PointService;
+import com.lucy.arti.point.service.S3Upload;
 import com.lucy.arti.pointDelivery.controller.AuthenticationHelper;
 import com.lucy.arti.pointDelivery.service.DeliveryService;
 import com.lucy.arti.pointHistory.domain.PointHistory;
@@ -20,7 +21,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.lucy.arti.point.service.S3Uploader;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -38,7 +38,6 @@ public class PointController {
     @Autowired
     private PointRepository pointRepository;
 
-
     @Autowired
     private MemberRepository memberRepository;
 
@@ -48,8 +47,6 @@ public class PointController {
     @Autowired
     private PointService pointService;
 
-    @Autowired
-    private final S3Uploader s3Uploader;
 
     @GetMapping("")
     @Secured({"ROLE_USER"})
@@ -115,19 +112,6 @@ public class PointController {
         }
     }
 
-    @ResponseBody
-    @Secured({"ROLE_USER"})
-    @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
-        Authentication authentication = authenticationHelper.getAuthentication();
-        long userId = Long.parseLong(authentication.getName());
-
-        Member member = memberRepository.findByKakaoId(userId)
-                    .orElseThrow(() -> new RuntimeException("Member not found"));
-        Long uploadCheck = pointService.uploadImage(image, member);
-            log.info("Upload Check: {}", uploadCheck);
-        return ResponseEntity.ok(uploadCheck);
-    }
 
     @ResponseBody
     @Secured({"ROLE_USER"})
@@ -233,4 +217,18 @@ public class PointController {
         return ResponseEntity.ok(reward);
     }
 
+
+    @ResponseBody
+    @Secured({"ROLE_USER"})
+    @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
+        Authentication authentication = authenticationHelper.getAuthentication();
+        long userId = Long.parseLong(authentication.getName());
+
+        Member member = memberRepository.findByKakaoId(userId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        Long uploadCheck = pointService.uploadImage(image, member);
+        log.info("Upload Check: {}", uploadCheck);
+        return ResponseEntity.ok(uploadCheck);
+    }
 }

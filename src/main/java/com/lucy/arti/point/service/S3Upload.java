@@ -1,37 +1,29 @@
-package com.lucy.arti.global.util;
+package com.lucy.arti.point.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
 import java.util.UUID;
 
-@Slf4j
 @RequiredArgsConstructor
-@Component
-public class S3Manager {
-    private final AmazonS3Client amazonS3Client;
+@Service
+public class S3Upload {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    private static final String S3_PATH_PREFIX = "instagram-image/";
+
     private final AmazonS3 amazonS3;
 
-    public String upload(MultipartFile multipartFile,String dir) throws IOException {
-        String S3_PATH_PREFIX = dir+"/";
+    public String upload(MultipartFile multipartFile) throws IOException {
         String s3FileName = S3_PATH_PREFIX + UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
@@ -45,5 +37,4 @@ public class S3Manager {
         }
         return amazonS3.getUrl(bucket, s3FileName).toString();
     }
-
 }
