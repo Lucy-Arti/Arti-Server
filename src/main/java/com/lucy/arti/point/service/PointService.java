@@ -126,6 +126,8 @@ public class PointService {
         }
     }
 
+
+    @Transactional
     public Long uploadImage(MultipartFile image, Member member) throws IOException {
         Point searchpoint = pointRepository.findByMember(member);
         if (searchpoint == null) {
