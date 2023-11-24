@@ -13,13 +13,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -204,6 +207,32 @@ public class PointService {
         }else{
             throw new IllegalArgumentException("Comment count cannot be null");
         }
+    }
+
+
+
+
+    ///////스케쥴링
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
+    public void updateDailyToTrue() {
+        String jpql = "UPDATE Point p SET p.comment = true, p.vote = true, p.visit = true, p.commentCount = 0L";
+        entityManager.createQuery(jpql).executeUpdate();
+    }
+
+    @Transactional
+    public void updateTueToTrue() {
+        String jpql = "UPDATE Point p SET p.story = true";
+        entityManager.createQuery(jpql).executeUpdate();
+    }
+
+    @Transactional
+    public void updateMonthToTrue() {
+        String jpql = "UPDATE Point p SET p.total = 0";
+        entityManager.createQuery(jpql).executeUpdate();
     }
 
 }
