@@ -20,6 +20,10 @@ public class CommentDto {
 
     public static CommentDto fromComment(Comment comment) {
         CommentDto commentDto = new CommentDto();
+        commentDto.setContent(comment.getContent());
+        commentDto.setHeart(comment.getHeart());
+        commentDto.setAnswerCount(comment.getAnswerCount());
+//        commentDto.setAnswers(comment.getAnswers());
         commentDto.setId(comment.getId());
         commentDto.setMember(MemberDto.fromMember(comment.getMember()));
         commentDto.setCreatedAt(comment.getCreatedAt());

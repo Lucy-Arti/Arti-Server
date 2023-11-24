@@ -60,16 +60,17 @@ public class DeliveryService {
     }
 
     private DeliveryDto convertToDto(Delivery delivery) {
-        return DeliveryDto.builder()
-            .id(delivery.getId())
-            .name(delivery.getName())
-            .address(delivery.getAddress())
-            .phoneNumber(delivery.getPhoneNumber())
-            .delivery(delivery.isDelivery())
-                .item(delivery.getItem())
-                .created_at(delivery.getCreated_at().toLocalDate())
-                .status(delivery.getStatus())
-            .build();
+            return DeliveryDto.builder()
+                    .id(delivery.getId())
+                    .name(delivery.getName())
+                    .address(delivery.getAddress())
+                    .phoneNumber(delivery.getPhoneNumber())
+                    .delivery(delivery.isDelivery())
+                    .item(delivery.getItem())
+                    .created_at(delivery.getCreated_at().toLocalDate())
+                    .status(delivery.getStatus() != null ? delivery.getStatus() : "상품이 준비중입니다")
+                    .build();
+
     }
 
 

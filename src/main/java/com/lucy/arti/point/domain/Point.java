@@ -87,7 +87,8 @@ public class Point {
         this.codeUse=false;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+//    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void resetDailyFlags() {
         // 하루에 한 번 가능한 플래그들을 초기화
         this.comment = true;
