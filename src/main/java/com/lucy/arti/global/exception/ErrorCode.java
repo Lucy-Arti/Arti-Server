@@ -10,6 +10,7 @@ public enum ErrorCode {
     MEMBER_DUPLICATE_EMAIL(1001, 400, "이미 가입된 사용자의 이메일입니다."),
     MEMBER_NICKNAME_LENGTH(1002, 400, "닉네임 길이는 10자 이하만 가능합니다."),
     MEMBER_DUPLICATE_NICKNAME(1003, 400, "이미 사용중인 닉네임이 존재합니다."),
+    MEMBER_NOT_FOUND(1004, 400, "해당 id의 회원을 찾을 수 없습니다."),
 
     NOT_FOUND_REFRESH_TOKEN_IN_COOKIE(2001, 401, "엑세스 토큰 재발급을 위한 리프레시 토큰이 존재하지 않습니다."),
     NOT_FOUND_REFRESH_TOKEN_IN_REPOSITORY(2002, 401, "리프레시 토큰 저장소에 존재하지 않는 리프레시 토큰입니다."),

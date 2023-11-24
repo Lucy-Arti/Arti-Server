@@ -10,6 +10,7 @@ import com.lucy.arti.pointDelivery.controller.AuthenticationHelper;
 import com.lucy.arti.pointDelivery.service.DeliveryService;
 import com.lucy.arti.pointHistory.domain.PointHistory;
 import com.lucy.arti.pointHistory.dto.PointHistoryDto;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         return new PointInfoDto(member.getPoint());
     }
 
@@ -67,7 +68,7 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
 
         String userCode = pointService.getCurrentUserCode(member);
         return ResponseEntity.ok(userCode);
@@ -79,7 +80,7 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
 
         TotalPointDto MonthCheck = pointService.getMonthTotal(member);
         return ResponseEntity.ok(MonthCheck);
@@ -91,41 +92,42 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
 
         Long ContinueCheck = pointService.getContinueCount(member);
         return ResponseEntity.ok(ContinueCheck);
     }
+
     @PostMapping("/check")
     @Secured({"ROLE_USER"})
     public ResponseEntity<String> checkIn() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Long result = pointService.checkIn(member);
         if (result == 2L) {
             return ResponseEntity.internalServerError().body("이미 출석했습니다");
         } else if (result == 1L) {
             pointService.autoCheck(member);
             return ResponseEntity.ok("출석 완료");
-        }
-        else{
+        } else {
             return (ResponseEntity<String>) ResponseEntity.internalServerError();
         }
     }
 
     @ResponseBody
     @Secured({"ROLE_USER"})
-    @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
+    @PostMapping(value = "/capture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> saveDiary(HttpServletRequest request,
+        @RequestParam(value = "image") MultipartFile image) throws IOException {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
 
         Member member = memberRepository.findByKakaoId(userId)
-                    .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Long uploadCheck = pointService.uploadImage(image, member);
-            log.info("Upload Check: {}", uploadCheck);
+        log.info("Upload Check: {}", uploadCheck);
         return ResponseEntity.ok(uploadCheck);
     }
 
@@ -137,7 +139,7 @@ public class PointController {
             Authentication authentication = authenticationHelper.getAuthentication();
             long userId = Long.parseLong(authentication.getName());
             Member member = memberRepository.findByKakaoId(userId)
-                    .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new RuntimeException("Member not found"));
             Point point = pointRepository.findByMember(member);
             pointService.updateInstagram(point, request.getInstagram());
             return ResponseEntity.ok("Instagram updated successfully");
@@ -154,7 +156,7 @@ public class PointController {
             Authentication authentication = authenticationHelper.getAuthentication();
             long userId = Long.parseLong(authentication.getName());
             Member member = memberRepository.findByKakaoId(userId)
-                    .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new RuntimeException("Member not found"));
             Point point = pointRepository.findByMember(member);
             pointService.plusPoint(point);
             return ResponseEntity.ok("point added successfully");
@@ -169,7 +171,7 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Point point = pointRepository.findByMember(member);
         return pointService.getUserPointsAndHistory(point);
     }
@@ -180,11 +182,12 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Point point = pointRepository.findByMember(member);
         if (point != null) {
             Long invitedTimes1000 = point.getInvited() * 1000L;
-            PointValuesResponse response = new PointValuesResponse(point.getInvited(), invitedTimes1000);
+            PointValuesResponse response = new PointValuesResponse(point.getInvited(),
+                invitedTimes1000);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -198,7 +201,7 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Point point = pointRepository.findByMember(member);
 
         pointService.redeemCode(code, point);
@@ -208,15 +211,15 @@ public class PointController {
 
     @GetMapping("/invited")
     @Secured({"ROLE_USER"})
-    public ResponseEntity<Boolean> checkInvited(){
+    public ResponseEntity<Boolean> checkInvited() {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Point point = pointRepository.findByMember(member);
 //        Boolean result = pointService.getCodeUse(point);
         Boolean result = point.isCodeUse();
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
 
@@ -226,11 +229,23 @@ public class PointController {
         Authentication authentication = authenticationHelper.getAuthentication();
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+            .orElseThrow(() -> new RuntimeException("Member not found"));
         Point point = pointRepository.findByMember(member);
         Long commentCount = point.getCommentCount();
         Long reward = pointService.calculateReward(commentCount);
         return ResponseEntity.ok(reward);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<?> getAdminInfo() {
+        return ResponseEntity.ok(pointService.getPointInfo());
+    }
+
+    @PostMapping("/admin")
+    public ResponseEntity<?> uploadPoint (@ModelAttribute PointCreateDto request) {
+        String pointId = pointService.uploadPoint(request);
+        URI uri = URI.create("/api/v2/point/" + pointId);
+        return ResponseEntity.created(uri).build();
     }
 
 }

@@ -9,4 +9,7 @@ public interface PointRepository extends JpaRepository<Point,Long> {
 
     Point findByMember(Member member);
     Point findByCode(String code);
+
+
+
 }

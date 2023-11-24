@@ -1,7 +1,11 @@
 package com.lucy.arti.point.service;
 
+import com.lucy.arti.designer.domain.Designer;
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.point.domain.Point;
+import com.lucy.arti.point.dto.PointAdminDto;
+import com.lucy.arti.point.dto.PointCreateDto;
 import com.lucy.arti.point.dto.TotalPointDto;
 import com.lucy.arti.point.repository.PointRepository;
 import com.lucy.arti.pointDelivery.repository.DeliveryRepository;
@@ -9,6 +13,8 @@ import com.lucy.arti.pointHistory.domain.PointHistory;
 import com.lucy.arti.pointHistory.dto.PointHistoryDto;
 import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
 import com.lucy.arti.pointHistory.service.PointHistoryService;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +35,8 @@ import java.util.Map;
 @Service
 public class PointService {
 
+    private static final int ZERO = 0;
+
     @Autowired
     private PointRepository pointRepository;
 
@@ -41,6 +49,9 @@ public class PointService {
 
     @Autowired
     private PointHistoryService pointHistoryService;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     public String getCurrentUserCode(Member member) {
         Point point = pointRepository.findByMember(member);
@@ -200,4 +211,44 @@ public class PointService {
             throw new IllegalArgumentException("Comment count cannot be null");
         }
     }
+
+    public List<PointAdminDto> getPointInfo() {
+        return pointRepository.findAll().stream()
+            .map(single -> PointAdminDto.of(
+                single.getMember().getId(),
+                single.getPoint(),
+                getGivenPoint(single),
+                getUsedPoint(single)
+            ))
+            .collect(Collectors.toList());
+    }
+
+    private Long getGivenPoint(Point point) {
+        return point.getPointHistories().stream()
+            .filter(history -> history.getScore() > ZERO)
+            .mapToLong(PointHistory::getScore)
+            .sum();
+    }
+
+    private Long getUsedPoint(Point point) {
+        return point.getPointHistories().stream()
+            .filter(history -> history.getScore() < ZERO)
+            .mapToLong(PointHistory::getScore)
+            .sum();
+    }
+
+    @Transactional
+    public String uploadPoint(PointCreateDto request) {
+        Member member = memberRepository.findByIdOrThrow(request.getMemberId());
+        Point point = pointRepository.findByMember(member);
+        point.addPoint(request.getPoint());
+        pointRepository.save(point);
+
+        PointHistory newHistory = new PointHistory(point, request.getTitle(),
+            request.getPoint()
+        );
+        pointHistoryRepository.save(newHistory);
+        return newHistory.getId().toString();
+    }
+
 }

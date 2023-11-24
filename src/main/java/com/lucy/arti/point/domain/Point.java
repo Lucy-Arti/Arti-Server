@@ -1,6 +1,9 @@
 package com.lucy.arti.point.domain;
 
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.pointHistory.domain.PointHistory;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
@@ -38,6 +41,10 @@ public class Point {
 
     @Column(name = "img_time")
     private LocalDateTime imgTime;
+
+    @OneToMany(mappedBy = "point")
+    private final List<PointHistory> pointHistories = new ArrayList<>();
+
     public void setImg_time() {
         this.imgTime = LocalDateTime.now();
     }
