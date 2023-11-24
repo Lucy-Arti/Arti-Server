@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -32,7 +33,8 @@ public class DesignerService {
     public String create(DesignerPostDto postDto, MultipartFile designerImage) throws IOException {
         validateDesigner(postDto);
 
-        String designerProfile = null;
+        String designerProfile = "default";
+
         if (designerImage != null && !designerImage.isEmpty()) {
             designerProfile = uploadDesignerProfile(designerImage);
         }

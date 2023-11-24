@@ -31,7 +31,7 @@ public class Designer extends BaseTimeEntity {
     @Column(nullable = false, length = 3000)
     private String introduce;
 
-    @Column(name = "designer_profile")
+    @Column(name = "designer_profile", nullable = true)
     private String designerProfile;
 
     @OneToMany(mappedBy = "designer")
