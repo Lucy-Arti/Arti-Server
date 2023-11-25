@@ -5,6 +5,7 @@ import com.lucy.arti.member.repository.MemberRepository;
 import com.lucy.arti.point.domain.Point;
 import com.lucy.arti.point.dto.*;
 import com.lucy.arti.point.repository.PointRepository;
+import com.lucy.arti.point.repository.PointScheduleRepository;
 import com.lucy.arti.point.service.PointService;
 import com.lucy.arti.point.service.S3Upload;
 import com.lucy.arti.pointDelivery.controller.AuthenticationHelper;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -245,18 +247,27 @@ public class PointController {
         return ResponseEntity.created(uri).build();
     }
 
-    @ResponseBody
-    @Secured({"ROLE_USER"})
-    @PostMapping(value="/capture",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> saveDiary(HttpServletRequest request, @RequestParam(value="image") MultipartFile image) throws IOException {
-        Authentication authentication = authenticationHelper.getAuthentication();
-        long userId = Long.parseLong(authentication.getName());
+    @Autowired
+    private PointScheduleRepository pointScheduleRepository;
 
-        Member member = memberRepository.findByKakaoId(userId)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-        Long uploadCheck = pointService.uploadImage(image, member);
-        log.info("Upload Check: {}", uploadCheck);
-        return ResponseEntity.ok(uploadCheck);
+
+    //    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resetDailyFlag() {
+        pointScheduleRepository.updateDailyToTrue();
+    }
+
+    // 이 메서드는 매주 화요일 00:00:00에 호출됩니다.
+    @Scheduled(cron = "0 0 0 * * TUE")
+    public void resetTueFlag(){
+        pointScheduleRepository.updateTueToTrue();
+    }
+
+
+    @Scheduled(cron = "0 0 0 L * ?")
+    public void resetMonthlyTotal() {
+        // 매월 마지막 날에 total을 0으로 초기화
+        pointScheduleRepository.updateMonthToTrue();
     }
 
 }

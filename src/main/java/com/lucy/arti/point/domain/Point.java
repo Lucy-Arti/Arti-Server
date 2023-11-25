@@ -1,11 +1,13 @@
 package com.lucy.arti.point.domain;
 
 import com.lucy.arti.member.domain.Member;
+import com.lucy.arti.point.repository.PointScheduleRepository;
 import com.lucy.arti.pointHistory.domain.PointHistory;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -87,32 +89,6 @@ public class Point {
         this.codeUse=false;
     }
 
-//    @Scheduled(cron = "0 0 0 * * ?")
-    @Scheduled(cron = "0 0 1 * * ?")
-    public void resetDailyFlags() {
-        // 하루에 한 번 가능한 플래그들을 초기화
-        this.comment = true;
-        this.vote = true;
-        this.visit = true;
-    }
-
-    // 이 메서드는 매주 화요일 00:00:00에 호출됩니다.
-    @Scheduled(cron = "0 0 0 * * TUE")
-    public void tueDailyFlags() {
-        this.story = true;
-    }
-
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void resetCommentCount() {
-        // 하루에 한 번 가능한 플래그들을 초기화
-        this.commentCount = 0L;
-    }
-
-    @Scheduled(cron = "0 0 0 L * ?")
-    public void resetMonthlyTotal() {
-        // 매월 마지막 날에 total을 0으로 초기화
-        this.total = 0L;
-    }
 
 
 
