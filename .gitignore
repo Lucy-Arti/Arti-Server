@@ -47,4 +47,5 @@ keystore.p12
 
 .jwtF.swp
 *.jar
-.DS_Store
+*/.DS_Store
+src/.DS_Store
