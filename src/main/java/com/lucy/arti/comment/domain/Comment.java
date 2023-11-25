@@ -82,5 +82,9 @@ public class Comment {
         this.addAnswerCount();
     }
 
+    public boolean isUserInMemberList(Member loggedInUser) {
+        return memberList.contains(loggedInUser);
+    }
+
 
 }

@@ -162,8 +162,13 @@ public class CommentController {
         }
     }
     @GetMapping("/{clothesId}")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<List<CommentDto>> getCommentsAndAnswers(@PathVariable Long clothesId) {
         List<Comment> comments = commentService.getCommentsByClothesId(clothesId);
+        Authentication authentication = authenticationHelper.getAuthentication();
+        long userId = Long.parseLong(authentication.getName());
+        Member member = memberRepository.findByKakaoId(userId).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+
 
         List<CommentDto> commentDTOs = new ArrayList<>();
         for (Comment comment : comments) {
@@ -171,10 +176,17 @@ public class CommentController {
 
             List<Answer> answers = commentService.getAnswersByCommentId(comment.getId());
             List<AnswerDto> answerDTOs = answers.stream()
-                    .map(AnswerDto::fromAnswer)
+                    .map(answer -> {
+                        AnswerDto answerDto = AnswerDto.fromAnswer(answer);
+                        boolean isUserInMemberList = answer.isUserInMemberList(member);
+                        answerDto.setLike(isUserInMemberList);
+                        return answerDto;
+                    })
                     .collect(Collectors.toList());
 
             commentDto.setAnswers(answerDTOs);
+            boolean isUserInMemberList = comment.isUserInMemberList(member);
+            commentDto.setLike(isUserInMemberList);
             commentDTOs.add(commentDto);
         }
 
