@@ -7,6 +7,7 @@ import com.lucy.arti.designer.dto.DesignerPostDto;
 import com.lucy.arti.designer.service.DesignerService;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
@@ -30,11 +31,10 @@ public class DesignerController {
     private final DesignerService designerService;
 
     @PostMapping
-    @Secured("ROLE_ADMIN")
     public ResponseEntity<String> createDesigner(
-        @ModelAttribute DesignerPostDto postDto,
-        MultipartFile designerProfile) throws IOException {
-        String createdDesignerId = designerService.create(postDto, designerProfile);
+        @ModelAttribute DesignerPostDto designerPostDto,
+        @RequestParam(required = false) MultipartFile designerProfile) throws IOException {
+        String createdDesignerId = designerService.create(designerPostDto, designerProfile);
         URI uri = URI.create("/api/v1/designers/" + createdDesignerId);
         return ResponseEntity.created(uri).build();
     }

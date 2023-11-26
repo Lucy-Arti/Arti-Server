@@ -11,10 +11,12 @@ import com.lucy.arti.global.exception.ErrorCode;
 import com.lucy.arti.global.util.S3Manager;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -30,12 +32,19 @@ public class DesignerService {
     @Transactional
     public String create(DesignerPostDto postDto, MultipartFile designerImage) throws IOException {
         validateDesigner(postDto);
+
+        String designerProfile = "default";
+
+        if (designerImage != null && !designerImage.isEmpty()) {
+            designerProfile = uploadDesignerProfile(designerImage);
+        }
+
         Designer designer = designerRepository.save(
             Designer.builder()
                 .userName(postDto.getUserName())
                 .introduce(postDto.getIntroduce())
                 .instagram(postDto.getInstagram())
-                .designerProfile(uploadDesignerProfile(designerImage))
+                .designerProfile(designerProfile)
                 .build()
         );
         return designer.getId().toString();
@@ -79,9 +88,6 @@ public class DesignerService {
     private void validateDesigner(DesignerPostDto postDto) {
         if (postDto.getUserName() == null) {
             throw BusinessException.from(ErrorCode.DESIGNER_NO_NAME);
-        }
-        if (!postDto.getInstagram().startsWith("https")) {
-            throw BusinessException.from(ErrorCode.DESIGNER_LINK_ERROR);
         }
     }
 
