@@ -83,8 +83,9 @@ public class AuthService {
     public MemberResponseDto getByAccessToken(String accessToken) {
         Member member = memberRepository.findByAccessToken(accessToken);
         if (member != null) {
-            return new MemberResponseDto(member.getId(), member.getUserName(), member.getEmail(),
-                member.getProfile(), member.getLikes(),
+            return new MemberResponseDto(
+                member.getId(), member.getUserName(), member.getEmail(),
+                member.getProfile(), member.getCustomProfile(), member.getLikes(),
                 member.getVotes(), member.getAccessToken(),
                 member.getAuthority(), member.getNickname());
         } else {

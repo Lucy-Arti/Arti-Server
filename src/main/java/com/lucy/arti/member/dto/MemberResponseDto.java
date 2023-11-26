@@ -20,10 +20,11 @@ public class MemberResponseDto {
     private UserRole userRole;
     private String email;
     private String profile;
+    private String customProfile;
     private List<LikeDto> likes;
     private List<VoteDto> votes;
 
-    public MemberResponseDto(Long id, String userName, String email, String profile,
+    public MemberResponseDto(Long id, String userName, String email, String profile, String customProfile,
         List<Like> likes, List<Vote> votes, String accessToken,
         UserRole userRole, String nickname) {
         this.id = id;
@@ -32,6 +33,7 @@ public class MemberResponseDto {
         this.profile = profile;
         this.accessToken = accessToken;
         this.userRole = userRole;
+        this.customProfile = customProfile;
 
         if (likes != null) {
             this.likes = likes.stream()
