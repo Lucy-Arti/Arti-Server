@@ -5,8 +5,6 @@ import com.lucy.arti.like.dto.LikeDto;
 import com.lucy.arti.member.domain.UserRole;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.dto.VoteDto;
-import com.lucy.arti.winner.domain.Winner;
-import com.lucy.arti.winner.dto.WinnerDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -24,10 +22,9 @@ public class MemberResponseDto {
     private String profile;
     private List<LikeDto> likes;
     private List<VoteDto> votes;
-    private List<WinnerDto> winners;
 
     public MemberResponseDto(Long id, String userName, String email, String profile,
-        List<Like> likes, List<Vote> votes, List<Winner> winners, String accessToken,
+        List<Like> likes, List<Vote> votes, String accessToken,
         UserRole userRole, String nickname) {
         this.id = id;
         this.nickname = nickname;
@@ -45,12 +42,6 @@ public class MemberResponseDto {
         if (votes != null) {
             this.votes = votes.stream()
                 .map(vote -> new VoteDto(vote.getClothes().getId()))
-                .collect(Collectors.toList());
-        }
-
-        if (winners != null) {
-            this.winners = winners.stream()
-                .map(winner -> new WinnerDto(winner.getId()))
                 .collect(Collectors.toList());
         }
     }

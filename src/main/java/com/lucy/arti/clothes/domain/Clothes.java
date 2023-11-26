@@ -5,7 +5,6 @@ import com.lucy.arti.global.config.BaseTimeEntity;
 import com.lucy.arti.designer.domain.Designer;
 import com.lucy.arti.like.domain.Like;
 import com.lucy.arti.vote.domain.Vote;
-import com.lucy.arti.winner.domain.Winner;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,9 +51,6 @@ public class Clothes extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "clothes")
     private final List<Vote> votes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "clothes")
-    private final List<Winner> winners = new ArrayList<>();
 
     @OneToMany(mappedBy = "clothes")
     private final List<Comment> comments = new ArrayList<>();

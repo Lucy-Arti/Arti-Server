@@ -85,7 +85,7 @@ public class AuthService {
         if (member != null) {
             return new MemberResponseDto(member.getId(), member.getUserName(), member.getEmail(),
                 member.getProfile(), member.getLikes(),
-                member.getVotes(), member.getWinners(), member.getAccessToken(),
+                member.getVotes(), member.getAccessToken(),
                 member.getAuthority(), member.getNickname());
         } else {
             throw new EntityNotFoundException(ErrorMessage.NOT_EXIST_USER.getReason());

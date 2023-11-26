@@ -12,7 +12,6 @@ import com.lucy.arti.pointHistory.repository.PointHistoryRepository;
 import com.lucy.arti.vote.domain.Vote;
 import com.lucy.arti.vote.dto.VoteRequestDto;
 import com.lucy.arti.vote.repository.VoteRepository;
-import com.lucy.arti.winner.repository.WinnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
