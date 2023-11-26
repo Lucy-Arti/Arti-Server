@@ -17,13 +17,13 @@ public class CommentDto {
     private LocalDateTime createdAt;
     private MemberDto member;
     private List<AnswerDto> answers;
+    private boolean like;
 
     public static CommentDto fromComment(Comment comment) {
         CommentDto commentDto = new CommentDto();
         commentDto.setContent(comment.getContent());
         commentDto.setHeart(comment.getHeart());
         commentDto.setAnswerCount(comment.getAnswerCount());
-//        commentDto.setAnswers(comment.getAnswers());
         commentDto.setId(comment.getId());
         commentDto.setMember(MemberDto.fromMember(comment.getMember()));
         commentDto.setCreatedAt(comment.getCreatedAt());
