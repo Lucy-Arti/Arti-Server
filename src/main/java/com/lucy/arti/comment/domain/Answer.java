@@ -65,4 +65,8 @@ public class Answer {
             return true;
         }
     }
+
+    public boolean isUserInMemberList(Member loggedInUser) {
+        return memberList.contains(loggedInUser);
+    }
 }
