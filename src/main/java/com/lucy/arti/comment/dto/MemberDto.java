@@ -9,11 +9,13 @@ import lombok.Setter;
 public class MemberDto {
     private String userName;
     private String profile;
+    private String customProfile;
 
     public static MemberDto fromMember(Member member) {
         MemberDto memberDto = new MemberDto();
         memberDto.setUserName(member.getUserName());
         memberDto.setProfile(member.getProfile());
+        memberDto.setCustomProfile((memberDto.getCustomProfile()));
         return memberDto;
     }
 }
