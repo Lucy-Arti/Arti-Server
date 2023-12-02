@@ -149,7 +149,6 @@ public class CommentService {
         memberDto.setProfile(comment.getMember().getProfile());
         commentDto.setMember(memberDto);
 
-
         return commentDto;
     }
 }
