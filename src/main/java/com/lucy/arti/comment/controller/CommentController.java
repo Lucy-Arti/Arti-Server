@@ -169,7 +169,6 @@ public class CommentController {
         long userId = Long.parseLong(authentication.getName());
         Member member = memberRepository.findByKakaoId(userId).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
 
-
         List<CommentDto> commentDTOs = new ArrayList<>();
         for (Comment comment : comments) {
             CommentDto commentDto = CommentDto.fromComment(comment);
