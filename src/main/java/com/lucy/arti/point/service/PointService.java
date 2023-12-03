@@ -189,14 +189,21 @@ public class PointService {
         if (codePoint == null) {
             throw new EntityNotFoundException("invalid code");
         }
+        if(codePoint == point){
+            throw new IllegalArgumentException("본인의 초대코드는 입력할 수 없습니다.");
+        }
 
-        codePoint.addPoint(1000L);
+        codePoint.addPoint(1500L);
         codePoint.addInvited();
         pointRepository.save(codePoint);
+        PointHistory pointHistory = new PointHistory(point, "친구 초대 보상", 1500L);
+        pointHistoryRepository.save(pointHistory);
 
         point.addPoint(1500L);
         point.setCodeUse(true);
         pointRepository.save(point);
+        PointHistory pointHistory2 = new PointHistory(point, "초대코드 입력", 1500L);
+        pointHistoryRepository.save(pointHistory2);
     }
 
     public Long calculateReward(Long commentCount) {
