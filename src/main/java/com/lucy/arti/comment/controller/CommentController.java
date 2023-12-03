@@ -15,6 +15,7 @@ import com.lucy.arti.pointDelivery.controller.AuthenticationHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -161,34 +162,54 @@ public class CommentController {
             return ResponseEntity.badRequest().body("에러 메시지: 답글 작성자만 댓글을 수정할 수 있습니다.");
         }
     }
+
     @GetMapping("/{clothesId}")
     @Secured({"ROLE_USER"})
-    public ResponseEntity<List<CommentDto>> getCommentsAndAnswers(@PathVariable Long clothesId) {
+    public ResponseEntity<List<CommentDto>> getCommentsAndAnswers(@PathVariable Long clothesId, @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token) {
         List<Comment> comments = commentService.getCommentsByClothesId(clothesId);
-        Authentication authentication = authenticationHelper.getAuthentication();
-        long userId = Long.parseLong(authentication.getName());
-        Member member = memberRepository.findByKakaoId(userId).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
 
         List<CommentDto> commentDTOs = new ArrayList<>();
         for (Comment comment : comments) {
             CommentDto commentDto = CommentDto.fromComment(comment);
 
+            if (token != null) {
+                Authentication authentication = authenticationHelper.getAuthentication();
+                long userId = Long.parseLong(authentication.getName());
+                Member member = memberRepository.findByKakaoId(userId)
+                        .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+
+                boolean isUserInMemberList = comment.isUserInMemberList(member);
+                commentDto.setLike(isUserInMemberList);
+            } else {
+                commentDto.setLike(false);
+            }
+
             List<Answer> answers = commentService.getAnswersByCommentId(comment.getId());
             List<AnswerDto> answerDTOs = answers.stream()
                     .map(answer -> {
                         AnswerDto answerDto = AnswerDto.fromAnswer(answer);
-                        boolean isUserInMemberList = answer.isUserInMemberList(member);
-                        answerDto.setLike(isUserInMemberList);
+
+                        if (token != null) {
+                            Authentication authentication = authenticationHelper.getAuthentication();
+                            long userId = Long.parseLong(authentication.getName());
+                            Member member = memberRepository.findByKakaoId(userId)
+                                    .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+
+                            boolean isUserInMemberList = answer.isUserInMemberList(member);
+                            answerDto.setLike(isUserInMemberList);
+                        } else {
+                            answerDto.setLike(false);
+                        }
+
                         return answerDto;
                     })
                     .collect(Collectors.toList());
 
             commentDto.setAnswers(answerDTOs);
-            boolean isUserInMemberList = comment.isUserInMemberList(member);
-            commentDto.setLike(isUserInMemberList);
             commentDTOs.add(commentDto);
         }
 
         return new ResponseEntity<>(commentDTOs, HttpStatus.OK);
     }
+
 }
