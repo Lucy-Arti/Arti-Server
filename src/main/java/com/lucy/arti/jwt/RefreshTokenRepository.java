@@ -1,21 +1,17 @@
 package com.lucy.arti.jwt;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class RefreshTokenRepository{
+public class RefreshTokenRepository {
+
     private final EntityManager em;
 
     public void saveRefreshToken(RefreshToken refreshToken){
