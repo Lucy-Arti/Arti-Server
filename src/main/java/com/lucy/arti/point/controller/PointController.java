@@ -184,7 +184,7 @@ public class PointController {
             .orElseThrow(() -> new RuntimeException("Member not found"));
         Point point = pointRepository.findByMember(member);
         if (point != null) {
-            Long invitedTimes1000 = point.getInvited() * 1000L;
+            Long invitedTimes1000 = point.getInvited() * 1500L;
             PointValuesResponse response = new PointValuesResponse(point.getInvited(),
                 invitedTimes1000);
             return new ResponseEntity<>(response, HttpStatus.OK);
