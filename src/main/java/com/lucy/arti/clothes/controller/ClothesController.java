@@ -8,20 +8,27 @@ import com.lucy.arti.global.exception.BusinessException;
 import com.lucy.arti.global.exception.ErrorCode;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
-import javax.swing.plaf.multi.MultiListUI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
 
 
 @RestController
 @RequestMapping("/api/v1/clothes")
 @RequiredArgsConstructor
 public class ClothesController {
+
     private final ClothesService clothesService;
 
     @GetMapping
@@ -39,7 +46,7 @@ public class ClothesController {
     }
 
     @PatchMapping("/{clothesId}")
-    public ResponseEntity<ClothesDetailResponseDto> update (
+    public ResponseEntity<ClothesDetailResponseDto> update(
         @PathVariable Long clothesId,
         @ModelAttribute ClothesCreateRequestDto requestDto,
         MultipartFile preview, MultipartFile img) throws IOException {
@@ -47,7 +54,7 @@ public class ClothesController {
     }
 
     @GetMapping("/type/{type}")
-    public ResponseEntity<?> getByType(@PathVariable String type) {
+    public ResponseEntity<?> getByType(@PathVariable String type, @RequestParam(value="page", defaultValue ="0") int page) {
 
         if (!Objects.equals(type, Type.sketch.toString()) && !Objects.equals(type,
             Type.product.toString())) {
@@ -55,7 +62,7 @@ public class ClothesController {
         }
 
         Type requestType = Type.valueOf(type);
-        return ResponseEntity.ok(clothesService.getTypeAll(requestType));
+        return ResponseEntity.ok(clothesService.getTypeAll(requestType, page));
     }
 
     @GetMapping("/{clothesId}")
@@ -65,13 +72,15 @@ public class ClothesController {
 
     // 옷 검색 api
     @GetMapping("/search")
-    public ResponseEntity<List<?>> searchClothes(@RequestParam("query") String query){
+    public ResponseEntity<List<?>> searchClothes(@RequestParam("query") String query) {
         return ResponseEntity.ok(clothesService.searchClothes(query));
     }
+
     @GetMapping("/designer/{designerId}")
     public ResponseEntity<?> getClothesById(@PathVariable Long designerId) {
         return ResponseEntity.ok(clothesService.getClothesByDesignerId(designerId));
     }
+
     @GetMapping("/score")
     public ResponseEntity<?> getClothesBySort() {
         return ResponseEntity.ok(clothesService.sortClothes());
