@@ -22,6 +22,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Long> {
 
     List<Clothes> findByDesignerId(Long designerId);
 
+    List<Clothes> findAllByType(Type type);
     Page<Clothes> findAllByType(Type type, Pageable pageable);
 
     default Clothes findByIdOrThrow(Long id) {
