@@ -47,11 +47,10 @@ public class ClothesController {
     }
 
     @GetMapping("/type/{type}")
-    public ResponseEntity<?> getSketchAll(@PathVariable String type) {
+    public ResponseEntity<?> getByType(@PathVariable String type) {
 
         if (!Objects.equals(type, Type.sketch.toString()) && !Objects.equals(type,
             Type.product.toString())) {
-
             throw BusinessException.from(ErrorCode.CLOTHES_INVALID_TYPE);
         }
 

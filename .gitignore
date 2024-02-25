@@ -49,3 +49,5 @@ keystore.p12
 *.jar
 */.DS_Store
 src/.DS_Store
+
+.env
