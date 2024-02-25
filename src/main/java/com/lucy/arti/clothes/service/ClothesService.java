@@ -15,10 +15,13 @@ import com.lucy.arti.like.repository.LikeRepository;
 import com.lucy.arti.member.domain.Member;
 import com.lucy.arti.member.repository.MemberRepository;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -116,16 +119,16 @@ public class ClothesService {
             .map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
     }
 
-//    public List<?> getTypeAll(Type type) {
-//        return clothesRepository.findAllByType(type).stream()
-//            .map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
-//    }
-
-    public Page<?> getTypeAll(Type type, int page) {
+    public Page<ClothesDetailResponseDto> getTypeAll(Type type, int page) {
         Pageable pageable = PageRequest.of(page, 8); // page는 조회할 페이지 번호, size는 한 페이지에 보여줄 옷 개수
 
-        return (Page<?>) clothesRepository.findAllByType(type, pageable).stream()
-            .map(x -> ClothesDetailResponseDto.of(x, x.getDesigner())).toList();
+        Page<Clothes> clothesPage = clothesRepository.findAllByType(type, pageable);
+
+        List<ClothesDetailResponseDto> clothesDetailResponseList = clothesPage.getContent().stream()
+            .map(x -> ClothesDetailResponseDto.of(x, x.getDesigner()))
+            .collect(Collectors.toList());
+
+        return new PageImpl<>(clothesDetailResponseList, pageable, clothesPage.getTotalElements());
     }
 
     public ClothesDetailResponseDto getById(Long clothesId) {
