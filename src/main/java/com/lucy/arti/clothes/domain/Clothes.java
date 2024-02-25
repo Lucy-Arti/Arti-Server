@@ -23,9 +23,10 @@ public class Clothes extends BaseTimeEntity {
     @Column(name = "clothes_id")
     private Long id;
 
-    @Column(name = "clothes_name", length = 2000)
+    @Column(name = "clothes_name", length = 500)
     private String name;
 
+    @Column(name = "preview", length = 2000)
     private String preview;
 
     @Column(name = "detail_img", length = 2000)

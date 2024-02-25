@@ -5,8 +5,6 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
-
-
     MEMBER_DUPLICATE_EMAIL(1001, 400, "이미 가입된 사용자의 이메일입니다."),
     MEMBER_NICKNAME_LENGTH(1002, 400, "닉네임 길이는 10자 이하만 가능합니다."),
     MEMBER_DUPLICATE_NICKNAME(1003, 400, "이미 사용중인 닉네임이 존재합니다."),
@@ -27,11 +25,6 @@ public enum ErrorCode {
     DESIGNER_LINK_ERROR(4002, 400, "url 주소의 형식이 잘못되었습니다."),
 
     DELIVERY_NOT_FOUND(5001, 400, "해당 id의 delivery를 찾을 수 없습니다.");
-
-
-
-
-
 
     private final int value;
     private final int httpStatusCode;
