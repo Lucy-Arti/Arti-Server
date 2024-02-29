@@ -51,3 +51,5 @@ keystore.p12
 src/.DS_Store
 
 .env
+
+*.DS_Store
